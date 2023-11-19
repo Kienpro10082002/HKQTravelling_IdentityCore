@@ -1,10 +1,8 @@
 using HKQTravellingAuthenication.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using HKQTravellingAuthenication.Areas.Identity.Data;
-using Album.Mail;
 using Microsoft.AspNetCore.Identity.UI.Services;
-using mvcblog.Models;
+using HKQTravellingAuthenication.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -89,6 +87,6 @@ app.UseAuthorization ();   // Phục hồi thông tinn về quyền của User
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapRazorPages();
+//app.MapRazorPages();
 
 app.Run();

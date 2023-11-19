@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using HKQTravellingAuthenication.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace HKQTravellingAuthenication.Data
@@ -20,5 +21,7 @@ namespace HKQTravellingAuthenication.Data
                 }
             }
         }
+
+        public DbSet<AppUser> Users { get; set; }
     }
 }
