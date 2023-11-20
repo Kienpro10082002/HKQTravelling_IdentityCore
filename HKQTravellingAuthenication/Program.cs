@@ -47,7 +47,8 @@ builder.Services.ConfigureApplicationCookie (options => {
     options.ExpireTimeSpan = TimeSpan.FromMinutes(30);  
     options.LoginPath = $"/login/";                                 // Url đến trang đăng nhập
     options.LogoutPath = $"/logout/";   
-    options.AccessDeniedPath = $"/Identity/Account/AccessDenied";   // Trang khi User bị cấm truy cập
+    //options.AccessDeniedPath = $"/Identity/Account/AccessDenied";   // Trang khi User bị cấm truy cập
+    options.AccessDeniedPath = $"/khongduoctruycap.html";
 });
 builder.Services.Configure<SecurityStampValidatorOptions>(options =>
 {
