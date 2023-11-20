@@ -1,4 +1,5 @@
 ﻿using HKQTravellingAuthenication.Models;
+using HKQTravellingAuthenication.Models.Contact;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,5 +24,6 @@ namespace HKQTravellingAuthenication.Data
         }
 
         public DbSet<AppUser> Users { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
     }
 }
