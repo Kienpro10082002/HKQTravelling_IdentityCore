@@ -1,5 +1,6 @@
 using HKQTravellingAuthenication.Data;
 using HKQTravellingAuthenication.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 namespace HKQTravellingAuthenication.Areas.Database.Controllers
 {
     [Area("Database")]
+    [Authorize(Roles = RoleName.Administrator)]
     [Route("/database-manage/[action]")]
     public class DbManageController : Controller
     {
