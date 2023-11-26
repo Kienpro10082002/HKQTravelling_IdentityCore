@@ -34,13 +34,13 @@ namespace HKQTravellingAuthenication.Models.Blog {
       public string Slug { set; get; }
 
       // Các Category con
-      public ICollection<Category> CategoryChildren { get; set; }
+      public ICollection<Category>? CategoryChildren { get; set; }
 
       [ForeignKey("ParentCategoryId")]
       [Display(Name = "Danh mục cha")]
 
 
-      public Category ParentCategory { set; get; }
+      public Category? ParentCategory { set; get; }
 
   }
 }

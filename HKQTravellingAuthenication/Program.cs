@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using HKQTravellingAuthenication.Models;
+using HKQTravellingAuthenication.Menu;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -62,7 +63,7 @@ var mailsettings = builder.Configuration.GetSection ("MailSettings");  // đọc
 builder.Services.Configure<MailSettings> (mailsettings);               // đăng ký để Inject
 
 builder.Services.AddTransient<IEmailSender, SendMailService>();        // Đăng ký dịch vụ Mail
-
+// builder.Services.AddTransient<AdminSidebarService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
