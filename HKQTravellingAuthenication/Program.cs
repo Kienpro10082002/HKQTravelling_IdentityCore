@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using HKQTravellingAuthenication.Models;
+using HKQTravellingAuthenication.Menu;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,6 +51,15 @@ builder.Services.ConfigureApplicationCookie (options => {
     //options.AccessDeniedPath = $"/Identity/Account/AccessDenied";   // Trang khi User bị cấm truy cập
     options.AccessDeniedPath = $"/khongduoctruycap.html";
 });
+// Cấu hình Session
+builder.Services.AddControllersWithViews();
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(9999999);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 builder.Services.Configure<SecurityStampValidatorOptions>(options =>
 {
     // Trên 5 giây truy cập lại sẽ nạp lại thông tin User (Role)
@@ -62,7 +72,7 @@ var mailsettings = builder.Configuration.GetSection ("MailSettings");  // đọc
 builder.Services.Configure<MailSettings> (mailsettings);               // đăng ký để Inject
 
 builder.Services.AddTransient<IEmailSender, SendMailService>();        // Đăng ký dịch vụ Mail
-
+// builder.Services.AddTransient<AdminSidebarService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
