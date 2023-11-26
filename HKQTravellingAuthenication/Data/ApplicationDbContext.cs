@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HKQTravellingAuthenication.Data
 {
+    //HKQTravellingAuthenication.Data.ApplicationDbContext
     public class ApplicationDbContext : IdentityDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
