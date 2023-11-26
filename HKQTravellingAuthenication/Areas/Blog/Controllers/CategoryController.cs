@@ -32,11 +32,11 @@ namespace HKQTravellingAuthenication.Areas.Blog.Controllers
                     .Include(c => c.ParentCategory)                // load parent category
                     .Include(c => c.CategoryChildren);             // load child category
 
-            var categories = (await qr.ToListAsync())
+            var Categories = (await qr.ToListAsync())
                          .Where(c => c.ParentCategory == null)
                          .ToList();
 
-            return View(categories);
+            return View(Categories);
         }
         // GET: Admin/Category/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -82,10 +82,10 @@ namespace HKQTravellingAuthenication.Areas.Blog.Controllers
                      .Include(c => c.ParentCategory)
                      .Include(c => c.CategoryChildren);
 
-            var categories = (await qr.ToListAsync())
+            var Categories = (await qr.ToListAsync())
                              .Where(c => c.ParentCategory == null)
                              .ToList();
-            categories.Insert(0, new Category()
+            Categories.Insert(0, new Category()
             {
                 Id = -1,
                 Title = "Không có danh mục cha"
@@ -94,12 +94,12 @@ namespace HKQTravellingAuthenication.Areas.Blog.Controllers
             var selectList = new SelectList(items, "Id", "Title");
             ViewData["ParentCategoryId"] = selectList;
 
-            // categories.Insert(0, new Category(){
+            // Categories.Insert(0, new Category(){
             //     Id = -1,
             //     Title = "Không có danh mục cha"
             // });
             // var items = new List<Category>();
-             CreateSelectItems(categories, items, 0); 
+             CreateSelectItems(Categories, items, 0); 
 
             return View();
         }
@@ -136,16 +136,16 @@ namespace HKQTravellingAuthenication.Areas.Blog.Controllers
                        .Include(c => c.ParentCategory)
                        .Include(c => c.CategoryChildren);
 
-            var categories = (await qr.ToListAsync())
+            var Categories = (await qr.ToListAsync())
                              .Where(c => c.ParentCategory == null)
                              .ToList();
-            categories.Insert(0, new Category()
+            Categories.Insert(0, new Category()
             {
                 Id = -1,
                 Title = "Không có danh mục cha"
             });
             var items = new List<Category>();
-            CreateSelectItems(categories, items, 0);
+            CreateSelectItems(Categories, items, 0);
             var selectList = new SelectList(items, "Id", "Title");
             ViewData["ParentCategoryId"] = selectList;
             return View(category);
@@ -171,16 +171,16 @@ namespace HKQTravellingAuthenication.Areas.Blog.Controllers
                        .Include(c => c.ParentCategory)
                        .Include(c => c.CategoryChildren);
 
-            var categories = (await qr.ToListAsync())
+            var Categories = (await qr.ToListAsync())
                              .Where(c => c.ParentCategory == null)
                              .ToList();
-            categories.Insert(0, new Category()
+            Categories.Insert(0, new Category()
             {
                 Id = -1,
                 Title = "Không có danh mục cha"
             });
             var items = new List<Category>();
-            CreateSelectItems(categories, items, 0);
+            CreateSelectItems(Categories, items, 0);
             var selectList = new SelectList(items, "Id", "Title");
 
             ViewData["ParentCategoryId"] = selectList;
@@ -275,16 +275,16 @@ namespace HKQTravellingAuthenication.Areas.Blog.Controllers
                        .Include(c => c.ParentCategory)
                        .Include(c => c.CategoryChildren);
 
-            var categories = (await qr.ToListAsync())
+            var Categories = (await qr.ToListAsync())
                              .Where(c => c.ParentCategory == null)
                              .ToList();
-            categories.Insert(0, new Category()
+            Categories.Insert(0, new Category()
             {
                 Id = -1,
                 Title = "Không có danh mục cha"
             });
             var items = new List<Category>();
-            CreateSelectItems(categories, items, 0);
+            CreateSelectItems(Categories, items, 0);
             var selectList = new SelectList(items, "Id", "Title");
             ViewData["ParentCategoryId"] = selectList;
 

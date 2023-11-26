@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 namespace HKQTravellingAuthenication.Areas.Database.Controllers
 {
     [Area("Database")]
-    [Authorize(Roles = RoleName.Administrator)]
+    //[Authorize(Roles = RoleName.Administrator)]
     [Route("/database-manage/[action]")]
     public class DbManageController : Controller
     {
