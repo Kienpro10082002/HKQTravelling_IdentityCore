@@ -51,6 +51,15 @@ builder.Services.ConfigureApplicationCookie (options => {
     //options.AccessDeniedPath = $"/Identity/Account/AccessDenied";   // Trang khi User bị cấm truy cập
     options.AccessDeniedPath = $"/khongduoctruycap.html";
 });
+// Cấu hình Session
+builder.Services.AddControllersWithViews();
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(9999999);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 builder.Services.Configure<SecurityStampValidatorOptions>(options =>
 {
     // Trên 5 giây truy cập lại sẽ nạp lại thông tin User (Role)
