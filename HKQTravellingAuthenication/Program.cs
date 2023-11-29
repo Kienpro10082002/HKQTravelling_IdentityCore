@@ -91,6 +91,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseSession();   // Do người lập trình thêm vào
 
 app.UseAuthentication();   // Phục hồi thông tin đăng nhập (xác thực)
 app.UseAuthorization ();   // Phục hồi thông tinn về quyền của User
