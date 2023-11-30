@@ -1,0 +1,42 @@
+﻿@model IEnumerable<HKQTravellingAuthenication.Models.Tour.StartLocations>
+
+@{
+    ViewData["Title"] = "Quản lý điểm đi";
+    Layout = "~/Areas/Views/Shared/_TourManagerLayout.cshtml";
+}
+
+@section Breadcrumb {
+    @{
+        ViewData["BreadcrumbTitle"] = "Show for start location";
+    }
+}
+
+<h2>Index</h2>
+
+<p>
+    <a href="@Url.Action("Create", "StartLocationsAdministrator", new { area = "Tour" })">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.StartLocationName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartLocationName)
+                </td>
+                <td>
+                    <a href="@Url.Action("Edit", "StartLocationsAdministrator", new { area = "Tour", id = item.StartLocationId })">Edit</a> |
+                    <a href="@Url.Action("Delete", "StartLocationsAdministrator", new { area = "Tour", id = item.StartLocationId })">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

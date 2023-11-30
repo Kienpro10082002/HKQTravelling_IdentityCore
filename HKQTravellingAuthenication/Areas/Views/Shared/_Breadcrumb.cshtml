@@ -1,0 +1,8 @@
+﻿@{
+    var breadcrumbTitle = ViewData["BreadcrumbTitle"] as string;
+}
+<!-- _Breadcrumb.cshtml -->
+<ol class="breadcrumb">
+    <li><a href="@Url.Action("Index", "AdminHome", new { area = "Tour" })"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">@breadcrumbTitle</li>
+</ol>
