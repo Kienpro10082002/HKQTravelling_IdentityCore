@@ -17,8 +17,9 @@
 {
     <form asp-area="Identity" asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm">
         <div class="nav-item dropdown">
-            <a href="@Url.Action("Index", "Manage", new { Area = "Identity" })" class="nav-link dropdown-toggle" data-toggle="dropdown">Xin chào @displayedName!</a>
+            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Xin chào @displayedName!</a>
             <div class="dropdown-menu border-0 rounded-0 m-0">
+                @Html.ActionLink("Quản lý thông tin", "Index", "Manage", new { area = "Identity" }, new { @class = "dropdown-item" })
                 <button type="submit" class="dropdown-item btn btn-link navbar-btn navbar-link">Đăng xuất</button>
             </div>
         </div>
