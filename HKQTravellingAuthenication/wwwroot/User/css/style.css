@@ -9768,3 +9768,308 @@ h6,
   padding: 0;
   list-style-type: none;
 }
+
+
+/*New*/
+
+.booking {
+    width: 500px;
+    margin: 40px auto 100px;
+    position: fixed;
+    right: 0;
+    z-index: 2;
+}
+
+.child-booking {
+    width: 500px;
+    margin-top: auto;
+    position: static;
+    right: 0;
+    z-index: 2;
+}
+
+h1 {
+    font-size: 24px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+select {
+    width: 100%;
+}
+
+input[type="number"] {
+    width: 100px;
+}
+
+.btn {
+    width: 100px;
+}
+
+.total {
+    margin-top: 20px;
+}
+
+    .total h2 {
+        font-size: 18px;
+    }
+
+    .total p {
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+.request {
+    margin-top: 20px;
+}
+
+table {
+    width: 50%;
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+}
+
+th {
+    background-color: #f0f0f0;
+    padding: 10px;
+    text-align: center;
+}
+
+td {
+    padding: 10px;
+    text-align: center;
+}
+
+tr:nth-child(even) {
+    background-color: #eee;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.child-booking {
+    flex: 1;
+}
+
+/* End Footer */
+
+/* New */
+
+.filter-container {
+    float: left;
+    width: 250px;
+    margin: 0 10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.tab-pane {
+    margin-left: 270px;
+}
+
+
+.filter-header {
+    text-align: center;
+}
+
+.filter-group {
+    margin-bottom: 10px;
+}
+
+label {
+    font-weight: bold;
+}
+
+select {
+    width: 100%;
+}
+
+input {
+    width: 100%;
+    padding: 5px;
+}
+
+.hidden {
+    display: none;
+}
+
+.box {
+    margin-top: 3rem;
+    padding-bottom: 1rem;
+}
+
+.box__head h3 {
+    font-size: 2.4rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding-bottom: 1px;
+    display: inline-block;
+    border-bottom: 2px solid #ec70a2;
+}
+
+    .box__head h3 a {
+        color: #0f62ac;
+    }
+
+.list-tour {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.list-tour__item {
+    flex-basis: 20%;
+    max-width: 20%;
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
+.list-tour__item-detail {
+    border-radius: 3px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    background-color: #fff;
+}
+
+    .list-tour__item-detail:hover {
+        box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2);
+    }
+
+.list-tour__img {
+    position: relative;
+    color: #fff;
+}
+
+    .list-tour__img a {
+        display: block;
+        overflow: hidden;
+    }
+
+    .list-tour__img:hover a img {
+        transform: scale(1.1);
+        transition: all 0.5s ease;
+    }
+
+    .list-tour__img a img {
+        width: 100%;
+        object-fit: cover;
+        transition: all 0.5s ease;
+        height: 195px;
+    }
+
+    .list-tour__img .voucher {
+        position: absolute;
+        left: -4px;
+        top: 10px;
+        width: auto !important;
+    }
+
+.list-tour__sale {
+    position: absolute;
+    top: 0;
+    right: 10px;
+}
+
+    .list-tour__sale img {
+        height: 60px;
+        aspect-ratio: auto 64 / 60;
+        width: 64px;
+    }
+
+.list-tour__content {
+    padding: 10px;
+    font-size: 1.3rem;
+}
+
+    .list-tour__content i {
+        color: #3b5ba6;
+        font-size: 1.5rem;
+        min-width: 1.5rem;
+    }
+
+.list-tour__title {
+    min-height: 38px;
+    margin-bottom: 10px;
+}
+
+    .list-tour__title a {
+        color: #000;
+        font-size: 1.5rem;
+        font-weight: 600;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        height: 55px;
+    }
+
+        .list-tour__title a:hover {
+            color: #3b5ba6;
+        }
+
+.list-tour__detail {
+    display: flex;
+    justify-content: space-evenly;
+    text-transform: capitalize;
+}
+
+.list-tour__left {
+    width: 60%;
+    color: #484848;
+}
+
+.list-tour__transport {
+    margin-bottom: 3px;
+}
+
+.list-tour__right {
+    width: 70%;
+    text-align: right;
+}
+
+.list-tour__price {
+    margin-bottom: 10px;
+    text-align: right;
+    font-size: 1.3rem;
+}
+
+.price-title {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 0;
+}
+
+.price {
+    font-size: 1.4rem;
+    color: #ff0013;
+}
+
+.btn--placeholder {
+    display: block;
+    padding: 3px 10px;
+    width: 100%;
+    background-color: #ff9800;
+    color: #fff;
+}
+
+    .btn--placeholder:hover {
+        background-color: #ff6900;
+    }
+
+.box-center {
+    text-align: center;
+}
+
+.btn--viewmore {
+    padding: 5px 30px;
+    text-transform: capitalize;
+    font-size: 1.6rem;
+    color: #3b5ba6;
+    border-color: #3b5ba6;
+    margin-top: 20px;
+}
