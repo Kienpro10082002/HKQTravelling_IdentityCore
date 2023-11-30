@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using HKQTravellingAuthenication.Models;
 using HKQTravellingAuthenication.Menu;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -89,6 +90,14 @@ else
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+// /contents/1.jpg => Uploads/1.jpgs
+app.UseStaticFiles(new StaticFileOptions()
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "Uploads")
+    ),
+    RequestPath = "/contents"
+});
 
 app.UseRouting();
 
