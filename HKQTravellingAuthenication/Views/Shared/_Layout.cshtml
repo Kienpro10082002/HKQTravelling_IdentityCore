@@ -74,20 +74,7 @@
                         <a href="@Url.Action("Index", "Home")" class="nav-item nav-link active">Home</a>
                         <a href="@Url.Action("About", "Home")" class="nav-item nav-link">About</a>
                         <a href="@Url.Action("Tour", "Home")" " class="nav-item nav-link">Tour Packages</a>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
-                            <div class="dropdown-menu border-0 rounded-0 m-0">
-                                <a href="@Url.Action("Index", "DbManage", new { Area = "Database" })" class="dropdown-item">Database</a>
-                                <a href="@Url.Action("Index", "Contact", new { Area = "Contact" })" class="dropdown-item">Quản lý Liên hệ</a>
-                                <a href="@Url.Action("Index", "Role", new { Area = "Identity" })" class="dropdown-item">Quản lý role (vai trò)</a>
-                                <a href="@Url.Action("Index", "User", new { Area = "Identity" })" class="dropdown-item">Quản lý thành viên</a>
-                                <a href="@Url.Action("Index", "Category", new { Area = "Blog" })" class="dropdown-item">Quản lý chuyên mục</a>
-                                <a href="@Url.Action("Index", "FileManager", new { Area = "Files" })" class="dropdown-item">Quản lý thư mục (files)</a>
-                            </div>
-                        </div>
                         <a href="@Url.Action("SendContact", "Contact", new { Area = "Contact" })" class="nav-item nav-link">Contact</a>
-                      
-                            <!-- Trong một view hoặc layout khác -->
                         @await Html.PartialAsync("_LoginPartial")
                     </div>
                 </div>
@@ -96,10 +83,14 @@
     </div>
     <!-- Navbar End -->
     <div class="container-fluid p-0">
-        <main role="main" class="pb-3">
-                        @RenderBody()
+    <div class="row">
+        @await Html.PartialAsync("_AdminManagerPartial")
+        <main role="main" class="col-md-9 d-flex align-items-center justify-content-center">
+            @RenderBody()
         </main>
     </div>
+</div>
+
     <!-- Footer Start -->
     <div class="container-fluid bg-dark text-white-50 py-5 px-sm-3 px-lg-5" style="margin-top: 90px;">
         <div class="row pt-5">

@@ -14,5 +14,9 @@ namespace HKQTravellingAuthenication.Models
           // [Required]       
           [DataType(DataType.Date)]
           public DateTime? BirthDate { get; set; }
+
+        [Column(TypeName = "nvarchar")]
+        [StringLength(200)]
+        public string FullName { get; set; }
     }
 }
