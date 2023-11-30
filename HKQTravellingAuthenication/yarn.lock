@@ -1107,6 +1107,11 @@
   "resolved" "https://registry.npmjs.org/eastasianwidth/-/eastasianwidth-0.2.0.tgz"
   "version" "0.2.0"
 
+"elfinder-material-theme@^3.0.0":
+  "integrity" "sha512-6tKnuZ3XHUA522R/mI9HAfZ/eN2NmhQEFIOj2k+Hd51jzXdeiO0JdRt7Iov82AU0rRaTIos/AAFKYFH3HiAEog=="
+  "resolved" "https://registry.npmjs.org/elfinder-material-theme/-/elfinder-material-theme-3.0.0.tgz"
+  "version" "3.0.0"
+
 "emoji-regex@^8.0.0":
   "integrity" "sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A=="
   "resolved" "https://registry.npmjs.org/emoji-regex/-/emoji-regex-8.0.0.tgz"
