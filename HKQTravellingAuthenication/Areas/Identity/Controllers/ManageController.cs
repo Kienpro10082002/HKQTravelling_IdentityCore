@@ -67,6 +67,7 @@ namespace HKQTravellingAuthenication.Areas.Identity.Controllers
                     UserName = user.UserName,
                     UserEmail = user.Email,
                     PhoneNumber = user.PhoneNumber,
+                    FullName = user.FullName
                 }
             };
             return View(model);
@@ -382,6 +383,7 @@ namespace HKQTravellingAuthenication.Areas.Identity.Controllers
                 UserName = user.UserName,
                 UserEmail = user.Email,
                 PhoneNumber = user.PhoneNumber,
+                FullName = user.FullName
             };
             return View(model);
         }
@@ -392,6 +394,7 @@ namespace HKQTravellingAuthenication.Areas.Identity.Controllers
 
             user.HomeAdress = model.HomeAdress;
             user.BirthDate = model.BirthDate;
+            user.FullName = model.FullName;
             await _userManager.UpdateAsync(user);
 
             await _signInManager.RefreshSignInAsync(user);
