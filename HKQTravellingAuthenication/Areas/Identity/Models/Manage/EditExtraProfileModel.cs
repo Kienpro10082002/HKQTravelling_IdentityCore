@@ -14,8 +14,7 @@ namespace HKQTravellingAuthenication.Areas.Identity.Models.ManageViewModels
         public string PhoneNumber { get; set; }
 
         [Display(Name = "Địa chỉ")]
-        [StringLength(400)]
-        public string HomeAdress { get; set; }
+        public string? HomeAdress { get; set; }
 
 
         [Display(Name = "Ngày sinh")]
@@ -23,5 +22,17 @@ namespace HKQTravellingAuthenication.Areas.Identity.Models.ManageViewModels
 
         [Display(Name = "Họ và tên")]
         public string? FullName { get; set; }
+
+        [Display(Name = "Mã CCCD mới")]
+        public string? NewCitizenIdentification { get; set; }
+
+        [Display(Name = "Mã CCCD cũ")]
+        public string? OldCitizenIdentification { get; set; }
+
+        [Display(Name = "Giới tính")]
+        public string? Gender { get; set; }
+
+        [Display(Name = "Ngày cấp CCCD")]
+        public DateTime? DateOfInssuance { get; set; } //ngày cấp căn cước công dân
     }
 }
