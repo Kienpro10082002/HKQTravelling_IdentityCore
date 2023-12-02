@@ -9,7 +9,7 @@ namespace HKQTravellingAuthenication.Models
     {
         [Column(TypeName = "nvarchar")]
         [StringLength(400)]
-        public string HomeAdress { get; set; }
+        public string? HomeAdress { get; set; }
 
         // [Required]       
         [DataType(DataType.Date)]
@@ -17,19 +17,19 @@ namespace HKQTravellingAuthenication.Models
 
         [Column(TypeName = "nvarchar")]
         [StringLength(200)]
-        public string FullName { get; set; }
+        public string? FullName { get; set; }
 
         [Column(TypeName = "nvarchar")]
         [StringLength(200)]
-        public string NewCitizenIdentification { get; set; }
+        public string? NewCitizenIdentification { get; set; }
 
         [Column(TypeName = "nvarchar")]
         [StringLength(200)]
-        public string OldCitizenIdentification { get; set; }
+        public string? OldCitizenIdentification { get; set; }
 
         [Column(TypeName = "nvarchar")]
         [StringLength(10)]
-        public string Gender { get; set; }
+        public string? Gender { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime? DateOfInssuance { get; set; } //ngày cấp căn cước công dân
