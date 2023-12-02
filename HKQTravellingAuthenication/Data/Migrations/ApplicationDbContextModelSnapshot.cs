@@ -424,6 +424,31 @@ namespace HKQTravellingAuthenication.Data.Migrations
                     b.ToTable("tourImages");
                 });
 
+            modelBuilder.Entity("HKQTravellingAuthenication.Models.Tour.TourTypes", b =>
+                {
+                    b.Property<long>("typeID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("TYPE_ID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("typeID"));
+
+                    b.Property<long?>("TourId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("TOUR_ID");
+
+                    b.Property<string>("typeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("TYPE_NAME");
+
+                    b.HasKey("typeID");
+
+                    b.HasIndex("TourId");
+
+                    b.ToTable("tourTypes");
+                });
+
             modelBuilder.Entity("HKQTravellingAuthenication.Models.Tour.Tours", b =>
                 {
                     b.Property<long>("TourId")
@@ -705,10 +730,41 @@ namespace HKQTravellingAuthenication.Data.Migrations
                     b.Property<DateTime?>("BirthDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime?>("DateOfInssuance")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar");
+
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar");
+
                     b.Property<string>("HomeAdress")
                         .IsRequired()
                         .HasMaxLength(400)
                         .HasColumnType("nvarchar");
+
+                    b.Property<string>("NewCitizenIdentification")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar");
+
+                    b.Property<string>("OldCitizenIdentification")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar");
+
+                    b.HasIndex("NewCitizenIdentification")
+                        .IsUnique()
+                        .HasFilter("[NewCitizenIdentification] IS NOT NULL");
+
+                    b.HasIndex("OldCitizenIdentification")
+                        .IsUnique()
+                        .HasFilter("[OldCitizenIdentification] IS NOT NULL");
 
                     b.ToTable("Users");
 
@@ -801,6 +857,15 @@ namespace HKQTravellingAuthenication.Data.Migrations
                 });
 
             modelBuilder.Entity("HKQTravellingAuthenication.Models.Tour.TourImages", b =>
+                {
+                    b.HasOne("HKQTravellingAuthenication.Models.Tour.Tours", "tours")
+                        .WithMany()
+                        .HasForeignKey("TourId");
+
+                    b.Navigation("tours");
+                });
+
+            modelBuilder.Entity("HKQTravellingAuthenication.Models.Tour.TourTypes", b =>
                 {
                     b.HasOne("HKQTravellingAuthenication.Models.Tour.Tours", "tours")
                         .WithMany()

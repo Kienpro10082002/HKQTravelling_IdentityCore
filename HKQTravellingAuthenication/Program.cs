@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using HKQTravellingAuthenication.Models;
 using HKQTravellingAuthenication.Menu;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,6 +52,15 @@ builder.Services.ConfigureApplicationCookie (options => {
     //options.AccessDeniedPath = $"/Identity/Account/AccessDenied";   // Trang khi User bị cấm truy cập
     options.AccessDeniedPath = $"/khongduoctruycap.html";
 });
+// Cấu hình Session
+builder.Services.AddControllersWithViews();
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(9999999);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 builder.Services.Configure<SecurityStampValidatorOptions>(options =>
 {
     // Trên 5 giây truy cập lại sẽ nạp lại thông tin User (Role)
@@ -80,8 +90,17 @@ else
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+// /contents/1.jpg => Uploads/1.jpgs
+app.UseStaticFiles(new StaticFileOptions()
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "Uploads")
+    ),
+    RequestPath = "/contents"
+});
 
 app.UseRouting();
+app.UseSession();   // Do người lập trình thêm vào
 
 app.UseAuthentication();   // Phục hồi thông tin đăng nhập (xác thực)
 app.UseAuthorization ();   // Phục hồi thông tinn về quyền của User
