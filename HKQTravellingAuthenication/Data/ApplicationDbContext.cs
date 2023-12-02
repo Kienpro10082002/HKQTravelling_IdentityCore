@@ -28,7 +28,18 @@ namespace HKQTravellingAuthenication.Data
 
             builder.Entity<Category>(entity =>
             {
-                entity.HasIndex(c => c.Slug);
+                entity.HasIndex(c => c.Slug)
+                .IsUnique();
+            });
+            //dùng fluent api để trỏ tới 2 thuộc tính để trở thành 2 khóa chính
+            builder.Entity<PostCategory>(entity =>
+            {
+                entity.HasKey(c => new { c.PostID, c.CategoryID });//thiết lập trường khóa chính 
+            });
+            builder.Entity<Post>(entity =>
+            {
+                entity.HasIndex(p => p.Slug) //thiết lập chỉ mục
+                    .IsUnique();
             });
 
             builder.Entity<Bookings>()
@@ -52,6 +63,13 @@ namespace HKQTravellingAuthenication.Data
             builder.Entity<EndLocations>()
                 .HasIndex(u => u.EndLocationName)
                 .IsUnique();
+
+            builder.Entity<AppUser>()
+                .HasIndex(u => u.NewCitizenIdentification)
+                .IsUnique();
+            builder.Entity<AppUser>()
+                .HasIndex(u => u.OldCitizenIdentification)
+                .IsUnique();
         }
 
         public DbSet<AppUser> Users { get; set; }
@@ -62,9 +80,12 @@ namespace HKQTravellingAuthenication.Data
         public DbSet<Discounts> discounts { get; set; }
         public DbSet<Rules> rules { get; set; }
         public DbSet<Tours> tours { get; set; }
+        public DbSet<TourTypes> tourTypes { get; set; }
         public DbSet<TourImages> tourImages { get; set; }
         public DbSet<TourDays> tourDays { get; set; }
         public DbSet<Bookings> bookings { get; set; }
         public DbSet<Payments> payments { get; set; }
+        public DbSet<Post> Post { get; set; }
+        public DbSet<PostCategory> PostCategory { get; set; }
     }
 }

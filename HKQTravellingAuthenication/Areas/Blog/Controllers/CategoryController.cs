@@ -219,7 +219,7 @@ namespace HKQTravellingAuthenication.Areas.Blog.Controllers
 
 
                 // Func check Id 
-                Func<List<Category>, bool> checkCateIds = null;
+                Func<List<Category>, bool> checkCateIds = null; 
                 checkCateIds = (cates) =>
                     {
                         foreach (var cate in cates)
@@ -228,7 +228,7 @@ namespace HKQTravellingAuthenication.Areas.Blog.Controllers
                             if (cate.Id == category.ParentCategoryId)
                             {
                                 canUpdate = false;
-                                ModelState.AddModelError(string.Empty, "Phải chọn danh mục cha khácXX");
+                                ModelState.AddModelError(string.Empty, "Phải chọn danh mục cha khác (khác với cha của con hiện tại)");
                                 return true;
                             }
                             if (cate.CategoryChildren != null)

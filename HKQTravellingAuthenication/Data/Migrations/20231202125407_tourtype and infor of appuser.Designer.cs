@@ -4,6 +4,7 @@ using HKQTravellingAuthenication.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HKQTravellingAuthenication.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231202125407_tourtype and infor of appuser")]
+    partial class tourtypeandinforofappuser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,74 +54,9 @@ namespace HKQTravellingAuthenication.Data.Migrations
 
                     b.HasIndex("ParentCategoryId");
 
-                    b.HasIndex("Slug")
-                        .IsUnique();
+                    b.HasIndex("Slug");
 
                     b.ToTable("Category");
-                });
-
-            modelBuilder.Entity("HKQTravellingAuthenication.Models.Blog.Post", b =>
-                {
-                    b.Property<int>("PostId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostId"));
-
-                    b.Property<string>("AuthorId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Published")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Slug")
-                        .IsRequired()
-                        .HasMaxLength(160)
-                        .HasColumnType("nvarchar(160)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(160)
-                        .HasColumnType("nvarchar(160)");
-
-                    b.HasKey("PostId");
-
-                    b.HasIndex("AuthorId");
-
-                    b.HasIndex("Slug")
-                        .IsUnique();
-
-                    b.ToTable("Post");
-                });
-
-            modelBuilder.Entity("HKQTravellingAuthenication.Models.Blog.PostCategory", b =>
-                {
-                    b.Property<int>("PostID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CategoryID")
-                        .HasColumnType("int");
-
-                    b.HasKey("PostID", "CategoryID");
-
-                    b.HasIndex("CategoryID");
-
-                    b.ToTable("PostCategory");
                 });
 
             modelBuilder.Entity("HKQTravellingAuthenication.Models.Contact.Contact", b =>
@@ -780,36 +718,6 @@ namespace HKQTravellingAuthenication.Data.Migrations
                     b.Navigation("ParentCategory");
                 });
 
-            modelBuilder.Entity("HKQTravellingAuthenication.Models.Blog.Post", b =>
-                {
-                    b.HasOne("HKQTravellingAuthenication.Models.AppUser", "Author")
-                        .WithMany()
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Author");
-                });
-
-            modelBuilder.Entity("HKQTravellingAuthenication.Models.Blog.PostCategory", b =>
-                {
-                    b.HasOne("HKQTravellingAuthenication.Models.Blog.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HKQTravellingAuthenication.Models.Blog.Post", "Post")
-                        .WithMany("PostCategories")
-                        .HasForeignKey("PostID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("Post");
-                });
-
             modelBuilder.Entity("HKQTravellingAuthenication.Models.Tour.Bookings", b =>
                 {
                     b.HasOne("HKQTravellingAuthenication.Models.Tour.Tours", "tours")
@@ -949,11 +857,6 @@ namespace HKQTravellingAuthenication.Data.Migrations
             modelBuilder.Entity("HKQTravellingAuthenication.Models.Blog.Category", b =>
                 {
                     b.Navigation("CategoryChildren");
-                });
-
-            modelBuilder.Entity("HKQTravellingAuthenication.Models.Blog.Post", b =>
-                {
-                    b.Navigation("PostCategories");
                 });
 #pragma warning restore 612, 618
         }
