@@ -52,6 +52,13 @@ namespace HKQTravellingAuthenication.Data
             builder.Entity<EndLocations>()
                 .HasIndex(u => u.EndLocationName)
                 .IsUnique();
+
+            builder.Entity<AppUser>()
+                .HasIndex(u => u.NewCitizenIdentification)
+                .IsUnique();
+            builder.Entity<AppUser>()
+                .HasIndex(u => u.OldCitizenIdentification)
+                .IsUnique();
         }
 
         public DbSet<AppUser> Users { get; set; }
@@ -62,6 +69,7 @@ namespace HKQTravellingAuthenication.Data
         public DbSet<Discounts> discounts { get; set; }
         public DbSet<Rules> rules { get; set; }
         public DbSet<Tours> tours { get; set; }
+        public DbSet<TourTypes> tourTypes { get; set; }
         public DbSet<TourImages> tourImages { get; set; }
         public DbSet<TourDays> tourDays { get; set; }
         public DbSet<Bookings> bookings { get; set; }
