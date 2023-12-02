@@ -73,7 +73,6 @@
                     <div class="navbar-nav ml-auto py-0">
                         <a href="@Url.Action("Index", "Home")" class="nav-item nav-link active">Home</a>
                         <a href="@Url.Action("About", "Home")" class="nav-item nav-link">About</a>
-
                         <a href="@Url.Action("Index", "Tour")" " class="nav-item nav-link">Tour Packages</a>
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
@@ -86,9 +85,6 @@
                                 <a href="@Url.Action("Index", "FileManager", new { Area = "Files" })" class="dropdown-item">Quản lý thư mục (files)</a>
                             </div>
                         </div>
-
-                        <a href="@Url.Action("Index", "Tour")" " class="nav-item nav-link">Tour Packages</a>
-
                         <a href="@Url.Action("SendContact", "Contact", new { Area = "Contact" })" class="nav-item nav-link">Contact</a>
                         @await Html.PartialAsync("_LoginPartial")
                     </div>
@@ -99,10 +95,7 @@
     <!-- Navbar End -->
     <div class="container-fluid p-0">
         <main role="main" class="pb-3">
-    <div class="row">
-        @await Html.PartialAsync("_AdminManagerPartial")
-        <main role="main" class="col-md-9 d-flex align-items-center justify-content-center">
-            @RenderBody()
+                        @RenderBody()
         </main>
     </div>
 </div>
