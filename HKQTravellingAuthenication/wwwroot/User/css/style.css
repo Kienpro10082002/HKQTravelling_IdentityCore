@@ -1,4 +1,4 @@
-/******* Bootstrap Theming ********/
+﻿/******* Bootstrap Theming ********/
 /*!
  * Bootstrap v4.5.3 (https://getbootstrap.com/)
  * Copyright 2011-2020 The Bootstrap Authors
@@ -4362,14 +4362,15 @@ input[type="button"].btn-block {
 }
 
 .card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  word-wrap: break-word;
-  background-color: #fff;
-  background-clip: border-box;
-  border: 1px solid rgba(0, 0, 0, 0.125);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    width: 90%;
 }
 
 .card > hr {
@@ -9558,7 +9559,7 @@ h6,
   .booking {
     position: relative;
     margin-top: -60px !important;
-    z-index: 1;
+    z-index: 2;
   }
 }
 
@@ -9827,7 +9828,7 @@ input[type="number"] {
 }
 
 table {
-    width: 50%;
+    width: 23%;
     border-collapse: collapse;
     border: 1px solid #ccc;
 }
@@ -9899,7 +9900,7 @@ input {
 .hidden {
     display: none;
 }
-
+/*
 .box {
     margin-top: 3rem;
     padding-bottom: 1rem;
@@ -10072,4 +10073,5 @@ input {
     color: #3b5ba6;
     border-color: #3b5ba6;
     margin-top: 20px;
-}
+}*/
+

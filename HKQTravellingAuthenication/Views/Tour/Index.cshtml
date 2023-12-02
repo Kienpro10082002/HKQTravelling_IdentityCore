@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -11,129 +10,197 @@
     var i = 0;
 }
 
-<div class="bread-crumb">
-    <div class="container">
-        <ul class="breadcrumb">
-            <li class="breadcrumb-item active"><a href="/">Home</a></li>
-            <li class="breadcrumb-item">
-                <a asp-area="" asp-controller="Tour" asp-action="Index">Tour</a>
-            </li>
-        </ul>
-    </div>
-</div>
-<div class="sale-tour__content box">
-    <div class="container">
-        <div class="tab-search">
-            <div class="tab-search__left">
-                <div class="box__head text-center">
-                    <h3>Tour</h3>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="tab-content box__content">
-        <div class="tab-search__right">
-            <span class="navtab-text">Sắp xếp theo : </span>
-            <ul class="nav nav-pills navtab-combo">
-                <li class="nav-item nav-item-combo">
-                    <a class="nav-link nav-link-combo PriceAsc" data-toggle="pill" href="#hottour2"><i class="fas fa-long-arrow-alt-up"></i>Giá tăng dần</a>
-                </li>
-                <li class="nav-item nav-item-combo">
-                    <a class="nav-link nav-link-combo PriceDesc" data-toggle="pill" href="#hottour3"><i class="fas fa-long-arrow-alt-down"></i>Giá giảm dần</a>
+<style>
+    .content__tour{ 
+        flex: 0 0 75% !important;
+        max-width: 60% !important;
+    }
+</style>
+<!-- Index Tour Start-->
+
+<div class="container-fluid">
+    <div class="bread-crumb">
+        <div class="container">
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item active"><a href="/">Home</a></li>
+                <li class="breadcrumb-item">
+                    <a asp-area="" asp-controller="Tour" asp-action="Index">Tour</a>
                 </li>
             </ul>
         </div>
-        <div class="filter-container">
-            <div class="filter-header">
-                <h2>Lọc kết quả</h2>
-            </div>
-            <div class="filter-body">
-                <div class="filter-group">
-                    <label for="startLocation">Điểm khởi hành</label>
-                    <select name="startLocation" class="select-startLocation">
-                        <option value="">Chọn điểm khởi hành</option>
-                        @foreach (var location in ViewBag.StartLocations)
-                        {
-                            <option value="@location.Value">@location.Text</option>
-                        }
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label for="endLocation">Điểm đến</label>
-                    <select name="endLocation" class="select-endLocation">
-                        <option value="">Chọn điểm đến</option>
-                        @foreach (var location in ViewBag.EndLocations)
-                        {
-                            <option value="@location.Value">@location.Text</option>
-                        }
-                    </select>
+    </div>
+    <div class="sale-tour__content box">
+        <div class="container">
+            <div class="tab-search">
+                <div class="tab-search__left">
+                    <div class="box__head text-center">
+                        <h3>Tour</h3>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="tab-pane active" id="hottour1">
-            <div class="hot-tour__list list-tour">
+        <div class="tab-content box__content">
+            <div class="tab-search__right">
+                <span class="navtab-text">Sắp xếp theo : </span>
+                <ul class="nav nav-pills navtab-combo">
+                    <li class="nav-item nav-item-combo">
+                        <a class="nav-link nav-link-combo PriceAsc" data-toggle="pill" href="#hottour2"><i class="fas fa-long-arrow-alt-up"></i>Giá tăng dần</a>
+                    </li>
+                    <li class="nav-item nav-item-combo">
+                        <a class="nav-link nav-link-combo PriceDesc" data-toggle="pill" href="#hottour3"><i class="fas fa-long-arrow-alt-down"></i>Giá giảm dần</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="filter-container">
+                <div class="filter-header">
+                    <h2>Lọc kết quả</h2>
+                </div>
+                <div class="filter-body">
+                    <div class="filter-group">
+                        <label for="startLocation">Điểm khởi hành</label>
+                        <select name="startLocation" class="select-startLocation">
+                            <option value="">Chọn điểm khởi hành</option>
+                            @foreach (var location in ViewBag.StartLocations)
+                            {
+                                <option value="@location.Value">@location.Text</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="endLocation">Điểm đến</label>
+                        <select name="endLocation" class="select-endLocation">
+                            <option value="">Chọn điểm đến</option>
+                            @foreach (var location in ViewBag.EndLocations)
+                            {
+                                <option value="@location.Value">@location.Text</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane active" id="hottour1">
+                <div class="hot-tour__list list-tour">
 
-                @foreach (var tour in Model)
-                {
-                    <div class="list-tour__item tour-item">
+                    @foreach (var tour in Model)
+                    {
+                        @* <div class="list-tour__item tour-item">
 
-                        <div class="list-tour__item-detail">
-                            <div class="list-tour__img">
-                                @if (i < ViewBag.TourImages.Count && ViewBag.TourImages[i] != null)
-                                {
-                                    <a asp-area="" asp-controller="Tour" asp-action="DetailTour" asp-route-id="@tour.TourId"><img src="~/User/img/Tour/@ViewBag.TourImages[i]" alt="" style="width: 100%; height: 135px;"></a>
-                                }
-                                else
-                                {
-                                    <a style="float: right;" asp-area="" asp-controller="Tour" asp-action="DetailTour" asp-route-id="@tour.TourId"><img src="~/User/img/Tour/0004822_tour-chua-linh-ung-son-tra-ngu-hanh-son-hoi-an.jpg" alt="" style="width: 100%; height: 135px; margin-bottom: 10px"></a>
-                                }
-                                @{
-                                    i++;
-                                }
-                            </div>
-                            <div class="list-tour__content">
-                                <div class="list-tour__title">
-                                    <h4>
-                                        @tour.TourName
-                                    </h4>
-                                    <span class="list-tour__time">
-
-                                        (<small class="flex-fill text-center border-end py-2"><i class="fa fa-calendar-alt text-primary me-2"></i>@(tour.StartDate.Value)</small>
-                                        <small class="flex-fill text-center border-end py-2"><i class="fa fa-calendar-alt text-primary me-2"></i>@(tour.EndDate)</small>)
-                                    </span>
+                            <div class="list-tour__item-detail">
+                                <div class="list-tour__img">
+                                    @if (i < ViewBag.TourImages.Count && ViewBag.TourImages[i] != null)
+                                    {
+                                        <a asp-area="" asp-controller="Tour" asp-action="DetailTour" asp-route-id="@tour.TourId"><img src="~/User/img/Tour/@ViewBag.TourImages[i]" alt="" style="width: 100%; height: 135px;"></a>
+                                    }
+                                    else
+                                    {
+                                        <a style="float: right;" asp-area="" asp-controller="Tour" asp-action="DetailTour" asp-route-id="@tour.TourId"><img src="~/User/img/Tour/0004822_tour-chua-linh-ung-son-tra-ngu-hanh-son-hoi-an.jpg" alt="" style="width: 100%; height: 135px; margin-bottom: 10px"></a>
+                                    }
+                                    @{
+                                        i++;
+                                    }
                                 </div>
-                                <div class="list-tour__detail">
-                                    <div class="list-tour__left">
-                                        <div class="list-tour__date">
-                                            <i class="fas fa-calendar-alt"></i> @tour.StartDate.Value.Year
+                                <div class="list-tour__content">
+                                    <div class="list-tour__title">
+                                        <h4>
+                                            @tour.TourName
+                                        </h4>
+                                        <span class="list-tour__time">
+
+                                            (<small class="flex-fill text-center border-end py-2"><i class="fa fa-calendar-alt text-primary me-2"></i>@(tour.StartDate.Value)</small>
+                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-calendar-alt text-primary me-2"></i>@(tour.EndDate)</small>)
+                                        </span>
+                                    </div>
+                                    <div class="list-tour__detail">
+                                        <div class="list-tour__left">
+                                            <div class="list-tour__date">
+                                                <i class="fas fa-calendar-alt"></i> @tour.StartDate.Value.Year
+                                            </div>
+                                        </div>
+                                        <div class="list-tour__right">
+                                            <div class="list-tour__price">
+                                                <p class="price-title">giá từ</p>
+                                                <span class="price">@String.Format("{0:0,0}", tour.Price) VND</span>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="list-tour__right">
-                                        <div class="list-tour__price">
-                                            <p class="price-title">giá từ</p>
-                                            <span class="price">@String.Format("{0:0,0}", tour.Price) VND</span>
-                                        </div>
-                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-end m-2 btn_detail">
+                                    <a class="text-dark btn btn--placeholder" style="float: right;" asp-area="" asp-controller="Tour" asp-action="DetailTour" asp-route-id="@tour.TourId">Chi Tiết</a>
                                 </div>
                             </div>
-                            <div class="d-flex justify-content-end m-2 btn_detail">
-                                <a class="text-dark btn btn--placeholder" style="float: right;" asp-area="" asp-controller="Tour" asp-action="DetailTour" asp-route-id="@tour.TourId">Chi Tiết</a>
+                        </div> *@
+
+                        <div class="card mb-3 p-md-3 tour-item">
+                            <div class="row g-0">
+                                <div class="col-md-3 col-12">
+                                    <div class="image">
+                                        <a asp-area="" asp-controller="Tour" asp-action="DetailTour" asp-route-id="@tour.TourId"><img src="~/User/img/Tour/@ViewBag.TourImages[i]" alt="" style="width: 164%; height: 286px;"></a>
+
+                                        @* <a asp-controller="Tour" asp-action="DetailTour" asp-route-id="@tour.TourId" style="width: 100%; height: 135px;">
+                                            <img src="~/User/img/Tour/@ViewBag.TourImages[i]" alt="">
+                                        </a> *@
+                                        @{
+                                            i++;
+                                        }
+                                    </div>
+                                </div>
+                                <div class="col-md-9 col-12 p-3 content__tour">
+                                    <h5 class="card-title h5 h6-sm fw-bolder mb-3">
+                                        <h4 class="fw-bolder">@tour.TourName</h4>
+                                    </h5>
+                                    <div class="row align-items-center">
+                                        <div class="col-md-8 col-7">
+                                            <div class="d-flex d-lg-block justify-content-between">
+                                                <div>
+                                                    <div class="s-rate">
+                                                        <span>9</span>
+                                                        <div class="s-comment">
+                                                            <h6 class="fw-bold mb-0">
+                                                                Tuyệt vời
+                                                            </h6>
+                                                            <p>358 quan tâm</p>
+                                                        </div>
+                                                    </div>
+                                                    <p>
+                                                    <p class="text-muted">
+                                                            @tour.StartDate - @tour.EndDate
+                                                    </p>
+                                                    </p>
+                                                    <p class="card-text">
+                                                        <small class="text-muted">1 người, 4 đêm</small>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-5 text-end">
+                                            <h6 class="text-primary">Giá/vé</h6>
+                                            <h5 class="text-primary fw-bold">
+                                                <span class="price">@String.Format("{0:0,0}", tour.Price) VND</span>
+                                            </h5>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="d-flex justify-content-end m-2 btn_detail">
+                                        <a class="text-dark btn btn--placeholder" style="float: right;" asp-area="" asp-controller="Tour" asp-action="DetailTour" asp-route-id="@tour.TourId">Chi Tiết</a>
+                                    </div>
+                                </div>
+                                
                             </div>
                         </div>
-                    </div>
+                    }
+                </div>
 
-                }
             </div>
-
+            <div id="toursContainer" class="hidden">
+                @await Html.PartialAsync("_ToursPricePartial", Model)
+            </div>
         </div>
-        <div id="toursContainer" class="hidden">
-            @await Html.PartialAsync("_ToursPricePartial", Model)
+        <div class="MenuTrang" style="display: flex;justify-content: center;padding-top: 16px;">
+            @await Html.PartialAsync("_PagedListPager", Model)
         </div>
-    </div>
-    <div class="MenuTrang" style="display: flex;justify-content: center;padding-top: 16px;">
-        @await Html.PartialAsync("_PagedListPager", Model)
     </div>
 </div>
+<!-- Index Tour Emd-->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
