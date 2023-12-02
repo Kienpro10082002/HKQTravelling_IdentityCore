@@ -116,7 +116,7 @@
                                               <tbody class="child-booking">
                                                   <td colspan="3">
                                                     <div class="form-group">
-                                                      <label for="age${i}">Tuổi trẻ ${i}: </label>
+                                                      <label for="age${i}">Trẻ ${i}: </label>
                                                       <select class="form-control" id="age${i}">
                                                         <option value="0-2">0-2</option>
                                                         <option value="3-11">3-11</option>
@@ -129,8 +129,6 @@
                                             `;
             // Thay đổi dòng này để thêm bảng vào phần tử mong muốn
             document.querySelector(".booking").appendChild(bang);
-
-
         }
     }
 
@@ -139,6 +137,8 @@
     var slideIndex = 0;
     showSlides();
 
+
+    //Chạy hình nếu > 1 hình
     function showSlides() {
         var i;
         var slides = document.getElementsByClassName("mySlides");
@@ -160,10 +160,13 @@
         setTimeout(showSlides, 2000); // Thay đổi hình ảnh sau mỗi 2 giây
     }
 
+   
+
+
+    //Tính tổng tiền
     function tinhTong() {
         var soNguoiLon = document.getElementById("nguoilon").value;
         var soTreEm = document.getElementById("treem").value;
-        console.log(soNguoiLon);
         var giaTriNguoiLon = parseInt(document.getElementById("price-adult").value);
 
         var tongCong = giaTriNguoiLon * soNguoiLon;
@@ -183,18 +186,16 @@
                     tongCong += giaTriNguoiLon * 0.8;
                     break;
             }
+            document.getElementById("age" + i).addEventListener("change", tinhTong);
         }
 
         // Định dạng số
         var tongCongFormatted = tongCong.toLocaleString('vi-VN');
 
         document.getElementById("tongcong").innerHTML = tongCongFormatted + " VND";
-        document.getElementById('hiddenTongCong').value = tongCong;
+        document.getElementById("hiddenTongCong").value = tongCong;
     }
-
     document.querySelector(".btn-tinhTong").addEventListener("click", tinhTong);
 
 
 </script>
-
-

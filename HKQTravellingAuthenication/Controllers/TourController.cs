@@ -21,6 +21,8 @@ using X.PagedList;
 using System.Linq;
 using System.Collections.Generic;
 using HKQTravellingAuthenication.Models.Tour;
+using HKQTravellingAuthenication.Areas.Identity.Controllers;
+using Microsoft.AspNetCore.Identity;
 
 #endregion
 
@@ -33,8 +35,23 @@ namespace HKQTravelling.Controllers
         //khai báo hàm app 
         private readonly ApplicationDbContext _db;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public TourController(ApplicationDbContext db, IWebHostEnvironment webHostEnvironment)
+        private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
+        private readonly IEmailSender _emailSender;
+        private readonly ILogger<AccountController> _logger;
+
+        public TourController(
+            UserManager<AppUser> userManager,
+            SignInManager<AppUser> signInManager,
+            IEmailSender emailSender,
+            ILogger<AccountController> logger,
+            ApplicationDbContext db,
+            IWebHostEnvironment webHostEnvironment)
         {
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _emailSender = emailSender;
+            _logger = logger;
             _db = db;
             _webHostEnvironment = webHostEnvironment;
         }
@@ -95,54 +112,54 @@ namespace HKQTravelling.Controllers
         #endregion
 
         #region BookingTour
-        [HttpPost]
-        public async Task<IActionResult> DetailTour(IFormCollection f)
-        {
-            var tourId = f["tourId"].ToString();
-            var numAdults = f["nguoilon"].ToString();
-            var numKids = f["treem"].ToString();
-            var price = f["tongcong"].ToString();
-            var roundedPrice = Math.Round(double.Parse(price));
-            var userId = HttpContext.Session.Get("user_id");
-            var dbUserId = BitConverter.ToInt64(userId);
-            var dbtourId = Convert.ToInt32(tourId);
-            /*            var dbbookingId = Convert.ToInt32(tourId);*/
-            // Lưu tourId và userId vào phiên
-            HttpContext.Session.SetInt32("tourId", dbtourId);
-            /*            HttpContext.Session.SetInt32("bookingId", dbbookingId);*/
-            if (string.IsNullOrEmpty(numAdults))
+            [HttpPost]
+            public async Task<IActionResult> DetailTour(IFormCollection f)
             {
-                ViewData["checking_numAdults"] = "Chưa chọn số người đi!";
-                return View();
-            }
-            else if (string.IsNullOrEmpty(numAdults))
-            {
-                ViewData["checking_numKids"] = "Chưa chọn số trẻ em!";
-                return View();
-            }
-            else
-            {
-                var booking = new Bookings
+                var tourId = f["tourId"].ToString();
+                var numAdults = f["nguoilon"].ToString();
+                var numKids = f["treem"].ToString();
+                var price = f["tongcong"].ToString();
+                var roundedPrice = Math.Round(double.Parse(price));
+                var dbtourId = Convert.ToInt32(tourId);
+                var getUserInfo = await _userManager.GetUserAsync(HttpContext.User);
+                var bookingUserId = getUserInfo.Id.ToString();
+                // Lưu tourId và userId vào phiên
+    /*            HttpContext.Session.SetString("bookingUserId", bookingUserId);*/
+                HttpContext.Session.SetInt32("tourId", dbtourId);
+                /*            HttpContext.Session.SetInt32("bookingId", dbbookingId);*/
+                if (string.IsNullOrEmpty(numAdults))
                 {
-                    BookingDate = DateTime.Now,
-                    TourId = long.Parse(tourId),
-                    NumAdults = int.Parse(numAdults),
-                    NumKids = int.Parse(numKids),
-                    PriceAdults = roundedPrice,
-                    PriceKids = null,
-                    PriceToddlers = null,
-                    UserId = dbUserId.ToString(),
-                    NumToddlers = null
-                };
-                _db.bookings.Add(booking);
-                await _db.SaveChangesAsync();
-                var dbbookingId = Convert.ToInt32(booking.BookingId);
-                HttpContext.Session.SetInt32("bookingId", dbbookingId);
-                return RedirectToAction("Payments", "Tour");
+                    ViewData["checking_numAdults"] = "Chưa chọn số người đi!";
+                    return View();
+                }
+                else if (string.IsNullOrEmpty(numAdults))
+                {
+                    ViewData["checking_numKids"] = "Chưa chọn số trẻ em!";
+                    return View();
+                }
+                else
+                {
+                    var booking = new Bookings
+                    {
+                        BookingDate = DateTime.Now,
+                        TourId = long.Parse(tourId),
+                        NumAdults = int.Parse(numAdults),
+                        NumKids = int.Parse(numKids),
+                        PriceAdults = roundedPrice,
+                        PriceKids = null,
+                        PriceToddlers = null,
+                        UserId = bookingUserId,
+                        NumToddlers = null
+                    };
+                    _db.bookings.Add(booking);
+                    await _db.SaveChangesAsync();
+                    var dbbookingId = Convert.ToInt32(booking.BookingId);
+                    HttpContext.Session.SetInt32("bookingId", dbbookingId);
+                    return RedirectToAction("Payments", "Tour");
+                }
             }
-        }
 
-        #endregion
+            #endregion
 
         #region Add TourImages
         [HttpGet]
@@ -354,29 +371,17 @@ namespace HKQTravelling.Controllers
 
         #region Payment
         [HttpGet]
-        public IActionResult Payments()
+        public async Task<IActionResult> Payments()
         {
             // Lấy dữ liệu từ phiên
-            var userId = HttpContext.Session.Get("user_id");
+            var getUserInfo = await _userManager.GetUserAsync(HttpContext.User);
+            var bookingUserId = getUserInfo.Id.ToString();
             var tourId = HttpContext.Session.GetInt32("tourId");
             var bookingId = HttpContext.Session.GetInt32("bookingId");
-            var userAccount = HttpContext.Session.GetString("user_account");
-            var fullName = HttpContext.Session.GetString("fullName");
-            var email = HttpContext.Session.GetString("Email");
+            var name = getUserInfo.NormalizedUserName;
+            var email = getUserInfo.Email;
 
             // Chuyển đổi dữ liệu từ phiên
-            AppUser dbUser = null;
-            if (!string.IsNullOrEmpty(userAccount))
-            {
-                dbUser = JsonConvert.DeserializeObject<AppUser>(userAccount);
-            }
-
-            long? dbUserId = 0;
-            if (userId != null)
-            {
-                dbUserId = BitConverter.ToInt64(userId);
-            }
-
             long? dbTourId = 0;
             if (tourId != null)
             {
@@ -391,7 +396,8 @@ namespace HKQTravelling.Controllers
 
             var booking = _db.bookings.FirstOrDefault(t => t.BookingId == dbBookingId && t.TourId == tourId);
             ViewBag.Booking = booking;
-
+            ViewBag.Name = name;
+            ViewBag.Email = email;
 
             return View();
         }
@@ -445,7 +451,7 @@ namespace HKQTravelling.Controllers
         {
             int pageSize = 100;
             int pageNumber = (page ?? 1);
-            IPagedList<Tours> tours= _db.tours.OrderByDescending(t => t.Price).ToPagedList(pageNumber, pageSize);
+            IPagedList<Tours> tours = _db.tours.OrderByDescending(t => t.Price).ToPagedList(pageNumber, pageSize);
             var tourImages = _db.tourImages.ToList();
 
             var tourImageUrls = new List<string>();
