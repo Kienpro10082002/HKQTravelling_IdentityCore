@@ -15,68 +15,31 @@
     }
 }
 
-<style>
-    .sidebar {
-        position: relative;
-            top: 0;
-            left: 0;
-            width: 250px;
-            background-color: #1D8348;
-    }
-    .sidebar a {
-            padding: 10px 15px;
-            display: block;
-            color: #000000;
-        }
-        /* Hover effect for links in the sidebar */
-        .sidebar a:hover {
-            background-color: #495057;
-            text-decoration: none;
-        }
-        /* Content wrapper */
-        .content-wrapper {
-            margin-left: 250px; /* Adjust this value based on sidebar width */
-            padding: 15px;
-        }
-</style>
-
 @if (User.Identity.IsAuthenticated)
 {
     var user = await UserManager.GetUserAsync(User);
-    if (await UserManager.IsInRoleAsync(user, "Administrator"))
+    if (await UserManager.IsInRoleAsync(user, "Administrator")
+        || await UserManager.IsInRoleAsync(user, "Editor"))
     {
-        @* <!-- Sidebar for Administrator --> *@
-        <div class="sidebar col-md-3">
-            <nav class="nav flex-column">
-                @* <!-- Other sidebar items --> *@
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
-                    <div class="dropdown-menu border-0 rounded-0 m-0">
-                        @foreach (var menuItem in GetAdminMenuItems()) //Replace GetAdminMenuItems() with your logic to retrieve menu items
-                        {
-                            <a href="@menuItem.Url" class="dropdown-item">@menuItem.Label</a>
-                        }
-                    </div>
-                </div>
-            </nav>
+        <div class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
+            <div class="dropdown-menu border-0 rounded-0 m-0">
+                @foreach (var menuItem in GetAdminMenuItems()) //Replace GetAdminMenuItems() with your logic to retrieve menu items
+                {
+                    <a href="@menuItem.Url" class="dropdown-item">@menuItem.Label</a>
+                }
+            </div>
         </div>
     }
     else
     {
-        @* <!-- Sidebar for authenticated users who are not administrators --> *@
-        <div class="sidebar" style="display: none;">
-            @* <!-- You can customize this message for non-admin users --> *@
-            <p>You do not have access to this sidebar.</p>
-        </div>
+
+        <div class="nav-item dropdown" style="display: none;"></div>
     }
 }
 else
 {
-    @* <!-- Sidebar for guests or unauthenticated users --> *@
-    <div class="sidebar" style="display: none;">
-        @* <!-- You can customize this message for guests --> *@
-        <p>You are not logged in.</p>
-    </div>
+    <div class="nav-item dropdown" style="display: none;"></div>
 }
 
 @functions {
@@ -90,7 +53,9 @@ else
             new MenuItem { Label = "Quản lý role (vai trò)", Url = Url.Action("Index", "Role", new { Area = "Identity" }) },
             new MenuItem { Label = "Quản lý thành viên", Url = Url.Action("Index", "User", new { Area = "Identity" }) },
             new MenuItem { Label = "Quản lý chuyên mục", Url = Url.Action("Index", "Category", new { Area = "Blog" }) },
-            new MenuItem { Label = "Quản lý thư mục (files)", Url = Url.Action("Index", "FileManager", new { Area = "Files" }) }
+            new MenuItem { Label = "Quản lý thư mục (files)", Url = Url.Action("Index", "FileManager", new { Area = "Files" }) },
+            new MenuItem { Label = "Quản lý điểm đi", Url = Url.Action("Index", "StartLocationsAdministrator", new { Area = "Tour" }) },
+            new MenuItem { Label = "Quản lý thư đến", Url = Url.Action("Index", "EndLocationsAdministrator", new { Area = "Tour" }) }
         };
 
         return adminMenu;
