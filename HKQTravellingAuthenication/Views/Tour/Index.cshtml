@@ -83,62 +83,13 @@
 
                     @foreach (var tour in Model)
                     {
-                        @* <div class="list-tour__item tour-item">
-
-                            <div class="list-tour__item-detail">
-                                <div class="list-tour__img">
-                                    @if (i < ViewBag.TourImages.Count && ViewBag.TourImages[i] != null)
-                                    {
-                                        <a asp-area="" asp-controller="Tour" asp-action="DetailTour" asp-route-id="@tour.TourId"><img src="~/User/img/Tour/@ViewBag.TourImages[i]" alt="" style="width: 100%; height: 135px;"></a>
-                                    }
-                                    else
-                                    {
-                                        <a style="float: right;" asp-area="" asp-controller="Tour" asp-action="DetailTour" asp-route-id="@tour.TourId"><img src="~/User/img/Tour/0004822_tour-chua-linh-ung-son-tra-ngu-hanh-son-hoi-an.jpg" alt="" style="width: 100%; height: 135px; margin-bottom: 10px"></a>
-                                    }
-                                    @{
-                                        i++;
-                                    }
-                                </div>
-                                <div class="list-tour__content">
-                                    <div class="list-tour__title">
-                                        <h4>
-                                            @tour.TourName
-                                        </h4>
-                                        <span class="list-tour__time">
-
-                                            (<small class="flex-fill text-center border-end py-2"><i class="fa fa-calendar-alt text-primary me-2"></i>@(tour.StartDate.Value)</small>
-                                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-calendar-alt text-primary me-2"></i>@(tour.EndDate)</small>)
-                                        </span>
-                                    </div>
-                                    <div class="list-tour__detail">
-                                        <div class="list-tour__left">
-                                            <div class="list-tour__date">
-                                                <i class="fas fa-calendar-alt"></i> @tour.StartDate.Value.Year
-                                            </div>
-                                        </div>
-                                        <div class="list-tour__right">
-                                            <div class="list-tour__price">
-                                                <p class="price-title">giá từ</p>
-                                                <span class="price">@String.Format("{0:0,0}", tour.Price) VND</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="d-flex justify-content-end m-2 btn_detail">
-                                    <a class="text-dark btn btn--placeholder" style="float: right;" asp-area="" asp-controller="Tour" asp-action="DetailTour" asp-route-id="@tour.TourId">Chi Tiết</a>
-                                </div>
-                            </div>
-                        </div> *@
+                        
 
                         <div class="card mb-3 p-md-3 tour-item">
                             <div class="row g-0">
                                 <div class="col-md-3 col-12">
                                     <div class="image">
                                         <a asp-area="" asp-controller="Tour" asp-action="DetailTour" asp-route-id="@tour.TourId"><img src="~/User/img/Tour/@ViewBag.TourImages[i]" alt="" style="width: 164%; height: 286px;"></a>
-
-                                        @* <a asp-controller="Tour" asp-action="DetailTour" asp-route-id="@tour.TourId" style="width: 100%; height: 135px;">
-                                            <img src="~/User/img/Tour/@ViewBag.TourImages[i]" alt="">
-                                        </a> *@
                                         @{
                                             i++;
                                         }
@@ -178,18 +129,15 @@
                                                 <span class="price">@String.Format("{0:0,0}", tour.Price) VND</span>
                                             </h5>
                                         </div>
-                                        
                                     </div>
                                     <div class="d-flex justify-content-end m-2 btn_detail">
                                         <a class="text-dark btn btn--placeholder" style="float: right;" asp-area="" asp-controller="Tour" asp-action="DetailTour" asp-route-id="@tour.TourId">Chi Tiết</a>
                                     </div>
                                 </div>
-                                
                             </div>
                         </div>
                     }
                 </div>
-
             </div>
             <div id="toursContainer" class="hidden">
                 @await Html.PartialAsync("_ToursPricePartial", Model)
@@ -200,7 +148,7 @@
         </div>
     </div>
 </div>
-<!-- Index Tour Emd-->
+<!-- Index Tour End-->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
