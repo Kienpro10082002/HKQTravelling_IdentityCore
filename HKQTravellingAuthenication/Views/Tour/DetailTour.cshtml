@@ -23,7 +23,6 @@
     }
 
     .child-booking {
-        margin-top: 8px;
         flex: 0 0 calc(25% - 10px); /* Định kích thước cho mỗi bảng (25% của container) */
         margin-bottom: 10px;
         box-sizing: border-box;
@@ -151,20 +150,20 @@
         for (var i = 1; i <= soLuongTreEm; i++) {
             var bang = document.createElement("table");
             bang.innerHTML = `
-                                                  <tbody class="child-booking">
-                                                      <td colspan="3">
-                                                        <div class="form-group">
-                                                          <label for="age${i}">Trẻ ${i}: </label>
-                                                          <select class="form-control" id="age${i}">
-                                                            <option value="0-2">0-2</option>
-                                                            <option value="3-11">3-11</option>
-                                                            <option value="12-18">12-18</option>
-                                                          </select>
-                                                        </div>
-                                                      </td>
-                                                    </tr>
-                                                  </tbody>
-                                                `;
+                                                      <tbody class="child-booking">
+                                                          <td colspan="3">
+                                                            <div class="form-group">
+                                                              <label for="age${i}">Trẻ ${i}: </label>
+                                                              <select class="form-control" id="age${i}">
+                                                                <option value="0-2">0-2</option>
+                                                                <option value="3-11">3-11</option>
+                                                                <option value="12-18">12-18</option>
+                                                              </select>
+                                                            </div>
+                                                          </td>
+                                                        </tr>
+                                                      </tbody>
+                                                    `;
             horizontalContainer.appendChild(bang);
             // Thay đổi dòng này để thêm bảng vào phần tử mong muốn
             //document.querySelector(".treme").appendChild(bang);
