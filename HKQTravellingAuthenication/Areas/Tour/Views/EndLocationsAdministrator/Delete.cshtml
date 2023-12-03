@@ -26,9 +26,9 @@
         </dd>
     </dl>
     
-    <form asp-action="Delete" asp-controller="StartLocationsAdministrator" asp-area="Admin" method="post">
+    <form asp-action="Delete" asp-controller="EndLocationsAdministrator" asp-area="Tour" method="post">
         <input type="hidden" asp-for="EndLocationId" />
         <input type="submit" value="Delete" class="btn btn-default" /> |
-        <a href="@Url.Action("Index", "StartLocationsAdministrator", new { area = "Tour" })">Back to List</a>
+        <a href="@Url.Action("Index", "EndLocationsAdministrator", new { area = "Tour" })">Back to List</a>
     </form>
 </div>

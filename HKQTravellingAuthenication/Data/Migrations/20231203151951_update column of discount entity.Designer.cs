@@ -4,6 +4,7 @@ using HKQTravellingAuthenication.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HKQTravellingAuthenication.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231203151951_update column of discount entity")]
+    partial class updatecolumnofdiscountentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -221,7 +224,7 @@ namespace HKQTravellingAuthenication.Data.Migrations
 
                     b.Property<DateTime?>("DiscountDateEnd")
                         .HasColumnType("datetime2")
-                        .HasColumnName("DIS_DATE_END");
+                        .HasColumnName("DIS_DATE_End");
 
                     b.Property<DateTime?>("DiscountDateStart")
                         .HasColumnType("datetime2")

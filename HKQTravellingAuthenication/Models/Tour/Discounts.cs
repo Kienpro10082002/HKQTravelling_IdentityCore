@@ -16,8 +16,11 @@ namespace HKQTravellingAuthenication.Models.Tour
         [MaxLength(1000)]
         public string DiscountName { get; set; }
 
-        [Column("DIS_DATE")]
-        public DateTime? DiscountDate { get; set; }
+        [Column("DIS_DATE_START")]
+        public DateTime? DiscountDateStart { get; set; }
+
+        [Column("DIS_DATE_END")]
+        public DateTime? DiscountDateEnd { get; set; }
 
         [Column("STATUS")]
         public int? Status { get; set; }
