@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 namespace HKQTravellingAuthenication.Areas.Tour.Controllers
 {
     [Area("Tour")]
-    [Route("end-location")]
+    [Route("end-location-manager")]
     public class EndLocationsAdministratorController : Controller
     {
         private readonly ApplicationDbContext _context;
