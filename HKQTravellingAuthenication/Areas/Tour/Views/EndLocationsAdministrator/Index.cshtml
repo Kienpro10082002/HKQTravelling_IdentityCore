@@ -33,8 +33,8 @@
                     @Html.DisplayFor(modelItem => item.EndLocationName)
                 </td>
                 <td>
-                    <a href="@Url.Action("Edit", "EndLocationsAdministrator", new { area = "Admin", id = item.EndLocationId })">Edit</a> |
-                    <a href="@Url.Action("Delete", "EndLocationsAdministrator", new { area = "Admin", id = item.EndLocationId })">Delete</a>
+                    <a href="@Url.Action("Edit", "EndLocationsAdministrator", new { area = "Tour", id = item.EndLocationId })">Edit</a> |
+                    <a href="@Url.Action("Delete", "EndLocationsAdministrator", new { area = "Tour", id = item.EndLocationId })">Delete</a>
                 </td>
             </tr>
         }

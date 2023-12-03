@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 namespace HKQTravellingAuthenication.Areas.Tour.Controllers
 {
     [Area("Tour")]
-    [Route("start-location")]
+    [Route("start-location-manager")]
     [Authorize(Roles = RoleName.Administrator + "," + RoleName.Editor)]
     public class StartLocationsAdministratorController : Controller
     {
