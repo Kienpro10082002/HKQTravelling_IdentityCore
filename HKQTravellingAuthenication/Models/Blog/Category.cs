@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Google.Protobuf.Collections;
 
 namespace HKQTravellingAuthenication.Models.Blog {
   [Table("Category")]
@@ -42,5 +43,29 @@ namespace HKQTravellingAuthenication.Models.Blog {
 
       public Category? ParentCategory { set; get; }
 
+
+
+    //tạo ra phương thức này để truyền tới Index của PostViewController để lấy ra các category con của danh mục
+      public void ChildCategoryIDs(ICollection<Category> childcates, List<int> list)
+      {
+        if(childcates == null)
+        childcates = this.CategoryChildren;
+        foreach(Category category in childcates)
+        {
+          list.Add(category.Id);
+          ChildCategoryIDs(category.CategoryChildren, list);
+        }
+      }
+      public List<Category> ListParents(){
+        List <Category> li = new List<Category>();
+        var parent = this.ParentCategory;
+        //dùng while để duyệt ngược lại con(2)->con(1, cha của con 2)-> cha 
+        while(parent != null){
+          li.Add(parent);
+          parent = parent.ParentCategory;
+        }
+        li.Reverse();
+        return li;
+      }
   }
 }

@@ -74,16 +74,16 @@
 }
 
 
-@* @{
+ @{
     var summernote = new HKQTravellingAuthenication.Models.Summernote("#Content");
 }
 <partial name="_Summernote" model="summernote" />
 
-@{
+@* @{
     _AdminSidebarService.SetActive("Post", "Create", "Blog");
 }
 
 @section Sidebar
 {
     @Html.Raw(_AdminSidebarService.renderHtml())
-} *@
+}  *@

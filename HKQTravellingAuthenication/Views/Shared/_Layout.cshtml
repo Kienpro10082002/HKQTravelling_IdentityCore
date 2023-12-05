@@ -1,10 +1,17 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
+
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>TRAVELER - Free Travel Website Template</title>
+    @* javascrip *@
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Favicon -->
     <link href="~/User/img/favicon.ico" rel="icon">
@@ -89,6 +96,7 @@
                         <a href="@Url.Action("SendContact", "Contact", new { Area = "Contact" })" class="nav-item nav-link">Contact</a>
                         @await Html.PartialAsync("_LoginPartial")
                     </div>
+
                 </div>
             </nav>
         </div>
@@ -100,6 +108,7 @@
         </main>
     </div>
 </div>
+
 
     <!-- Footer Start -->
     <div class="container-fluid bg-dark text-white-50 py-5 px-sm-3 px-lg-5" style="margin-top: 90px;">
@@ -212,6 +221,7 @@
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
     </script>
+
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
