@@ -22,7 +22,7 @@
         || await UserManager.IsInRoleAsync(user, "Editor"))
     {
         <div class="nav-item dropdown">
-            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
+            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Quản lý</a>
             <div class="dropdown-menu border-0 rounded-0 m-0">
                 @foreach (var menuItem in GetAdminMenuItems()) //Replace GetAdminMenuItems() with your logic to retrieve menu items
                 {
@@ -53,9 +53,11 @@ else
             new MenuItem { Label = "Quản lý role (vai trò)", Url = Url.Action("Index", "Role", new { Area = "Identity" }) },
             new MenuItem { Label = "Quản lý thành viên", Url = Url.Action("Index", "User", new { Area = "Identity" }) },
             new MenuItem { Label = "Quản lý chuyên mục", Url = Url.Action("Index", "Category", new { Area = "Blog" }) },
+            new MenuItem { Label = "Quản lý bài viết Blog", Url = Url.Action("Index", "Post", new { Area = "Blog" }) },
             new MenuItem { Label = "Quản lý thư mục (files)", Url = Url.Action("Index", "FileManager", new { Area = "Files" }) },
             new MenuItem { Label = "Quản lý điểm đi", Url = Url.Action("Index", "StartLocationsAdministrator", new { Area = "Tour" }) },
-            new MenuItem { Label = "Quản lý thư đến", Url = Url.Action("Index", "EndLocationsAdministrator", new { Area = "Tour" }) }
+            new MenuItem { Label = "Quản lý thư đến", Url = Url.Action("Index", "EndLocationsAdministrator", new { Area = "Tour" }) },
+            new MenuItem { Label = "Quản lý giảm giá tour", Url = Url.Action("Index", "DiscountsAdministrator", new { Area = "Tour" }) }
         };
 
         return adminMenu;
