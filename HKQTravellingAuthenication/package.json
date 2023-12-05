@@ -19,7 +19,7 @@
     "gulp-sass": "^5.1.0",
     "gulp-uglify": "^3.0.2",
     "node-sass": "^9.0.0",
-    "postcss": "^8.4.31",
+    "postcss": "^8.4.32",
     "rimraf": "^5.0.5",
     "sass": "^1.69.5"
   },

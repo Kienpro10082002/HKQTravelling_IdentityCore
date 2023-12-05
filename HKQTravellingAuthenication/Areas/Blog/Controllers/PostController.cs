@@ -41,7 +41,7 @@ namespace HKQTravellingAuthenication.Areas.Blog.Controllers
             var posts = _context.Post
                         .Include(p => p.Author)
                         .OrderByDescending(p => p.DateUpdated);
-
+            //đoạn code này dùng để phân trang 
             int totalPosts = await posts.CountAsync();
             if (pagesize <= 0) pagesize = 10;
             int countPages = (int)Math.Ceiling((double)totalPosts / pagesize);
@@ -63,13 +63,13 @@ namespace HKQTravellingAuthenication.Areas.Blog.Controllers
             ViewBag.totalPosts = totalPosts;
 
             ViewBag.postIndex = (currentPage - 1) * pagesize;
-
+             //lấy ra số lượng bài của 1 trang
             var postsInPage = await posts.Skip((currentPage - 1) * pagesize)
                              .Take(pagesize)
                              .Include(p => p.PostCategories)
                              .ThenInclude(pc => pc.Category)
                              .ToListAsync();
-
+            //
             return View(postsInPage);
         }
 

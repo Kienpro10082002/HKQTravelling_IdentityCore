@@ -8,7 +8,7 @@ gulp.task('default', function () {
         .pipe(sass().on('error', sass.logError))
         // .pipe(cssmin())
         .pipe(rename({
-            // suffix: ".min"
+            // suffix: ".mi n"
         }))
         .pipe(gulp.dest('wwwroot/css/'));
     });
