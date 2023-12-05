@@ -85,12 +85,12 @@ namespace HKQTravellingAuthenication.Areas.Database.Controllers
                 await _userManager.CreateAsync(useradmin, "admin123");
                 await _userManager.AddToRoleAsync(useradmin, RoleName.Administrator);
             }
-            SeedPostCategory();//
             StatusMessage = "Vừa Seed DB";
             return RedirectToAction("Index");
         }
-       //tao ra 1 số bài viết để test 
-        private void SeedPostCategory()
+        //tao ra 1 số bài viết để test 
+        //https://localhost:5126/database-manage/SeedPostCategory
+        public async Task<IActionResult> SeedPostCategoryAsync()
         {
              _dbcontext.Categories.RemoveRange(_dbcontext.Categories.Where(c => c.Content.Contains("[fakeData]")));
             // _dbcontext.Posts.RemoveRange(_dbcontext.Posts.Where(p => p.Content.Contains("[fakeData]")));
@@ -155,6 +155,8 @@ namespace HKQTravellingAuthenication.Areas.Database.Controllers
             _dbcontext.AddRange(post_categories); 
             // END POST
             _dbcontext.SaveChanges();
+            StatusMessage = "Vừa tạo ra fake data";
+            return RedirectToAction("Index");
         }
     }
 
