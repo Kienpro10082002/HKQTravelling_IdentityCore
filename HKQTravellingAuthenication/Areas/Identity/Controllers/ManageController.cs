@@ -67,6 +67,11 @@ namespace HKQTravellingAuthenication.Areas.Identity.Controllers
                     UserName = user.UserName,
                     UserEmail = user.Email,
                     PhoneNumber = user.PhoneNumber,
+                    FullName = user.FullName,
+                    NewCitizenIdentification = user.NewCitizenIdentification,
+                    OldCitizenIdentification = user.OldCitizenIdentification,
+                    Gender = user.Gender,
+                    DateOfInssuance = user.DateOfInssuance,
                 }
             };
             return View(model);
@@ -382,6 +387,11 @@ namespace HKQTravellingAuthenication.Areas.Identity.Controllers
                 UserName = user.UserName,
                 UserEmail = user.Email,
                 PhoneNumber = user.PhoneNumber,
+                FullName = user.FullName,
+                NewCitizenIdentification = user.NewCitizenIdentification,
+                OldCitizenIdentification = user.OldCitizenIdentification,
+                Gender = user.Gender,
+                DateOfInssuance = user.DateOfInssuance,
             };
             return View(model);
         }
@@ -392,6 +402,11 @@ namespace HKQTravellingAuthenication.Areas.Identity.Controllers
 
             user.HomeAdress = model.HomeAdress;
             user.BirthDate = model.BirthDate;
+            user.FullName = model.FullName;
+            user.NewCitizenIdentification = model.NewCitizenIdentification;
+            user.OldCitizenIdentification = model.OldCitizenIdentification;
+            user.Gender = model.Gender;
+            user.DateOfInssuance = model.DateOfInssuance;
             await _userManager.UpdateAsync(user);
 
             await _signInManager.RefreshSignInAsync(user);

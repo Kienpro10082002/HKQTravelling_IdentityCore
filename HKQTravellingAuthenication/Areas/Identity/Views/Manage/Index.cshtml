@@ -28,6 +28,14 @@
                     @Html.DisplayFor(m => Model.profile.UserEmail)
                  </dd>
             </dl>
+            <dl class="row">
+                 <dt class = "col-sm-6">
+                    @Html.DisplayNameFor(m => Model.profile.FullName)
+                 </dt>   
+                 <dd class = "col-sm-6">
+                    @Html.DisplayFor(m => Model.profile.FullName)
+                 </dd>
+            </dl>
               <dl class="row">
                  <dt class = "col-sm-6">
                     @Html.DisplayNameFor(m => Model.profile.PhoneNumber)
@@ -51,7 +59,44 @@
                  <dd class = "col-sm-6">
                     @Html.DisplayFor(m => Model.profile.BirthDate)
                  </dd>
-            </dl>      
+
+            </dl>     
+            <dl class="row">
+                <dt class="col-sm-6">
+                    @Html.DisplayNameFor(m => Model.profile.NewCitizenIdentification)
+                </dt>
+                <dd class="col-sm-6">
+                    @Html.DisplayFor(m => Model.profile.NewCitizenIdentification)
+                </dd>
+
+            </dl>
+            <dl class="row">
+                <dt class="col-sm-6">
+                    @Html.DisplayNameFor(m => Model.profile.OldCitizenIdentification)
+                </dt>
+                <dd class="col-sm-6">
+                    @Html.DisplayFor(m => Model.profile.OldCitizenIdentification)
+                </dd>
+
+            </dl>
+            <dl class="row">
+                <dt class="col-sm-6">
+                    @Html.DisplayNameFor(m => Model.profile.Gender)
+                </dt>
+                <dd class="col-sm-6">
+                    @Html.DisplayFor(m => Model.profile.Gender)
+                </dd>
+
+            </dl>
+            <dl class="row">
+                <dt class="col-sm-6">
+                    @Html.DisplayNameFor(m => Model.profile.DateOfInssuance)
+                </dt>
+                <dd class="col-sm-6">
+                    @Html.DisplayFor(m => Model.profile.DateOfInssuance)
+                </dd>
+
+            </dl>
             <a asp-action="EditProfile" class="btn btn-primary btn-sm">Sửa</a>
  
         </dd>

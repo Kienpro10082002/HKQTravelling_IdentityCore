@@ -1,0 +1,42 @@
+﻿@model IEnumerable<HKQTravellingAuthenication.Models.Tour.EndLocations>
+
+@{
+    ViewData["Title"] = "Quản lý điểm đến";
+    Layout = "_Layout";
+}
+
+@* @section Breadcrumb {
+    @{
+        ViewData["BreadcrumbTitle"] = "Index for end location";
+    }
+} *@
+
+<h2>Index</h2>
+
+<p>
+    <a href="@Url.Action("Create", "EndLocationsAdministrator", new { area = "Tour" })">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EndLocationName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndLocationName)
+                </td>
+                <td>
+                    <a href="@Url.Action("Edit", "EndLocationsAdministrator", new { area = "Tour", id = item.EndLocationId })">Edit</a> |
+                    <a href="@Url.Action("Delete", "EndLocationsAdministrator", new { area = "Tour", id = item.EndLocationId })">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

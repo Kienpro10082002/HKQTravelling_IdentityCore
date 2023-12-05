@@ -66,7 +66,6 @@ namespace HKQTravellingAuthenication.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostId"));
 
                     b.Property<string>("AuthorId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Content")
@@ -220,9 +219,13 @@ namespace HKQTravellingAuthenication.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("DiscountId"));
 
-                    b.Property<DateTime?>("DiscountDate")
+                    b.Property<DateTime?>("DiscountDateEnd")
                         .HasColumnType("datetime2")
-                        .HasColumnName("DIS_DATE");
+                        .HasColumnName("DIS_DATE_END");
+
+                    b.Property<DateTime?>("DiscountDateStart")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("DIS_DATE_START");
 
                     b.Property<string>("DiscountName")
                         .IsRequired()
@@ -296,41 +299,6 @@ namespace HKQTravellingAuthenication.Data.Migrations
                     b.HasIndex("BookingId");
 
                     b.ToTable("payments");
-                });
-
-            modelBuilder.Entity("HKQTravellingAuthenication.Models.Tour.Rules", b =>
-                {
-                    b.Property<long>("TourId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("CancelChange")
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)")
-                        .HasColumnName("CANCLE_CHANGE");
-
-                    b.Property<string>("Note")
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)")
-                        .HasColumnName("NOTE");
-
-                    b.Property<string>("PriceInclude")
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)")
-                        .HasColumnName("PRICE_INCLUDE");
-
-                    b.Property<string>("PriceNotInclude")
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)")
-                        .HasColumnName("PRICE_NOT_INCLUDE");
-
-                    b.Property<string>("Surcharge")
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)")
-                        .HasColumnName("SURCHARGE");
-
-                    b.HasKey("TourId");
-
-                    b.ToTable("rules");
                 });
 
             modelBuilder.Entity("HKQTravellingAuthenication.Models.Tour.StartLocations", b =>
@@ -424,6 +392,31 @@ namespace HKQTravellingAuthenication.Data.Migrations
                     b.ToTable("tourImages");
                 });
 
+            modelBuilder.Entity("HKQTravellingAuthenication.Models.Tour.TourTypes", b =>
+                {
+                    b.Property<long>("typeID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("TYPE_ID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("typeID"));
+
+                    b.Property<long?>("TourId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("TOUR_ID");
+
+                    b.Property<string>("typeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("TYPE_NAME");
+
+                    b.HasKey("typeID");
+
+                    b.HasIndex("TourId");
+
+                    b.ToTable("tourTypes");
+                });
+
             modelBuilder.Entity("HKQTravellingAuthenication.Models.Tour.Tours", b =>
                 {
                     b.Property<long>("TourId")
@@ -432,6 +425,11 @@ namespace HKQTravellingAuthenication.Data.Migrations
                         .HasColumnName("TOUR_ID");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("TourId"));
+
+                    b.Property<string>("CancelChange")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)")
+                        .HasColumnName("CANCLE_CHANGE");
 
                     b.Property<DateTime?>("CreationDate")
                         .ValueGeneratedOnAddOrUpdate()
@@ -450,9 +448,24 @@ namespace HKQTravellingAuthenication.Data.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("END_LOCATION_ID");
 
+                    b.Property<string>("Note")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)")
+                        .HasColumnName("NOTE");
+
                     b.Property<int?>("Price")
                         .HasColumnType("int")
                         .HasColumnName("PRICE");
+
+                    b.Property<string>("PriceInclude")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)")
+                        .HasColumnName("PRICE_INCLUDE");
+
+                    b.Property<string>("PriceNotInclude")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)")
+                        .HasColumnName("PRICE_NOT_INCLUDE");
 
                     b.Property<int?>("Remaining")
                         .HasColumnType("int")
@@ -469,6 +482,11 @@ namespace HKQTravellingAuthenication.Data.Migrations
                     b.Property<int?>("Status")
                         .HasColumnType("int")
                         .HasColumnName("STATUS");
+
+                    b.Property<string>("Surcharge")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)")
+                        .HasColumnName("SURCHARGE");
 
                     b.Property<string>("TourName")
                         .IsRequired()
@@ -705,10 +723,36 @@ namespace HKQTravellingAuthenication.Data.Migrations
                     b.Property<DateTime?>("BirthDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime?>("DateOfInssuance")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FullName")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar");
+
+                    b.Property<string>("Gender")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar");
+
                     b.Property<string>("HomeAdress")
-                        .IsRequired()
                         .HasMaxLength(400)
                         .HasColumnType("nvarchar");
+
+                    b.Property<string>("NewCitizenIdentification")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar");
+
+                    b.Property<string>("OldCitizenIdentification")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar");
+
+                    b.HasIndex("NewCitizenIdentification")
+                        .IsUnique()
+                        .HasFilter("[NewCitizenIdentification] IS NOT NULL");
+
+                    b.HasIndex("OldCitizenIdentification")
+                        .IsUnique()
+                        .HasFilter("[OldCitizenIdentification] IS NOT NULL");
 
                     b.ToTable("Users");
 
@@ -728,9 +772,7 @@ namespace HKQTravellingAuthenication.Data.Migrations
                 {
                     b.HasOne("HKQTravellingAuthenication.Models.AppUser", "Author")
                         .WithMany()
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AuthorId");
 
                     b.Navigation("Author");
                 });
@@ -780,17 +822,6 @@ namespace HKQTravellingAuthenication.Data.Migrations
                     b.Navigation("bookings");
                 });
 
-            modelBuilder.Entity("HKQTravellingAuthenication.Models.Tour.Rules", b =>
-                {
-                    b.HasOne("HKQTravellingAuthenication.Models.Tour.Tours", "tours")
-                        .WithOne()
-                        .HasForeignKey("HKQTravellingAuthenication.Models.Tour.Rules", "TourId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("tours");
-                });
-
             modelBuilder.Entity("HKQTravellingAuthenication.Models.Tour.TourDays", b =>
                 {
                     b.HasOne("HKQTravellingAuthenication.Models.Tour.Tours", "tours")
@@ -801,6 +832,15 @@ namespace HKQTravellingAuthenication.Data.Migrations
                 });
 
             modelBuilder.Entity("HKQTravellingAuthenication.Models.Tour.TourImages", b =>
+                {
+                    b.HasOne("HKQTravellingAuthenication.Models.Tour.Tours", "tours")
+                        .WithMany()
+                        .HasForeignKey("TourId");
+
+                    b.Navigation("tours");
+                });
+
+            modelBuilder.Entity("HKQTravellingAuthenication.Models.Tour.TourTypes", b =>
                 {
                     b.HasOne("HKQTravellingAuthenication.Models.Tour.Tours", "tours")
                         .WithMany()

@@ -1,0 +1,69 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using HKQTravellingAuthenication.Models
+@using Microsoft.AspNetCore.Mvc.ViewEngines
+
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+@inject ICompositeViewEngine Engine
+
+@{
+    var userName = UserManager.GetUserName(User);
+    var displayedName = "";
+    if (userName != null)
+    {
+        displayedName = userName.Length > 7 ? $"{userName.Substring(0, 7)}..." : userName;
+    }
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    var user = await UserManager.GetUserAsync(User);
+    if (await UserManager.IsInRoleAsync(user, "Administrator")
+        || await UserManager.IsInRoleAsync(user, "Editor"))
+    {
+        <div class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
+            <div class="dropdown-menu border-0 rounded-0 m-0">
+                @foreach (var menuItem in GetAdminMenuItems()) //Replace GetAdminMenuItems() with your logic to retrieve menu items
+                {
+                    <a href="@menuItem.Url" class="dropdown-item">@menuItem.Label</a>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+
+        <div class="nav-item dropdown" style="display: none;"></div>
+    }
+}
+else
+{
+    <div class="nav-item dropdown" style="display: none;"></div>
+}
+
+@functions {
+    public List<MenuItem> GetAdminMenuItems()
+    {
+        // Replace this with your logic to retrieve menu items for administrators
+        List<MenuItem> adminMenu = new List<MenuItem>
+        {
+            new MenuItem { Label = "Database", Url = Url.Action("Index", "DbManage", new { Area = "Database" }) },
+            new MenuItem { Label = "Quản lý Liên hệ", Url = Url.Action("Index", "Contact", new { Area = "Contact" }) },
+            new MenuItem { Label = "Quản lý role (vai trò)", Url = Url.Action("Index", "Role", new { Area = "Identity" }) },
+            new MenuItem { Label = "Quản lý thành viên", Url = Url.Action("Index", "User", new { Area = "Identity" }) },
+            new MenuItem { Label = "Quản lý chuyên mục", Url = Url.Action("Index", "Category", new { Area = "Blog" }) },
+            new MenuItem { Label = "Quản lý thư mục (files)", Url = Url.Action("Index", "FileManager", new { Area = "Files" }) },
+            new MenuItem { Label = "Quản lý điểm đi", Url = Url.Action("Index", "StartLocationsAdministrator", new { Area = "Tour" }) },
+            new MenuItem { Label = "Quản lý thư đến", Url = Url.Action("Index", "EndLocationsAdministrator", new { Area = "Tour" }) }
+        };
+
+        return adminMenu;
+    }
+
+    public class MenuItem
+    {
+        public string Label { get; set; }
+        public string Url { get; set; }
+    }
+}
