@@ -81,6 +81,11 @@
                         <a href="@Url.Action("Index", "Home")" class="nav-item nav-link active">Home</a>
                         <a href="@Url.Action("About", "Home")" class="nav-item nav-link">About</a>
                         <a href="@Url.Action("Index", "Tour")" " class="nav-item nav-link">Tour Packages</a>
+                        <a href="@Url.Action("Index", "Post")" class="nav-item nav-link">Tin tức</a>
+                      @*   <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Blog" asp-controller="ViewPost"
+                               asp-action="Index">Tin tức</a>
+                        </li> *
                         @await Html.PartialAsync("_AdminManagerPartial")
                         <a href="@Url.Action("SendContact", "Contact", new { Area = "Contact" })" class="nav-item nav-link">Contact</a>
                         @await Html.PartialAsync("_LoginPartial")
