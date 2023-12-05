@@ -1,0 +1,75 @@
+﻿@model HKQTravellingAuthenication.Models.Tour.Discounts
+
+@{
+    ViewData["Title"] = "Quản lý chương trình giảm giá";
+    Layout = "_Layout";
+}
+
+@* @section Breadcrumb {
+    @{
+        ViewData["BreadcrumbTitle"] = "Create for start location";
+    }
+} *@
+
+<h2>Create</h2>
+
+<h4>DiscountsAdministrator</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" asp-controller="DiscountsAdministrator" asp-area="Tour" method="post">
+            <div class="form-group">
+                <label class="control-label" for="DiscountName">Tên thẻ giảm giá</label>
+                <input class="form-control" type="text" id="DiscountName" name="DiscountName" />
+                <p class="text-danger">@ViewData["validation_message_discountName"]</p>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="DiscountPercentage">Phần trăm giảm</label><br />
+                <span class="text-info">Lưu ý; phép cộng là "+", phép trừ là "-", phép nhân là "*" và phép chia là "/".</span>
+                <input class="form-control" type="text" id="DiscountPercentage" name="DiscountPercentage" placeholder="Nhập phép tính sau đó nhấn phím ENTER"/>
+                <p class="text-danger">@ViewData["validation_message_discountPercentage"]</p>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="DiscountDateStart">Ngày bắt đầu</label>
+                <input class="form-control" type="datetime" id="DiscountDateStart" name="DiscountDateStart" />
+                <p class="text-danger">@ViewData["validation_message_discountDateStart"]</p>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="DiscountDateEnd">Ngày kết thúc</label>
+                <input class="form-control" type="datetime" id="DiscountDateEnd" name="DiscountDateEnd" />
+                <p class="text-danger">@ViewData["validation_message_discountDateEnd"]</p>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a href="@Url.Action("Index", "DiscountsAdministrator", new { area = "Tour" })">Back to List</a>
+</div>
+
+<script>
+    function calculateDiscount() {
+        var discountPercentageField = document.getElementById("DiscountPercentage");
+        var discountExpression = discountPercentageField.value;
+
+        try {
+            var result = eval(discountExpression);
+            if (!isNaN(result)) {
+                discountPercentageField.value = result;
+            } else {
+                discountPercentageField.value = 'Kết quả không hợp lệ';
+            }
+        } catch (error) {
+            discountPercentageField.value = 'Lỗi';
+        }
+    }
+
+    document.querySelector('form').addEventListener('submit', function (event) {
+        event.preventDefault();
+        calculateDiscount();
+    });
+</script>
