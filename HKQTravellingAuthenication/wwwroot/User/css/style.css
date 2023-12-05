@@ -9559,7 +9559,7 @@ h6,
   .booking {
     position: relative;
     margin-top: -60px !important;
-    z-index: 2;
+    z-index: 1;
   }
 }
 
@@ -10074,4 +10074,3 @@ input {
     border-color: #3b5ba6;
     margin-top: 20px;
 }*/
-
