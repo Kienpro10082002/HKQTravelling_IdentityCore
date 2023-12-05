@@ -1,4 +1,5 @@
 ﻿using HKQTravellingAuthenication.Areas.Tour.Extension;
+using HKQTravellingAuthenication.Areas.Tour.Models;
 using HKQTravellingAuthenication.Data;
 using HKQTravellingAuthenication.Models.Tour;
 using Microsoft.AspNetCore.Authorization;
@@ -118,6 +119,20 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
             {
                 return NotFound();
             }
+
+            //var model = new DiscountAdministratorModelView()
+            //{
+            //    DiscountId = discounts.DiscountId,
+            //    DiscountName = discounts.DiscountName,
+            //    DiscountPercentage = discounts.DiscountPercentage,
+            //    DiscountDateStart = discounts.DiscountDateStart,
+            //    DiscountDateEnd = discounts.DiscountDateEnd,
+            //    Status = discounts.Status
+            //};
+
+            // Chuyển đổi kiểu DateTime? sang chuỗi theo định dạng mong muốn
+            ViewBag.DiscountDateStart = discounts.DiscountDateStart?.ToString("yyyy-MM-ddTHH:mm:ss");
+            ViewBag.DiscountDateEnd = discounts.DiscountDateEnd?.ToString("yyyy-MM-ddTHH:mm:ss");
             return View(discounts);
         }
 
@@ -201,7 +216,7 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
         // POST: Tour/discount-tour-manager/delete/5
         [HttpPost]
         [Route("delete/{id}")]
-        public async Task<IActionResult> Delete(long id)
+        public async Task<IActionResult> DeleteConfirmed(long id)
         {
             if (_context.discounts == null)
             {

@@ -1,42 +1,50 @@
-﻿@model HKQTravellingAuthenication.Models.Tour.Discounts
+﻿@* @model HKQTravellingAuthenication.Areas.Tour.Models.DiscountAdministratorModelView *@
+@model HKQTravellingAuthenication.Models.Tour.Discounts
 
 @{
-    ViewData["Title"] = "Tạo mới thẻ giảm giá";
+    ViewData["Title"] = "Cập nhật thẻ giảm giá";
     Layout = "_Layout";
 }
 
-<h2>Create</h2>
+<h2>Edit</h2>
 
-<h4>DiscountsAdministrator</h4>
+<h4>Discount</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create" asp-controller="DiscountsAdministrator" asp-area="Tour" method="post">
+        <form asp-action="Edit" asp-controller="DiscountsAdministrator" asp-area="Tour" method="post">
+            <input type="hidden" asp-for="DiscountId" />
             <div class="form-group">
-                <label class="control-label" for="DiscountName">Tên thẻ giảm giá</label>
-                <input class="form-control" type="text" id="DiscountName" name="DiscountName" />
+                <label asp-for="DiscountName" class="control-label"></label>
+                <input asp-for="DiscountName" class="form-control" name="DiscountName" value="@Model.DiscountName" />
                 <p class="text-danger">@ViewData["validation_message_discountName"]</p>
             </div>
             <div class="form-group">
-                <label class="control-label" for="DiscountPercentage">Phần trăm giảm</label><br />
+                <label asp-for="DiscountPercentage" class="control-label"></label>
                 <span class="text-info">Lưu ý; phép cộng là "+", phép trừ là "-", phép nhân là "*" và phép chia là "/".</span>
-                <input class="form-control" type="text" id="DiscountPercentage" name="DiscountPercentage" placeholder="Nhập phép tính và sau đó nhấn tính toán"/>
+                <input asp-for="DiscountPercentage" class="form-control" id="DiscountPercentage" name="DiscountPercentage" value="@Model.DiscountPercentage" />
                 <input class="btn btn-primary" type="button" value="Tính Toán" onclick="calculateDiscount()" />
                 <p class="text-danger">@ViewData["validation_message_discountPercentage"]</p>
             </div>
             <div class="form-group">
-                <label class="control-label" for="DiscountDateStart">Ngày bắt đầu</label>
-                <input class="form-control" type="datetime-local" id="DiscountDateStart" name="DiscountDateStart" />
-                <p class="text-danger">@ViewData["validation_message_discountDateStart"]</p>
-            </div>
-            <div class="form-group">
-                <label class="control-label" for="DiscountDateEnd">Ngày kết thúc</label>
-                <input class="form-control" type="datetime-local" id="DiscountDateEnd" name="DiscountDateEnd" />
-                <p class="text-danger">@ViewData["validation_message_discountDateEnd"]</p>
+                <label asp-for="DiscountDateStart">Discount Start Date:</label>
+                <input asp-for="DiscountDateStart" type="datetime-local" class="form-control" name="DiscountDateStart" value="@ViewBag.DiscountDateStart" />
+                <span asp-validation-for="DiscountDateStart" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <label asp-for="DiscountDateEnd">Discount End Date:</label>
+                <input asp-for="DiscountDateEnd" type="datetime-local" class="form-control" name="DiscountDateEnd" value="@ViewBag.DiscountDateEnd" />
+                <span asp-validation-for="DiscountDateEnd" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <input asp-for="Status" class="form-control" name="Status" value="@Model.Status" />
+                @* <p class="text-danger">@ViewData["validation_message_discountDateEnd"]</p> *@
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </form>
     </div>
@@ -71,3 +79,4 @@
         }
     }
 </script>
+

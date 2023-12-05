@@ -57,8 +57,8 @@
                     @Html.DisplayFor(modelItem => item.Status)
                 </td>
                 <td>
-                    <a href="@Url.Action("Edit", "StartLocationsAdministrator", new { area = "Tour", id = item.DiscountId })">Edit</a> |
-                    <a href="@Url.Action("Delete", "StartLocationsAdministrator", new { area = "Tour", id = item.DiscountId })">Delete</a>
+                    <a href="@Url.Action("Edit", "DiscountsAdministrator", new { area = "Tour", id = item.DiscountId })">Edit</a> |
+                    <a href="@Url.Action("Delete", "DiscountsAdministrator", new { area = "Tour", id = item.DiscountId })">Delete</a>
                 </td>
             </tr>
         }
