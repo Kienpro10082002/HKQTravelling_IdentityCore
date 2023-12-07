@@ -68,6 +68,7 @@ namespace HKQTravelling.Controllers
             var startLocations = _db.startLocations.ToList();
             var endLocations = _db.endLocations.ToList();
             var tourImages = _db.tourImages.ToList();
+            var types = _db.tourTypes.GroupBy(t => t.typeName).Select(g => g.First()).ToList();
 
             var tourImageUrls = new List<string>();
             foreach (var tour in objTourList)
@@ -81,6 +82,8 @@ namespace HKQTravelling.Controllers
 
             ViewBag.StartLocations = new SelectList(startLocations, "StartLocationId", "StartLocationName");
             ViewBag.EndLocations = new SelectList(endLocations, "EndLocationId", "EndLocationName");
+            ViewBag.TypeName = new SelectList(types, "typeID", "typeName");
+
             ViewBag.TourImages = tourImageUrls;
             return View(objTourList);
         }
@@ -161,214 +164,6 @@ namespace HKQTravelling.Controllers
 
             #endregion
 
-        #region Add TourImages
-        [HttpGet]
-        public IActionResult addTourImages()
-        {
-            ViewBag.TourId = new SelectList(_db.tours.ToList().OrderBy(n => n.TourId), "TourId", "TourName");
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> addTourImages(TourImages tourImages, IFormFile ImageUrl, IFormCollection f)
-        {
-            var dayNumber = f["DayNumber"].ToString();
-            var tourId = f["TourId"].ToString();
-
-            if (string.IsNullOrEmpty(dayNumber))
-            {
-                ViewData["checking_dayNumber"] = "DayNumber trống!";
-                return View();
-            }
-            else if (ImageUrl == null || ImageUrl.Length == 0)
-            {
-                ViewData["checking_imageUrl"] = "ImageUrl trống!";
-                return View();
-            }
-            else if (string.IsNullOrEmpty(tourId))
-            {
-                ViewData["checking_tourID"] = "TourId trống!";
-                return View();
-            }
-            else
-            {
-                // Lưu tệp hình ảnh vào một thư mục trên máy chủ
-                var path = Path.Combine(
-                            Directory.GetCurrentDirectory(), "wwwroot/User/img/Tour",
-                            ImageUrl.FileName);
-
-                using (var stream = new FileStream(path, FileMode.Create))
-                {
-                    await ImageUrl.CopyToAsync(stream);
-                }
-
-                // Lưu đường dẫn tệp vào cơ sở dữ liệu
-                var dbTourImages = new TourImages
-                {
-                    ImageUrl = ImageUrl.FileName,
-                    DayNumber = int.Parse(dayNumber),
-                    TourId = int.Parse(tourId)
-                };
-                _db.tourImages.Add(dbTourImages);
-                await _db.SaveChangesAsync();
-                return RedirectToAction("Index", "Tour");
-            }
-        }
-
-        #endregion
-
-        #region Add Tour
-        [HttpGet]
-        public IActionResult AddTour()
-        {
-            ViewBag.StartLocationName = new SelectList(_db.startLocations.ToList().OrderBy(n => n.StartLocationName), "StartLocationId", "StartLocationName");
-            ViewBag.EndLocationName = new SelectList(_db.endLocations.ToList().OrderBy(n => n.EndLocationName), "EndLocationId", "EndLocationName");
-            ViewBag.DisName = new SelectList(_db.discounts.ToList().OrderBy(n => n.DiscountId), "DiscountId", "DiscountName");
-            ViewBag.StartLocationId = new SelectList(_db.startLocations.ToList().OrderBy(n => n.StartLocationName), "StartLocationId", "StartLocationId");
-            ViewBag.EndLocationId = new SelectList(_db.endLocations.ToList().OrderBy(n => n.EndLocationName), "EndLocationId", "EndLocationId");
-            ViewBag.DisId = new SelectList(_db.discounts.ToList().OrderBy(n => n.DiscountId), "DiscountId", "DiscountId");
-            return View();
-        }
-        [HttpPost]
-        public async Task<IActionResult> AddTour(Tours tours, IFormCollection f)
-        {
-            var tourName = f["TourName"].ToString();
-            var price = f["Price"].ToString();
-            var startDate = f["StartDate"].ToString();
-            var endDate = f["EndDate"].ToString();
-            var status = f["Status"].ToString();
-            var updateDate = f["UpdateDate"].ToString();
-            var remaining = f["Remaining"].ToString();
-            var disId = Request.Form["DiscountId"].ToString().Split(',')[0];
-            var startLocationId = Request.Form["StartLocationId"].ToString().Split(',')[0];
-            var endLocationId = Request.Form["EndLocationId"].ToString().Split(',')[0];
-
-
-            if (string.IsNullOrEmpty(tourName))
-            {
-                ViewData["checking_tourName"] = "TourName trống!";
-                return View();
-            }
-            else if (string.IsNullOrEmpty(price))
-            {
-                ViewData["checking_price"] = "Price trống!";
-                return View();
-            }
-            else if (string.IsNullOrEmpty(startDate))
-            {
-                ViewData["checking_startDate"] = "StartDate trống!";
-                return View();
-            }
-            else if (string.IsNullOrEmpty(endDate))
-            {
-                ViewData["checking_endDate"] = "EndDate trống!";
-                return View();
-            }
-            else if (string.IsNullOrEmpty(updateDate))
-            {
-                ViewData["checking_UpdateDate"] = "UpdateDate trống!";
-                return View();
-            }
-            else if (string.IsNullOrEmpty(remaining))
-            {
-                ViewData["checking_remaining"] = "Remaining trống!";
-                return View();
-            }
-            else if (string.IsNullOrEmpty(disId))
-            {
-                ViewData["checking_DisId"] = "DisId trống!";
-                return View();
-            }
-            else if (string.IsNullOrEmpty(startLocationId))
-            {
-                ViewData["checking_startLocationId"] = "StartLocationId trống!";
-                return View();
-            }
-            else if (string.IsNullOrEmpty(endLocationId))
-            {
-                ViewData["checking_endLocationId"] = "EndLocationId trống!";
-                return View();
-            }
-            else
-            {
-                var dbTours = new Tours
-                {
-                    TourName = tourName,
-                    Price = int.Parse(price),
-                    StartDate = DateTime.Parse(startDate),
-                    EndDate = DateTime.Parse(endDate),
-                    Status = int.Parse(status),
-                    CreationDate = DateTime.Parse(updateDate),
-                    UpdateDate = DateTime.Parse(updateDate),
-                    Remaining = int.Parse(remaining),
-                    DiscountId = long.Parse(disId),
-                    StartLocationId = long.Parse(startLocationId),
-                    EndLocationId = long.Parse(endLocationId)
-                };
-                _db.tours.Add(dbTours);
-                await _db.SaveChangesAsync();
-                return RedirectToAction("Index", "Tour");
-            }
-        }
-        #endregion
-
-        #region Add Tour Days
-        [HttpGet]
-        public IActionResult Add_Tour_Days()
-        {
-            ViewBag.TourId = new SelectList(_db.tours.ToList().OrderBy(n => n.TourId), "TourId", "TourName");
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Add_Tour_Days(TourDays tourDays, IFormCollection f)
-        {
-            /*ViewBag.TourId = new SelectList(_db.tours.ToList().OrderBy(n => n.TourId), "TourId", "TourId");*/
-            string dayNumber = f["DayNumber"].ToString();
-            string description = f["Description"].ToString();
-            string destination = f["Destination"].ToString();
-            string time_Shedule = f["TimeSchedule"].ToString();
-            string tourId = f["TourId"].ToString();
-
-            if (string.IsNullOrEmpty(dayNumber))
-            {
-                ViewData["checking_dayNumber"] = "DayNumber trống!";
-                return View();
-            }
-            else if (string.IsNullOrEmpty(description))
-            {
-                ViewData["checking_Des"] = "Description trống!";
-                return View();
-            }
-            else if (string.IsNullOrEmpty(destination))
-            {
-                ViewData["checking_Destination"] = "Destination trống!";
-                return View();
-            }
-            else if (string.IsNullOrEmpty(time_Shedule))
-            {
-                ViewData["checking_TimeSchedule"] = "TimeSchedule trống!";
-                return View();
-            }
-            else
-            {
-                var dbTourDays = new TourDays
-                {
-                    DayNumber = int.Parse(dayNumber),
-                    Description = description,
-                    Destination = destination,
-                    TimeSchedule = DateTime.Parse(time_Shedule),
-                    TourId = int.Parse(tourId)
-                };
-                _db.tourDays.Add(dbTourDays);
-                await _db.SaveChangesAsync();
-                return RedirectToAction("Index", "Tour");
-            }
-
-        }
-
-        #endregion
-
         #region Payment
         [HttpGet]
         public async Task<IActionResult> Payments()
@@ -428,12 +223,14 @@ namespace HKQTravelling.Controllers
         [HttpGet]
         public IActionResult GetToursSortedByPriceAsc(int? page)
         {
-            int pageSize = 100;
+            int pageSize = 1000;
             int pageNumber = (page ?? 1);
             IPagedList<Tours> tours = _db.tours.OrderBy(t => t.Price).ToPagedList(pageNumber, pageSize);
             var tourImages = _db.tourImages.ToList();
 
             var tourImageUrls = new List<string>();
+            string startLocationName = "";
+            string endLocationName = "";
             foreach (var tour in tours)
             {
                 var image = tourImages.FirstOrDefault(ti => ti.TourId == tour.TourId);
@@ -441,20 +238,35 @@ namespace HKQTravelling.Controllers
                 {
                     tourImageUrls.Add(image.ImageUrl);
                 }
+                var firstTour = tours.First();
+                var startLocation = _db.startLocations.FirstOrDefault(sl => sl.StartLocationId == firstTour.StartLocationId);
+                if (startLocation != null)
+                {
+                    startLocationName = startLocation.StartLocationName;
+                }
+                var endLocation = _db.endLocations.FirstOrDefault(sl => sl.EndLocationId == firstTour.EndLocationId);
+                if (endLocation != null)
+                {
+                    endLocationName = endLocation.EndLocationName;
+                }
             }
 
+            ViewBag.StartLocationNames = startLocationName;
+            ViewBag.EndLocationNames = endLocationName;
             ViewBag.TourImages = tourImageUrls;
             return PartialView("_ToursPricePartial", tours);
         }
         [HttpGet]
         public IActionResult GetToursSortedByPriceDesc(int? page)
         {
-            int pageSize = 100;
+            int pageSize = 1000;
             int pageNumber = (page ?? 1);
             IPagedList<Tours> tours = _db.tours.OrderByDescending(t => t.Price).ToPagedList(pageNumber, pageSize);
             var tourImages = _db.tourImages.ToList();
 
             var tourImageUrls = new List<string>();
+            string startLocationName = "";
+            string endLocationName = "";
             foreach (var tour in tours)
             {
                 var image = tourImages.FirstOrDefault(ti => ti.TourId == tour.TourId);
@@ -462,8 +274,20 @@ namespace HKQTravelling.Controllers
                 {
                     tourImageUrls.Add(image.ImageUrl);
                 }
+                var firstTour = tours.First();
+                var startLocation = _db.startLocations.FirstOrDefault(sl => sl.StartLocationId == firstTour.StartLocationId);
+                if (startLocation != null)
+                {
+                    startLocationName = startLocation.StartLocationName;
+                }
+                var endLocation = _db.endLocations.FirstOrDefault(sl => sl.EndLocationId == firstTour.EndLocationId);
+                if (endLocation != null)
+                {
+                    endLocationName = endLocation.EndLocationName;
+                }
             }
-
+            ViewBag.StartLocationNames = startLocationName;
+            ViewBag.EndLocationNames = endLocationName;
             ViewBag.TourImages = tourImageUrls;
             return PartialView("_ToursPricePartial", tours);
         }
@@ -474,18 +298,31 @@ namespace HKQTravelling.Controllers
         [HttpGet]
         public IActionResult GetToursByStartLocation(int? startLocationId, int? page)
         {
-            int pageSize = 100;
+            int pageSize = 1000;
             int pageNumber = (page ?? 1);
             IPagedList<Tours> TourList = _db.tours.ToPagedList(pageNumber, pageSize);
             var tourImages = _db.tourImages.ToList();
 
             var tourImageUrls = new List<string>();
+            string startLocationName = "";
+            string endLocationName = "";
             foreach (var tour in TourList)
             {
                 var image = tourImages.FirstOrDefault(ti => ti.TourId == tour.TourId);
                 if (image != null)
                 {
                     tourImageUrls.Add(image.ImageUrl);
+                }
+                var firstTour = TourList.First();
+                var startLocation = _db.startLocations.FirstOrDefault(sl => sl.StartLocationId == firstTour.StartLocationId);
+                if (startLocation != null)
+                {
+                    startLocationName = startLocation.StartLocationName;
+                }
+                var endLocation = _db.endLocations.FirstOrDefault(sl => sl.EndLocationId == firstTour.EndLocationId);
+                if (endLocation != null)
+                {
+                    endLocationName = endLocation.EndLocationName;
                 }
             }
             if (startLocationId.HasValue)
@@ -496,6 +333,8 @@ namespace HKQTravelling.Controllers
             {
                 TourList = _db.tours.ToPagedList(pageNumber, pageSize);
             }
+            ViewBag.StartLocationNames = startLocationName;
+            ViewBag.EndLocationNames = endLocationName;
             ViewBag.TourImages = tourImageUrls;
             return PartialView("_ToursPricePartial", TourList);
         }
@@ -503,18 +342,31 @@ namespace HKQTravelling.Controllers
         [HttpGet]
         public IActionResult GetToursByEndLocation(int? endLocationId, int? page)
         {
-            int pageSize = 100;
+            int pageSize = 1000;
             int pageNumber = (page ?? 1);
             IPagedList<Tours> TourList = _db.tours.ToPagedList(pageNumber, pageSize);
             var tourImages = _db.tourImages.ToList();
 
             var tourImageUrls = new List<string>();
+            string startLocationName = "";
+            string endLocationName = "";
             foreach (var tour in TourList)
             {
                 var image = tourImages.FirstOrDefault(ti => ti.TourId == tour.TourId);
                 if (image != null)
                 {
                     tourImageUrls.Add(image.ImageUrl);
+                }
+                var firstTour = TourList.First();
+                var startLocation = _db.startLocations.FirstOrDefault(sl => sl.StartLocationId == firstTour.StartLocationId);
+                if (startLocation != null)
+                {
+                    startLocationName = startLocation.StartLocationName;
+                }
+                var endLocation = _db.endLocations.FirstOrDefault(sl => sl.EndLocationId == firstTour.EndLocationId);
+                if (endLocation != null)
+                {
+                    endLocationName = endLocation.EndLocationName;
                 }
             }
             if (endLocationId.HasValue)
@@ -525,8 +377,59 @@ namespace HKQTravelling.Controllers
             {
                 TourList = _db.tours.ToPagedList(pageNumber, pageSize);
             }
+            ViewBag.StartLocationNames = startLocationName;
+            ViewBag.EndLocationNames = endLocationName;
             ViewBag.TourImages = tourImageUrls;
             return PartialView("_ToursPricePartial", TourList);
+        }
+        #endregion
+
+        #region Search by type
+        [HttpGet]
+        public IActionResult GetToursByType(string typeName, int? page)
+        {
+            int pageSize = 1000;
+            int pageNumber = (page ?? 1);
+            IPagedList<Tours> TourList = _db.tours.ToPagedList(pageNumber, pageSize);
+            var tourImages = _db.tourImages.ToList();
+
+            var tourImageUrls = new List<string>();
+            string startLocationName = "";
+            string endLocationName = "";
+            foreach (var tour in TourList)
+            {
+                var image = tourImages.FirstOrDefault(ti => ti.TourId == tour.TourId);
+                if (image != null)
+                {
+                    tourImageUrls.Add(image.ImageUrl);
+                }
+                var firstTour = TourList.First();
+                var startLocation = _db.startLocations.FirstOrDefault(sl => sl.StartLocationId == firstTour.StartLocationId);
+                if (startLocation != null)
+                {
+                    startLocationName = startLocation.StartLocationName;
+                }
+                var endLocation = _db.endLocations.FirstOrDefault(sl => sl.EndLocationId == firstTour.EndLocationId);
+                if (endLocation != null)
+                {
+                    endLocationName = endLocation.EndLocationName;
+                }
+            }
+            if (!string.IsNullOrEmpty(typeName))
+            {
+                var tourIDs = _db.tourTypes.Where(tt => tt.typeName == typeName).Select(tt => tt.TourId).ToList();
+                TourList = _db.tours.Where(t => tourIDs.Contains(t.TourId)).ToPagedList(pageNumber, pageSize);
+            }
+            else
+            {
+                TourList = _db.tours.ToPagedList(pageNumber, pageSize);
+            }
+
+            ViewBag.StartLocationNames = startLocationName;
+            ViewBag.EndLocationNames = endLocationName;
+            ViewBag.TourImages = tourImageUrls;
+            return PartialView("_ToursPricePartial", TourList);
+            
         }
         #endregion
     }
