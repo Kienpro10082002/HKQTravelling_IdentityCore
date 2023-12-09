@@ -22,6 +22,13 @@
 
 	<!-- Font Awesome -->
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+	<style>
+		body {
+			font-family: 'Roboto', sans-serif;
+		}
+	</style>
 
 	<!-- Libraries Stylesheet -->
 	<link href="~/User/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
@@ -95,7 +102,10 @@
 	<!-- Navbar End -->
 	<div class="container-fluid p-0">
 		<main role="main" class="pb-3">
+			<div class="p-3">
 						@RenderBody()
+			</div>
+
 		</main>
 	</div>
 	</div>
