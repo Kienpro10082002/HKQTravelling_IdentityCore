@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace HKQTravellingAuthenication.Data.Migrations
+namespace HKQTravellingAuthenication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231203151951_update column of discount entity")]
-    partial class updatecolumnofdiscountentity
+    [Migration("20231208152928_addDB")]
+    partial class addDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -224,7 +224,7 @@ namespace HKQTravellingAuthenication.Data.Migrations
 
                     b.Property<DateTime?>("DiscountDateEnd")
                         .HasColumnType("datetime2")
-                        .HasColumnName("DIS_DATE_End");
+                        .HasColumnName("DIS_DATE_END");
 
                     b.Property<DateTime?>("DiscountDateStart")
                         .HasColumnType("datetime2")

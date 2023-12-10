@@ -175,6 +175,7 @@ namespace HKQTravelling.Controllers
             var bookingId = HttpContext.Session.GetInt32("bookingId");
             var name = getUserInfo.NormalizedUserName;
             var email = getUserInfo.Email;
+            
 
             // Chuyển đổi dữ liệu từ phiên
             long? dbTourId = 0;
@@ -190,6 +191,9 @@ namespace HKQTravelling.Controllers
             }
 
             var booking = _db.bookings.FirstOrDefault(t => t.BookingId == dbBookingId && t.TourId == tourId);
+            var discount = _db.discounts.ToList();
+            ViewBag.Discount = new SelectList(discount, "DiscountId", "DiscountName");
+            ViewBag.DiscountPercentage = new SelectList(discount, "DiscountId", "DiscountPercentage");
             ViewBag.Booking = booking;
             ViewBag.Name = name;
             ViewBag.Email = email;

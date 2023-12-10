@@ -28,6 +28,16 @@
                         <input type="text" id="NumKids" name="NumKids" value="@ViewBag.Booking.NumKids" />
                         <p>Số tiền cần phải thanh toán: </p>
                         <input type="text" id="TotalMoney" name="TotalMoney" value="@String.Format("{0:0,0}",ViewBag.Booking.PriceAdults) VND" />
+                        <p>Mã giảm giá</p>
+                        <div class="filtdr-group pb-2">
+                            <select name="discount" class="select-discount">
+                                <option value="">Chọn mã giảm giá</option>
+                                @foreach (var discount in ViewBag.Discount)
+                                {
+                                    <option value="@discount.Value">@discount.Text</option>
+                                }
+                            </select>
+                        </div>
                     </div>
 
                 </div>
