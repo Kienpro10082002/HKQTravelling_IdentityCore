@@ -22,18 +22,32 @@
         || await UserManager.IsInRoleAsync(user, "Editor"))
     {
         <div class="nav-item dropdown">
-            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Quản lý</a>
-            <div class="dropdown-menu border-0 rounded-0 m-0">
-                @foreach (var menuItem in GetAdminMenuItems()) //Replace GetAdminMenuItems() with your logic to retrieve menu items
+            <a href="#" class="nav-link dropdown-toggle">Quản lý</a>
+            <div class="dropdown-menu border-0 rounded-0 m-0" style="display: none;">
+                @foreach (var menuItem in GetAdminMenuItems())
                 {
-                    <a href="@menuItem.Url" class="dropdown-item">@menuItem.Label</a>
+                    if (menuItem.SubMenuItems != null && menuItem.SubMenuItems.Any())
+                    {
+                        <div class="dropdown">
+                            <a href="#" class="dropdown-item dropdown-toggle">@menuItem.Label</a>
+                            <div class="dropdown-menu" style="display: none;">
+                                @foreach (var subMenuItem in menuItem.SubMenuItems)
+                                {
+                                    <a href="@subMenuItem.Url" class="dropdown-item">@subMenuItem.Label</a>
+                                }
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <a href="@menuItem.Url" class="dropdown-item">@menuItem.Label</a>
+                    }
                 }
             </div>
         </div>
     }
     else
     {
-
         <div class="nav-item dropdown" style="display: none;"></div>
     }
 }
@@ -41,6 +55,7 @@ else
 {
     <div class="nav-item dropdown" style="display: none;"></div>
 }
+
 
 @functions {
     public List<MenuItem> GetAdminMenuItems()
@@ -50,15 +65,24 @@ else
         {
             new MenuItem { Label = "Database", Url = Url.Action("Index", "DbManage", new { Area = "Database" }) },
             new MenuItem { Label = "Quản lý Liên hệ", Url = Url.Action("Index", "Contact", new { Area = "Contact" }) },
-            new MenuItem { Label = "Quản lý role (vai trò)", Url = Url.Action("Index", "Role", new { Area = "Identity" }) },
-            new MenuItem { Label = "Quản lý thành viên", Url = Url.Action("Index", "User", new { Area = "Identity" }) },
-            new MenuItem { Label = "Quản lý chuyên mục", Url = Url.Action("Index", "Category", new { Area = "Blog" }) },
-            new MenuItem { Label = "Quản lý bài viết Blog", Url = Url.Action("Index", "Post", new { Area = "Blog" }) },
+            new MenuItem { Label = "Quản lý tài khoản", Url = "#", SubMenuItems = new List<MenuItem>
+            {
+                new MenuItem { Label = "Quản lý role (vai trò)", Url = Url.Action("Index", "Role", new { Area = "Identity" }) },
+                new MenuItem { Label = "Quản lý thành viên", Url = Url.Action("Index", "User", new { Area = "Identity" }) }
+            }},
+            new MenuItem { Label = "Quản lý bài viết", Url = "#", SubMenuItems = new List<MenuItem>
+            {
+                new MenuItem { Label = "Quản lý chuyên mục", Url = Url.Action("Index", "Category", new { Area = "Blog" }) },
+                new MenuItem { Label = "Quản lý bài viết Blog", Url = Url.Action("Index", "Post", new { Area = "Blog" }) }
+            }},
             new MenuItem { Label = "Quản lý thư mục (files)", Url = Url.Action("Index", "FileManager", new { Area = "Files" }) },
-            new MenuItem { Label = "Quản lý điểm đi", Url = Url.Action("Index", "StartLocationsAdministrator", new { Area = "Tour" }) },
-            new MenuItem { Label = "Quản lý thư đến", Url = Url.Action("Index", "EndLocationsAdministrator", new { Area = "Tour" }) },
+            new MenuItem { Label = "Quản lý nơi di chuyển", Url = "#", SubMenuItems = new List<MenuItem>
+            {
+                new MenuItem { Label = "Quản lý điểm đến", Url = Url.Action("Index", "StartLocationsAdministrator", new { Area = "Tour" }) },
+                new MenuItem { Label = "Quản lý điểm đi", Url = Url.Action("Index", "EndLocationsAdministrator", new { Area = "Tour" }) }
+            }},
             new MenuItem { Label = "Quản lý giảm giá tour", Url = Url.Action("Index", "DiscountsAdministrator", new { Area = "Tour" }) },
-            new MenuItem { Label = "Quản lý tour", Url = Url.Action("Index", "ToursAdministrator", new { Area = "Tour" }) }
+            new MenuItem { Label = "Quản lý thông tin tour", Url = Url.Action("Index", "ToursAdministrator", new { Area = "Tour" }) }
         };
 
         return adminMenu;
@@ -68,5 +92,25 @@ else
     {
         public string Label { get; set; }
         public string Url { get; set; }
+        public List<MenuItem> SubMenuItems { get; set; }
     }
 }
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+
+        dropdownToggles.forEach(function (toggle) {
+            toggle.addEventListener('click', function (e) {
+                e.preventDefault();
+                var submenu = this.nextElementSibling;
+
+                if (submenu.style.display === 'block') {
+                    submenu.style.display = 'none';
+                } else {
+                    submenu.style.display = 'block';
+                }
+            });
+        });
+    });
+</script>
