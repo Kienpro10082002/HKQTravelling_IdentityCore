@@ -32,16 +32,22 @@
         flex-wrap: wrap; /* Cho phép các bảng xuống hàng khi không đủ không gian */
     }
 
-    .multiple-rows .child-booking {
-        flex: 0 0 calc(50% - 10px); /* Hiển thị 2 bảng trên mỗi hàng */
-    }
+        .multiple-rows .child-booking {
+            flex: 0 0 calc(50% - 10px); /* Hiển thị 2 bảng trên mỗi hàng */
+        }
 
-    .multiple-rows .child-booking:nth-child(odd) {
-        margin-right: 10px; /* Khoảng cách giữa các bảng */
-    }
+            .multiple-rows .child-booking:nth-child(odd) {
+                margin-right: 10px; /* Khoảng cách giữa các bảng */
+            }
 
-    .multiple-rows .child-booking:nth-child(even) {
-        margin-left: 10px; /* Khoảng cách giữa các bảng */
+            .multiple-rows .child-booking:nth-child(even) {
+                margin-left: 10px; /* Khoảng cách giữa các bảng */
+            }
+
+    .img-size {
+        width: 958px;
+        height: 472px;
+        border-radius: 20px;
     }
 
 </style>
@@ -51,15 +57,15 @@
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    @if (ViewBag.ImageUrls != null)
-                    {
-                        foreach (var imageUrl in ViewBag.ImageUrls)
+                        @if (ViewBag.ImageUrls != null)
                         {
-                            <div class="col-lg-4 col-md-4 col-sm-6 mySlides">
-                                <img src="~/User/img/Tour/@imageUrl" class="img-fluid" alt="Tour Image">
-                            </div>
+                            foreach (var imageUrl in ViewBag.ImageUrls)
+                            {
+                                <div class="col-lg-4 col-md-4 col-sm-6 mySlides">
+                                    <img src="~/User/img/Tour/@imageUrl" class="img-size" alt="Tour Image">
+                                </div>
+                            }
                         }
-                    }
                 </div>
                 <div class="col-lg-7 col-md-7 col-sm-6">
                     @if (ViewBag.Detail != null)
@@ -150,20 +156,20 @@
         for (var i = 1; i <= soLuongTreEm; i++) {
             var bang = document.createElement("table");
             bang.innerHTML = `
-                                                      <tbody class="child-booking">
-                                                          <td colspan="3">
-                                                            <div class="form-group">
-                                                              <label for="age${i}">Trẻ ${i}: </label>
-                                                              <select class="form-control" id="age${i}">
-                                                                <option value="0-2">0-2</option>
-                                                                <option value="3-11">3-11</option>
-                                                                <option value="12-18">12-18</option>
-                                                              </select>
-                                                            </div>
-                                                          </td>
-                                                        </tr>
-                                                      </tbody>
-                                                    `;
+                                                              <tbody class="child-booking">
+                                                                  <td colspan="3">
+                                                                    <div class="form-group">
+                                                                      <label for="age${i}">Trẻ ${i}: </label>
+                                                                      <select class="form-control" id="age${i}">
+                                                                        <option value="0-2">0-2</option>
+                                                                        <option value="3-11">3-11</option>
+                                                                        <option value="12-18">12-18</option>
+                                                                      </select>
+                                                                    </div>
+                                                                  </td>
+                                                                </tr>
+                                                              </tbody>
+                                                            `;
             horizontalContainer.appendChild(bang);
             // Thay đổi dòng này để thêm bảng vào phần tử mong muốn
             //document.querySelector(".treme").appendChild(bang);
