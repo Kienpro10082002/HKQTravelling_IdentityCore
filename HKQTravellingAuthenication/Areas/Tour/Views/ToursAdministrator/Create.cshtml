@@ -51,6 +51,10 @@
                 <select asp-for="EndLocationId" class="form-control" asp-items="ViewBag.EndLocationId" name="EndLocationId"></select>
             </div>
             <div class="form-group">
+                <label asp-for="TourTypeId" class="control-label"></label>
+                <select asp-for="TourTypeId" class="form-control" asp-items="ViewBag.TourTypeId" name="TourTypeId"></select>
+            </div>
+            <div class="form-group">
                 <label asp-for="PriceInclude" class="control-label"></label>
                 <input asp-for="PriceInclude" class="form-control" name="PriceInclude" />
                 <span asp-validation-for="PriceInclude" class="text-danger"></span>

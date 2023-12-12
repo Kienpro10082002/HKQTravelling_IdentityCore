@@ -95,7 +95,6 @@ namespace HKQTravelling.Controllers
             var soluongNguoiLon = f["soluongNguoiLon"].ToString();
             var tourImages = _db.tourImages.Where(t => t.TourId == id).ToList();
             var detail = _db.tours.FirstOrDefault(t => t.TourId == id);
-            var tourDays = _db.tourDays.Where(t => t.TourId == id).OrderBy(t => t.DayNumber).ToList();
             if (tourImages == null && detail == null)
             {
                 return NotFound();
@@ -105,7 +104,6 @@ namespace HKQTravelling.Controllers
 
             ViewBag.Detail = detail;
             ViewBag.ImageUrls = imageUrls;
-            ViewBag.TourDays = tourDays;
 
             return View();
         }
@@ -310,63 +308,6 @@ namespace HKQTravelling.Controllers
                 return RedirectToAction("Index", "Tour");
             }
         }
-        #endregion
-
-        #region Add Tour Days
-        [HttpGet]
-        public IActionResult Add_Tour_Days()
-        {
-            ViewBag.TourId = new SelectList(_db.tours.ToList().OrderBy(n => n.TourId), "TourId", "TourName");
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Add_Tour_Days(TourDays tourDays, IFormCollection f)
-        {
-            /*ViewBag.TourId = new SelectList(_db.tours.ToList().OrderBy(n => n.TourId), "TourId", "TourId");*/
-            string dayNumber = f["DayNumber"].ToString();
-            string description = f["Description"].ToString();
-            string destination = f["Destination"].ToString();
-            string time_Shedule = f["TimeSchedule"].ToString();
-            string tourId = f["TourId"].ToString();
-
-            if (string.IsNullOrEmpty(dayNumber))
-            {
-                ViewData["checking_dayNumber"] = "DayNumber trống!";
-                return View();
-            }
-            else if (string.IsNullOrEmpty(description))
-            {
-                ViewData["checking_Des"] = "Description trống!";
-                return View();
-            }
-            else if (string.IsNullOrEmpty(destination))
-            {
-                ViewData["checking_Destination"] = "Destination trống!";
-                return View();
-            }
-            else if (string.IsNullOrEmpty(time_Shedule))
-            {
-                ViewData["checking_TimeSchedule"] = "TimeSchedule trống!";
-                return View();
-            }
-            else
-            {
-                var dbTourDays = new TourDays
-                {
-                    DayNumber = int.Parse(dayNumber),
-                    Description = description,
-                    Destination = destination,
-                    TimeSchedule = DateTime.Parse(time_Shedule),
-                    TourId = int.Parse(tourId)
-                };
-                _db.tourDays.Add(dbTourDays);
-                await _db.SaveChangesAsync();
-                return RedirectToAction("Index", "Tour");
-            }
-
-        }
-
         #endregion
 
         #region Payment

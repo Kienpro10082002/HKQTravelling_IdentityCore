@@ -6,16 +6,12 @@ namespace HKQTravellingAuthenication.Models.Tour
     public class TourTypes
     {
         [Key]
-        [Column("TYPE_ID")]
-        public long typeID { get; set; }
+        [Column("TOUR_TYPE_ID")]
+        public long TourTypeId { get; set; }
 
-        [Column("TYPE_NAME")]
-        public string typeName { get; set; }
-
-        [Column("TOUR_ID")]
-        public long? TourId { get; set; }
-
-        [ForeignKey("TourId")]
-        public Tours tours { get; set; }
+        [Required]
+        [Column("TOUR_TYPE_NAME")]
+        [MaxLength(100)]
+        public string TourTypeName { get; set; }
     }
 }

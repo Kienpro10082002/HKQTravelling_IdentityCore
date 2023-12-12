@@ -13,6 +13,9 @@ namespace HKQTravellingAuthenication.Models.Tour
         [MaxLength(200)]
         public string TourName { get; set; }
 
+        [Column("DESCRIPTION")]
+        public string? Description {  get; set; }
+
         [Column("PRICE")]
         public int? Price { get; set; }
 
@@ -75,5 +78,11 @@ namespace HKQTravellingAuthenication.Models.Tour
 
         [ForeignKey("EndLocationId")]
         public EndLocations endLocations { get; set; }
+
+        [Column("TOUR_TYPE_ID")]
+        public long? TourTypeId { get; set; }
+
+        [ForeignKey("TourTypeId")]
+        public TourTypes tourTypes{ get; set; }
     }
 }

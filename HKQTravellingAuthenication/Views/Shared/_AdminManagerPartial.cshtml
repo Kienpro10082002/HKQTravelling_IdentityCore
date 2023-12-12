@@ -78,10 +78,11 @@ else
             new MenuItem { Label = "Quản lý thư mục (files)", Url = Url.Action("Index", "FileManager", new { Area = "Files" }) },
             new MenuItem { Label = "Quản lý nơi di chuyển", Url = "#", SubMenuItems = new List<MenuItem>
             {
-                new MenuItem { Label = "Quản lý điểm đến", Url = Url.Action("Index", "StartLocationsAdministrator", new { Area = "Tour" }) },
-                new MenuItem { Label = "Quản lý điểm đi", Url = Url.Action("Index", "EndLocationsAdministrator", new { Area = "Tour" }) }
+                new MenuItem { Label = "Quản lý điểm đi", Url = Url.Action("Index", "StartLocationsAdministrator", new { Area = "Tour" }) },
+                new MenuItem { Label = "Quản lý điểm đến", Url = Url.Action("Index", "EndLocationsAdministrator", new { Area = "Tour" }) }
             }},
             new MenuItem { Label = "Quản lý giảm giá tour", Url = Url.Action("Index", "DiscountsAdministrator", new { Area = "Tour" }) },
+            new MenuItem { Label = "Quản lý loại tour", Url = Url.Action("Index", "TourTypesAdministrator", new { Area = "Tour" }) },
             new MenuItem { Label = "Quản lý thông tin tour", Url = Url.Action("Index", "ToursAdministrator", new { Area = "Tour" }) }
         };
 

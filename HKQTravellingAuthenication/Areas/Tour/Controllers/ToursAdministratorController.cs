@@ -23,7 +23,7 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
         [Route("index")]
         public async Task<IActionResult> Index()
         {
-            var dbTours = await _context.tours.Include(t => t.discounts).Include(t => t.endLocations).Include(t => t.startLocations).ToListAsync();
+            var dbTours = await _context.tours.Include(t => t.discounts).Include(t => t.endLocations).Include(t => t.startLocations).Include(t => t.tourTypes).ToListAsync();
             return View(dbTours);
         }
 
@@ -39,10 +39,9 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
             var tours = await _context.tours.Include(t => t.discounts)
                 .Include(t => t.startLocations)
                 .Include(t => t.endLocations)
+                .Include(t => t.tourTypes)
                 .FirstOrDefaultAsync(t => t.TourId == id);
             var tourImages = await _context.tourImages.Where(t => t.TourId == id).ToListAsync();
-            var tourDays = await _context.tourDays.Where(t => t.TourId == id).ToListAsync();
-            var tourTypes = await _context.tourTypes.Where(t => t.TourId == id).ToListAsync();
             if (tours == null)
             {
                 return NotFound();
@@ -52,9 +51,7 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
                 var tourExtraViewModel = new TourExtraViewModel()
                 {
                     Tours = tours,
-                    TourImagesList = tourImages,
-                    TourDaysList = tourDays,
-                    TourTypesList = tourTypes
+                    TourImagesList = tourImages
                 };
                 return View(tourExtraViewModel);
             }
@@ -67,6 +64,7 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
             ViewData["DiscountId"] = new SelectList(_context.discounts, "DiscountId", "DiscountName");
             ViewData["EndLocationId"] = new SelectList(_context.endLocations, "EndLocationId", "EndLocationName");
             ViewData["StartLocationId"] = new SelectList(_context.startLocations, "StartLocationId", "StartLocationName");
+            ViewData["TourTypeId"] = new SelectList(_context.tourTypes, "TourTypeId", "TourTypeName");
             return View();
         }
 
@@ -81,6 +79,7 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
             string discountId = collection["DiscountId"].ToString();
             string startLocationId = collection["StartLocationId"].ToString();
             string endLocationId = collection["EndLocationId"].ToString();
+            string tourTypeId = collection["TourTypeId"].ToString();
             string remaining = collection["Remaining"].ToString();
             string priceInclude = collection["PriceInlude"].ToString();
             string priceNotInclude = collection["PriceNotInclude"].ToString();
@@ -100,6 +99,7 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
                     StartLocationId = int.Parse(startLocationId),
                     EndLocationId = int.Parse(endLocationId),
                     DiscountId = int.Parse(discountId),
+                    TourTypeId = int.Parse(tourTypeId),
                     Remaining = int.Parse(remaining),
                     PriceInclude = priceInclude,
                     PriceNotInclude = priceNotInclude,
@@ -114,6 +114,7 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
             ViewData["DiscountId"] = new SelectList(_context.discounts, "DiscountId", "DiscountId", tours.DiscountId);
             ViewData["EndLocationId"] = new SelectList(_context.endLocations, "EndLocationId", "EndLocationName", tours.EndLocationId);
             ViewData["StartLocationId"] = new SelectList(_context.startLocations, "StartLocationId", "StartLocationName", tours.StartLocationId);
+            ViewData["TourTypeId"] = new SelectList(_context.tourTypes, "TourTypeId", "TourTypeName");
             return View(tours);
         }
 
@@ -130,10 +131,9 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
             var tours = await _context.tours.Include(t => t.discounts)
                 .Include(t => t.startLocations)
                 .Include(t => t.endLocations)
+                .Include(t => t.tourTypes)
                 .FirstOrDefaultAsync(t => t.TourId == id);
             var tourImages = await _context.tourImages.Where(t => t.TourId == id).ToListAsync();
-            var tourDays = await _context.tourDays.Where(t => t.TourId == id).ToListAsync();
-            var tourTypes = await _context.tourTypes.Where(t => t.TourId == id).ToListAsync();
             if (tours == null)
             {
                 return NotFound();
@@ -143,13 +143,12 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
                 var tourExtraViewModel = new TourExtraViewModel()
                 {
                     Tours = tours,
-                    TourImagesList = tourImages,
-                    TourDaysList = tourDays,
-                    TourTypesList = tourTypes
+                    TourImagesList = tourImages
                 };
                 ViewData["DiscountId"] = new SelectList(_context.discounts, "DiscountId", "DiscountName", tourExtraViewModel.Tours.DiscountId);
                 ViewData["EndLocationId"] = new SelectList(_context.endLocations, "EndLocationId", "EndLocationName", tourExtraViewModel.Tours.EndLocationId);
                 ViewData["StartLocationId"] = new SelectList(_context.startLocations, "StartLocationId", "StartLocationName", tourExtraViewModel.Tours.StartLocationId);
+                ViewData["TourTypeId"] = new SelectList(_context.tourTypes, "TourTypeId", "TourTypeName", tourExtraViewModel.Tours.TourTypeId);
                 return View(tourExtraViewModel);
             }
         }
@@ -168,6 +167,7 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
                 .Include(t => t.discounts)
                 .Include(t => t.endLocations)
                 .Include(t => t.startLocations)
+                .Include(t => t.tourTypes)
                 .FirstOrDefaultAsync(m => m.TourId == id);
             if (tours == null)
             {

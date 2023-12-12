@@ -58,6 +58,9 @@ namespace HKQTravellingAuthenication.Data
             builder.Entity<EndLocations>()
                 .HasIndex(u => u.EndLocationName)
                 .IsUnique();
+            builder.Entity<TourTypes>()
+                .HasIndex(u => u.TourTypeName)
+                .IsUnique();
 
             builder.Entity<Tours>()
             .Property(e => e.CreationDate)
@@ -78,11 +81,11 @@ namespace HKQTravellingAuthenication.Data
         public DbSet<StartLocations> startLocations { get; set; }
         public DbSet<EndLocations> endLocations { get; set; }
         public DbSet<Discounts> discounts { get; set; }
+        public DbSet<TourTypes> tourTypes { get; set; }
         //public DbSet<Rules> rules { get; set; }
         public DbSet<Tours> tours { get; set; }
-        public DbSet<TourTypes> tourTypes { get; set; }
         public DbSet<TourImages> tourImages { get; set; }
-        public DbSet<TourDays> tourDays { get; set; }
+        //public DbSet<TourDays> tourDays { get; set; }
         public DbSet<Bookings> bookings { get; set; }
         public DbSet<Payments> payments { get; set; }
         public DbSet<Post> Post { get; set; }
