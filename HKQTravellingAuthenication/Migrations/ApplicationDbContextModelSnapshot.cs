@@ -324,45 +324,6 @@ namespace HKQTravellingAuthenication.Migrations
                     b.ToTable("startLocations");
                 });
 
-            modelBuilder.Entity("HKQTravellingAuthenication.Models.Tour.TourDays", b =>
-                {
-                    b.Property<long>("TourDayId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnName("TOUR_DAY_ID");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("TourDayId"));
-
-                    b.Property<int?>("DayNumber")
-                        .HasColumnType("int")
-                        .HasColumnName("DAY_NUMBER");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("DESCRIPTION");
-
-                    b.Property<string>("Destination")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .HasColumnName("DESTINATION");
-
-                    b.Property<DateTime?>("TimeSchedule")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("TIME_SCHEDULE");
-
-                    b.Property<long?>("TourId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("TOUR_ID");
-
-                    b.HasKey("TourDayId");
-
-                    b.HasIndex("TourId");
-
-                    b.ToTable("tourDays");
-                });
-
             modelBuilder.Entity("HKQTravellingAuthenication.Models.Tour.TourImages", b =>
                 {
                     b.Property<long>("ImageId")
@@ -394,25 +355,23 @@ namespace HKQTravellingAuthenication.Migrations
 
             modelBuilder.Entity("HKQTravellingAuthenication.Models.Tour.TourTypes", b =>
                 {
-                    b.Property<long>("typeID")
+                    b.Property<long>("TourTypeId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("TYPE_ID");
+                        .HasColumnName("TOUR_TYPE_ID");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("typeID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("TourTypeId"));
 
-                    b.Property<long?>("TourId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("TOUR_ID");
-
-                    b.Property<string>("typeName")
+                    b.Property<string>("TourTypeName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("TYPE_NAME");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("TOUR_TYPE_NAME");
 
-                    b.HasKey("typeID");
+                    b.HasKey("TourTypeId");
 
-                    b.HasIndex("TourId");
+                    b.HasIndex("TourTypeName")
+                        .IsUnique();
 
                     b.ToTable("tourTypes");
                 });
@@ -434,7 +393,12 @@ namespace HKQTravellingAuthenication.Migrations
                     b.Property<DateTime?>("CreationDate")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2")
-                        .HasColumnName("CREATION_DATE");
+                        .HasColumnName("CREATION_DATE")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("DESCRIPTION");
 
                     b.Property<long?>("DiscountId")
                         .HasColumnType("bigint")
@@ -494,6 +458,10 @@ namespace HKQTravellingAuthenication.Migrations
                         .HasColumnType("nvarchar(200)")
                         .HasColumnName("TOUR_NAME");
 
+                    b.Property<long?>("TourTypeId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("TOUR_TYPE_ID");
+
                     b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("datetime2")
                         .HasColumnName("UPDATE_DATE");
@@ -505,6 +473,8 @@ namespace HKQTravellingAuthenication.Migrations
                     b.HasIndex("EndLocationId");
 
                     b.HasIndex("StartLocationId");
+
+                    b.HasIndex("TourTypeId");
 
                     b.ToTable("tours");
                 });
@@ -822,25 +792,7 @@ namespace HKQTravellingAuthenication.Migrations
                     b.Navigation("bookings");
                 });
 
-            modelBuilder.Entity("HKQTravellingAuthenication.Models.Tour.TourDays", b =>
-                {
-                    b.HasOne("HKQTravellingAuthenication.Models.Tour.Tours", "tours")
-                        .WithMany()
-                        .HasForeignKey("TourId");
-
-                    b.Navigation("tours");
-                });
-
             modelBuilder.Entity("HKQTravellingAuthenication.Models.Tour.TourImages", b =>
-                {
-                    b.HasOne("HKQTravellingAuthenication.Models.Tour.Tours", "tours")
-                        .WithMany()
-                        .HasForeignKey("TourId");
-
-                    b.Navigation("tours");
-                });
-
-            modelBuilder.Entity("HKQTravellingAuthenication.Models.Tour.TourTypes", b =>
                 {
                     b.HasOne("HKQTravellingAuthenication.Models.Tour.Tours", "tours")
                         .WithMany()
@@ -863,11 +815,17 @@ namespace HKQTravellingAuthenication.Migrations
                         .WithMany()
                         .HasForeignKey("StartLocationId");
 
+                    b.HasOne("HKQTravellingAuthenication.Models.Tour.TourTypes", "tourTypes")
+                        .WithMany()
+                        .HasForeignKey("TourTypeId");
+
                     b.Navigation("discounts");
 
                     b.Navigation("endLocations");
 
                     b.Navigation("startLocations");
+
+                    b.Navigation("tourTypes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

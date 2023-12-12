@@ -1,4 +1,3 @@
-﻿//using database
 #region Khai báo
 using HKQTravellingAuthenication.Extension;
 using HKQTravellingAuthenication.Data;
@@ -98,7 +97,6 @@ namespace HKQTravelling.Controllers
             var soluongNguoiLon = f["soluongNguoiLon"].ToString();
             var tourImages = _db.tourImages.Where(t => t.TourId == id).ToList();
             var detail = _db.tours.FirstOrDefault(t => t.TourId == id);
-            var tourDays = _db.tourDays.Where(t => t.TourId == id).OrderBy(t => t.DayNumber).ToList();
             if (tourImages == null && detail == null)
             {
                 return NotFound();
@@ -108,7 +106,6 @@ namespace HKQTravelling.Controllers
 
             ViewBag.Detail = detail;
             ViewBag.ImageUrls = imageUrls;
-            ViewBag.TourDays = tourDays;
 
             return View();
         }
@@ -164,6 +161,157 @@ namespace HKQTravelling.Controllers
 
             #endregion
 
+
+        #region Add TourImages
+        [HttpGet]
+        public IActionResult addTourImages()
+        {
+            ViewBag.TourId = new SelectList(_db.tours.ToList().OrderBy(n => n.TourId), "TourId", "TourName");
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> addTourImages(TourImages tourImages, IFormFile ImageUrl, IFormCollection f)
+        {
+            var dayNumber = f["DayNumber"].ToString();
+            var tourId = f["TourId"].ToString();
+
+            if (string.IsNullOrEmpty(dayNumber))
+            {
+                ViewData["checking_dayNumber"] = "DayNumber trống!";
+                return View();
+            }
+            else if (ImageUrl == null || ImageUrl.Length == 0)
+            {
+                ViewData["checking_imageUrl"] = "ImageUrl trống!";
+                return View();
+            }
+            else if (string.IsNullOrEmpty(tourId))
+            {
+                ViewData["checking_tourID"] = "TourId trống!";
+                return View();
+            }
+            else
+            {
+                // Lưu tệp hình ảnh vào một thư mục trên máy chủ
+                var path = Path.Combine(
+                            Directory.GetCurrentDirectory(), "wwwroot/User/img/Tour",
+                            ImageUrl.FileName);
+
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await ImageUrl.CopyToAsync(stream);
+                }
+
+                // Lưu đường dẫn tệp vào cơ sở dữ liệu
+                var dbTourImages = new TourImages
+                {
+                    ImageUrl = ImageUrl.FileName,
+                    DayNumber = int.Parse(dayNumber),
+                    TourId = int.Parse(tourId)
+                };
+                _db.tourImages.Add(dbTourImages);
+                await _db.SaveChangesAsync();
+                return RedirectToAction("Index", "Tour");
+            }
+        }
+
+        #endregion
+
+        #region Add Tour
+        [HttpGet]
+        public IActionResult AddTour()
+        {
+            ViewBag.StartLocationName = new SelectList(_db.startLocations.ToList().OrderBy(n => n.StartLocationName), "StartLocationId", "StartLocationName");
+            ViewBag.EndLocationName = new SelectList(_db.endLocations.ToList().OrderBy(n => n.EndLocationName), "EndLocationId", "EndLocationName");
+            ViewBag.DisName = new SelectList(_db.discounts.ToList().OrderBy(n => n.DiscountId), "DiscountId", "DiscountName");
+            ViewBag.StartLocationId = new SelectList(_db.startLocations.ToList().OrderBy(n => n.StartLocationName), "StartLocationId", "StartLocationId");
+            ViewBag.EndLocationId = new SelectList(_db.endLocations.ToList().OrderBy(n => n.EndLocationName), "EndLocationId", "EndLocationId");
+            ViewBag.DisId = new SelectList(_db.discounts.ToList().OrderBy(n => n.DiscountId), "DiscountId", "DiscountId");
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddTour(Tours tours, IFormCollection f)
+        {
+            var tourName = f["TourName"].ToString();
+            var price = f["Price"].ToString();
+            var startDate = f["StartDate"].ToString();
+            var endDate = f["EndDate"].ToString();
+            var status = f["Status"].ToString();
+            var updateDate = f["UpdateDate"].ToString();
+            var remaining = f["Remaining"].ToString();
+            var disId = Request.Form["DiscountId"].ToString().Split(',')[0];
+            var startLocationId = Request.Form["StartLocationId"].ToString().Split(',')[0];
+            var endLocationId = Request.Form["EndLocationId"].ToString().Split(',')[0];
+
+
+            if (string.IsNullOrEmpty(tourName))
+            {
+                ViewData["checking_tourName"] = "TourName trống!";
+                return View();
+            }
+            else if (string.IsNullOrEmpty(price))
+            {
+                ViewData["checking_price"] = "Price trống!";
+                return View();
+            }
+            else if (string.IsNullOrEmpty(startDate))
+            {
+                ViewData["checking_startDate"] = "StartDate trống!";
+                return View();
+            }
+            else if (string.IsNullOrEmpty(endDate))
+            {
+                ViewData["checking_endDate"] = "EndDate trống!";
+                return View();
+            }
+            else if (string.IsNullOrEmpty(updateDate))
+            {
+                ViewData["checking_UpdateDate"] = "UpdateDate trống!";
+                return View();
+            }
+            else if (string.IsNullOrEmpty(remaining))
+            {
+                ViewData["checking_remaining"] = "Remaining trống!";
+                return View();
+            }
+            else if (string.IsNullOrEmpty(disId))
+            {
+                ViewData["checking_DisId"] = "DisId trống!";
+                return View();
+            }
+            else if (string.IsNullOrEmpty(startLocationId))
+            {
+                ViewData["checking_startLocationId"] = "StartLocationId trống!";
+                return View();
+            }
+            else if (string.IsNullOrEmpty(endLocationId))
+            {
+                ViewData["checking_endLocationId"] = "EndLocationId trống!";
+                return View();
+            }
+            else
+            {
+                var dbTours = new Tours
+                {
+                    TourName = tourName,
+                    Price = int.Parse(price),
+                    StartDate = DateTime.Parse(startDate),
+                    EndDate = DateTime.Parse(endDate),
+                    Status = int.Parse(status),
+                    CreationDate = DateTime.Parse(updateDate),
+                    UpdateDate = DateTime.Parse(updateDate),
+                    Remaining = int.Parse(remaining),
+                    DiscountId = long.Parse(disId),
+                    StartLocationId = long.Parse(startLocationId),
+                    EndLocationId = long.Parse(endLocationId)
+                };
+                _db.tours.Add(dbTours);
+                await _db.SaveChangesAsync();
+                return RedirectToAction("Index", "Tour");
+            }
+        }
+        #endregion
         #region Payment
         [HttpGet]
         public async Task<IActionResult> Payments()

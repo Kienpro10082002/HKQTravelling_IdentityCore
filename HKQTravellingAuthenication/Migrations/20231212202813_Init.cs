@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HKQTravellingAuthenication.Migrations
 {
     /// <inheritdoc />
-    public partial class addDB : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -107,6 +107,19 @@ namespace HKQTravellingAuthenication.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "tourTypes",
+                columns: table => new
+                {
+                    TOUR_TYPE_ID = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TOUR_TYPE_NAME = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tourTypes", x => x.TOUR_TYPE_ID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -167,11 +180,12 @@ namespace HKQTravellingAuthenication.Migrations
                     TOUR_ID = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TOUR_NAME = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    DESCRIPTION = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PRICE = table.Column<int>(type: "int", nullable: true),
                     START_DATE = table.Column<DateTime>(type: "datetime2", nullable: true),
                     END_DATE = table.Column<DateTime>(type: "datetime2", nullable: true),
                     STATUS = table.Column<int>(type: "int", nullable: true),
-                    CREATION_DATE = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CREATION_DATE = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "GETDATE()"),
                     UPDATE_DATE = table.Column<DateTime>(type: "datetime2", nullable: true),
                     REMAINING = table.Column<int>(type: "int", nullable: true),
                     PRICE_INCLUDE = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
@@ -181,7 +195,8 @@ namespace HKQTravellingAuthenication.Migrations
                     NOTE = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
                     DIS_ID = table.Column<long>(type: "bigint", nullable: true),
                     START_LOCATION_ID = table.Column<long>(type: "bigint", nullable: true),
-                    END_LOCATION_ID = table.Column<long>(type: "bigint", nullable: true)
+                    END_LOCATION_ID = table.Column<long>(type: "bigint", nullable: true),
+                    TOUR_TYPE_ID = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -201,6 +216,11 @@ namespace HKQTravellingAuthenication.Migrations
                         column: x => x.START_LOCATION_ID,
                         principalTable: "startLocations",
                         principalColumn: "START_LOCATION_ID");
+                    table.ForeignKey(
+                        name: "FK_tours_tourTypes_TOUR_TYPE_ID",
+                        column: x => x.TOUR_TYPE_ID,
+                        principalTable: "tourTypes",
+                        principalColumn: "TOUR_TYPE_ID");
                 });
 
             migrationBuilder.CreateTable(
@@ -346,28 +366,6 @@ namespace HKQTravellingAuthenication.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "tourDays",
-                columns: table => new
-                {
-                    TOUR_DAY_ID = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    DAY_NUMBER = table.Column<int>(type: "int", nullable: true),
-                    DESCRIPTION = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DESTINATION = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    TIME_SCHEDULE = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    TOUR_ID = table.Column<long>(type: "bigint", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_tourDays", x => x.TOUR_DAY_ID);
-                    table.ForeignKey(
-                        name: "FK_tourDays_tours_TOUR_ID",
-                        column: x => x.TOUR_ID,
-                        principalTable: "tours",
-                        principalColumn: "TOUR_ID");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "tourImages",
                 columns: table => new
                 {
@@ -382,25 +380,6 @@ namespace HKQTravellingAuthenication.Migrations
                     table.PrimaryKey("PK_tourImages", x => x.IMAGE_ID);
                     table.ForeignKey(
                         name: "FK_tourImages_tours_TOUR_ID",
-                        column: x => x.TOUR_ID,
-                        principalTable: "tours",
-                        principalColumn: "TOUR_ID");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "tourTypes",
-                columns: table => new
-                {
-                    TYPE_ID = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TYPE_NAME = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TOUR_ID = table.Column<long>(type: "bigint", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_tourTypes", x => x.TYPE_ID);
-                    table.ForeignKey(
-                        name: "FK_tourTypes_tours_TOUR_ID",
                         column: x => x.TOUR_ID,
                         principalTable: "tours",
                         principalColumn: "TOUR_ID");
@@ -518,11 +497,6 @@ namespace HKQTravellingAuthenication.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_tourDays_TOUR_ID",
-                table: "tourDays",
-                column: "TOUR_ID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_tourImages_TOUR_ID",
                 table: "tourImages",
                 column: "TOUR_ID");
@@ -543,9 +517,15 @@ namespace HKQTravellingAuthenication.Migrations
                 column: "START_LOCATION_ID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_tourTypes_TOUR_ID",
+                name: "IX_tours_TOUR_TYPE_ID",
+                table: "tours",
+                column: "TOUR_TYPE_ID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tourTypes_TOUR_TYPE_NAME",
                 table: "tourTypes",
-                column: "TOUR_ID");
+                column: "TOUR_TYPE_NAME",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserClaims_UserId",
@@ -605,13 +585,7 @@ namespace HKQTravellingAuthenication.Migrations
                 name: "RoleClaims");
 
             migrationBuilder.DropTable(
-                name: "tourDays");
-
-            migrationBuilder.DropTable(
                 name: "tourImages");
-
-            migrationBuilder.DropTable(
-                name: "tourTypes");
 
             migrationBuilder.DropTable(
                 name: "UserClaims");
@@ -651,6 +625,9 @@ namespace HKQTravellingAuthenication.Migrations
 
             migrationBuilder.DropTable(
                 name: "startLocations");
+
+            migrationBuilder.DropTable(
+                name: "tourTypes");
         }
     }
 }

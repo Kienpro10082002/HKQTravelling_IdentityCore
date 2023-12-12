@@ -1,0 +1,85 @@
+﻿@model HKQTravellingAuthenication.Areas.Tour.Models.TourExtraViewModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "_Layout";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Tours</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            <p>Tên tour</p>
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Tours.TourName)
+        </dd>
+        <dt>
+            <p>Giá</p>
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Tours.Price)
+        </dd>
+        <dt>
+            <p>Ngày bắt đầu</p>
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Tours.StartDate)
+        </dd>
+        <dt>
+            <p>Ngày kết thúc</p>
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Tours.EndDate)
+        </dd>
+        <dt>
+            <p>Trạng thái</p>
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Tours.Status)
+        </dd>
+        <dt>
+            <p>Ngày tạo</p>
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Tours.CreationDate)
+        </dd>
+        <dt>
+            <p>Ngày cập nhật</p>
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Tours.UpdateDate)
+        </dd>
+        <dt>
+            <p>Số lượng tồn</p>
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Tours.Remaining)
+        </dd>
+        <dt>
+            <p>Tên giảm giá</p>
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Tours.discounts.DiscountName)
+        </dd>
+        <dt>
+            <p>Tên điểm khởi hành</p>
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Tours.startLocations.StartLocationName)
+        </dd>
+        <dt>
+            <p>Tên điểm đến</p>
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Tours.endLocations.EndLocationName)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Tours.TourId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
