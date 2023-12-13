@@ -102,8 +102,8 @@
                         </select>
                     </div>
                     <div class="filter-group pb-2">
-                        <label for="typeName">Loại tour</label>
-                        <select id="typeName" class="select-type">
+                        <label for="types">Loại tour</label>
+                        <select id="types" class="select-type">
                             <option value="">Chọn loại tour</option>
                             @foreach (var type in ViewBag.TypeName)
                             {
@@ -264,17 +264,17 @@
     });
 </script>
 <script>
-    // Search by typeName
+    // Search by typeID
     $(document).ready(function () {
-        $('#typeName').change(function () {
+        $('.types').change(function () {
             $('.tour-item').hide();
             $('.MenuTrang').hide();
-            var typeName = $("#typeName option:selected").text();
-            console.log(typeName);
+            var typeID = $(this).val();
+            console.log(typeID);
             $.ajax({
                 url: '/Tour/GetToursByType',
                 type: 'GET',
-                data: { typeName: typeName },
+                data: { typeID: typeID },
                 success: function (data) {
                     $('#toursContainer').html(data);
                 }
