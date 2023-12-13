@@ -67,7 +67,7 @@ namespace HKQTravelling.Controllers
             var startLocations = _db.startLocations.ToList();
             var endLocations = _db.endLocations.ToList();
             var tourImages = _db.tourImages.ToList();
-            var types = _db.tourTypes.GroupBy(t => t.typeName).Select(g => g.First()).ToList();
+            var types = _db.tourTypes.GroupBy(t => t.TourTypeName).Select(g => g.First()).ToList();
 
             var tourImageUrls = new List<string>();
             foreach (var tour in objTourList)
@@ -569,7 +569,7 @@ namespace HKQTravelling.Controllers
             }
             if (!string.IsNullOrEmpty(typeName))
             {
-                var tourIDs = _db.tourTypes.Where(tt => tt.typeName == typeName).Select(tt => tt.TourId).ToList();
+                var tourIDs = _db.tourTypes.Where(tt => tt.TourTypeName == typeName).Select(tt => tt.TourTypeId).ToList();
                 TourList = _db.tours.Where(t => tourIDs.Contains(t.TourId)).ToPagedList(pageNumber, pageSize);
             }
             else

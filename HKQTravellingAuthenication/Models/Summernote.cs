@@ -1,7 +1,7 @@
 namespace HKQTravellingAuthenication.Models {
-     public class Summernote 
+    public class Summernote
     {
-        public Summernote(string iDEditor, bool loadLibrary  = true)
+        public Summernote(string iDEditor, bool loadLibrary = true)
         {
             IDEditor = iDEditor;
             LoadLibrary = loadLibrary;
