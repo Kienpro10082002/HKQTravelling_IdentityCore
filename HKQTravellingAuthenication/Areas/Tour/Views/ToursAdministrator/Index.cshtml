@@ -5,6 +5,7 @@
     Layout = "_Layout";
 }
 
+
 <h2>Index</h2>
 
 <p>
@@ -66,7 +67,18 @@
                     @Html.DisplayFor(modelItem => item.EndDate)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Status)
+                    @if (item.Status == 1)
+                    {
+                        <text>Đang Hoạt động</text>
+                    }
+                    else if (item.Status == 0)
+                    {
+                        <text>Không hoạt động</text>
+                    }
+                    else
+                    {
+                        <text>Trạng thái không xác định</text>
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.CreationDate)
@@ -78,7 +90,7 @@
                     @Html.DisplayFor(modelItem => item.Remaining)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.discounts.DiscountId)
+                    @Html.DisplayFor(modelItem => item.discounts.DiscountName)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.startLocations.StartLocationName)

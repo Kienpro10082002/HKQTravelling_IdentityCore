@@ -204,8 +204,6 @@
 	<!-- Template Javascript -->
 	<script src="~/User/js/main.js"></script>
 
-	<!--My custom-->
-	<script src="~/lib/jquery/dist/jquery.min.js"></script>
 	<!-- Your SDK code -->
 	<script>
 		window.fbAsyncInit = function () {
@@ -224,8 +222,12 @@
 		}(document, 'script', 'facebook-jssdk'));
 	</script>
 
+	<!--My custom-->
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/js/site.js"></script>
 
-		@await RenderSectionAsync("Scripts", required: false)
+	@await RenderSectionAsync("Scripts", required: false)
 </body>
 
 </html>

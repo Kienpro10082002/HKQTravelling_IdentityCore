@@ -16,7 +16,7 @@
             <div class="form-group">
                 <label asp-for="TourName" class="control-label"></label>
                 <input asp-for="TourName" class="form-control" name="TourName"/>
-                <span asp-validation-for="TourName" class="text-danger"></span>
+                <p class="text-danger">@ViewData["validation_message_tourName"]</p>
             </div>
             <div class="form-group">
                 <label asp-for="Price" class="control-label"></label>
@@ -37,6 +37,11 @@
                 <label asp-for="Remaining" class="control-label"></label>
                 <input asp-for="Remaining" class="form-control" name="Remaining"/>
                 <span asp-validation-for="Remaining" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" class="form-control" id="mySummernoteEditor" name="Description"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="DiscountId" class="control-label"></label>
@@ -90,3 +95,7 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+@{
+    var summernote = new HKQTravellingAuthenication.Models.Summernote("#mySummernoteEditor");
+}
+<partial name="_Summernote" model="summernote" />
