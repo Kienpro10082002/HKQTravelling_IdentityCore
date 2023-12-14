@@ -91,10 +91,11 @@
 		</div>
 	</div>
 	<!-- Topbar End -->
+	
 	<!-- Navbar Start -->
 	<div class="container-fluid position-relative nav-bar p-0">
 		<div class="container-lg position-relative p-0 px-lg-3" style="z-index: 9;">
-			<nav class="navbar navbar-expand-lg bg-light navbar-light shadow-lg py-3 py-lg-0 pl-3 pl-lg-5">
+			<nav class="navbar navbar-expand-lg bg-light navbar-light shadow-lg py-3 py-lg-0 pl-3 pl-lg-5 fixed-top">
 				<a href="" class="navbar-brand">
 					<h1 class="m-0 text-primary"><span class="text-dark">HKQTravel</span>ling</h1>
 				</a>
@@ -103,13 +104,13 @@
 				</button>
 				<div class="collapse navbar-collapse justify-content-between px-3" id="navbarCollapse">
 					<div class="navbar-nav ml-auto py-0">
-						<a href="@Url.Action("Index", "Home")" class="nav-item nav-link active">Home</a>
-						<a href="@Url.Action("About", "Home")" class="nav-item nav-link">About</a>
-						<a href="@Url.Action("Index", "Tour")" " class="nav-item nav-link">Tour Packages</a>
+						<a href="@Url.Action("Index", "Home")" class="nav-item nav-link active">Trang chủ</a>
+						<a href="@Url.Action("About", "Home")" class="nav-item nav-link">Giới thiệu</a>
+						<a href="@Url.Action("Index", "Tour")" " class="nav-item nav-link">Du lịch</a>
 						<a href="@Url.Action("Index", "Post")" class="nav-item nav-link">Tin tức</a>
 
 						@await Html.PartialAsync("_AdminManagerPartial")
-						<a href="@Url.Action("SendContact", "Contact", new { Area = "Contact" })" class="nav-item nav-link">Contact</a>
+						<a href="@Url.Action("SendContact", "Contact", new { Area = "Contact" })" class="nav-item nav-link">Liên hệ</a>
 						@await Html.PartialAsync("_LoginPartial")
 					</div>
 
@@ -190,12 +191,7 @@
 		<div class="row">
 			<div class="col-lg-6 text-center text-md-left mb-3 mb-md-0">
 				<p class="m-0 text-white-50">
-					Copyright &copy; <a href="#">Domain</a>. All Rights Reserved.</a>
-				</p>
-			</div>
-			<div class="col-lg-6 text-center text-md-right">
-				<p class="m-0 text-white-50">
-					Designed by <a href="https://htmlcodex.com">HTML Codex</a>
+					Copyright &copy; 2023 <a href="#">HKQTravelling</a>. Ghi rõ nguồn "HKQTravelling" khi sử dụng thông tin từ website này.</a>
 				</p>
 			</div>
 		</div>
@@ -204,6 +200,17 @@
 	<!-- Back to Top -->
 	<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
+	<!--Script giữ thanh nav khi kéo xuống -->
+	<script>
+  window.addEventListener('scroll', function() {
+    var navbar = document.querySelector('.navbar');
+    if (window.scrollY > 50) {
+      navbar.classList.add('fixed-top');
+    } else {
+      navbar.classList.remove('fixed-top');
+    }
+  });
+	</script>
 
 	<!-- Your SDK code -->
 	<script>
@@ -213,7 +220,6 @@
 				version: 'v18.0'
 			});
 		};
-
 		(function (d, s, id) {
 			var js, fjs = d.getElementsByTagName(s)[0];
 			if (d.getElementById(id)) return;

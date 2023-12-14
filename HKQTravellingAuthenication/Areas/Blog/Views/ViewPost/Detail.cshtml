@@ -11,7 +11,7 @@
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="~/">Home</a></li>
+        <li class="breadcrumb-item"><a href="~/">Trang chủ</a></li>
         @if(category != null)
         {
             var li = category.ListParents();
@@ -36,10 +36,13 @@
     <div class="sapo">
         @Model.Description
     </div>
-    <div>
-        <i>Cập nhật: @Model.DateUpdated</i> / 
-        Tác giả: <strong>@Model.Author.UserName</strong>
-    </div>
+     <div>
+     <i class="date_tintuc">Cập nhật: @Model.DateUpdated</i> 
+     </div>
+       <span> 
+          <img class="tacgia" src="~/User/img/design/writing.png">
+          Tác giả: <strong>@Model.Author.UserName</strong>
+    </span> 
     <hr>
 
     @Html.Raw(Model.Content)
