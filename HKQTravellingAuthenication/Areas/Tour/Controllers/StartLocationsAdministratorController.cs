@@ -19,10 +19,11 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
             _context = context;
         }
 
+        #region CRUD Start Location Administrator
         // GET: Admin/StartLocationsAdministrator
         [HttpGet]
         [Route("index")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortedOrder)
         {
             return _context.startLocations != null ?
                         View(await _context.startLocations.ToListAsync()) :
@@ -165,5 +166,6 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
         {
             return (_context.startLocations?.Any(e => e.StartLocationId == id)).GetValueOrDefault();
         }
+        #endregion
     }
 }

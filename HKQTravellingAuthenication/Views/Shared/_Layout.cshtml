@@ -5,14 +5,33 @@
 
 	<meta charset="utf-8">
 	<meta content="width=device-width, initial-scale=1.0" name="viewport">
-	<title>TRAVELER - Free Travel Website Template</title>
+	<title>HKQTRAVELLING</title>
 	@* javascrip *@
 	<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>
 	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="~/js/site.js" asp-append-version="true"></script>
 	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<!-- JavaScript Libraries -->
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+	<script src="~/User/lib/easing/easing.min.js"></script>
+	<script src="~/User/lib/owlcarousel/owl.carousel.min.js"></script>
+	<script src="~/User/lib/tempusdominus/js/moment.min.js"></script>
+	<script src="~/User/lib/tempusdominus/js/moment-timezone.min.js"></script>
+	<script src="~/User/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
+
+	<!--My custom-->
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/js/site.js"></script>
+	<!-- Contact Javascript File -->
+	<script src="~/User/mail/jqBootstrapValidation.min.js"></script>
+	<script src="~/User/mail/contact.js"></script>
+
+	<!-- Template Javascript -->
+	<script src="~/User/js/main.js"></script>
 	<!-- Favicon -->
 	<link href="~/User/img/favicon.ico" rel="icon">
 
@@ -34,7 +53,10 @@
 	<!-- Libraries Stylesheet -->
 	<link href="~/User/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 	<link href="~/User/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
-
+	<!--dataTables-->
+	<link rel="stylesheet" href="//cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" />
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="//cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js" asp-append-version="true"></script>
 	<!-- Customized Bootstrap Stylesheet -->
 	<link href="~/User/css/style.css" rel="stylesheet">
 </head>
@@ -106,7 +128,6 @@
 			<div class="p-3">
 						@RenderBody()
 			</div>
-
 		</main>
 	</div>
 	</div>
@@ -173,12 +194,12 @@
 		<div class="row">
 			<div class="col-lg-6 text-center text-md-left mb-3 mb-md-0">
 				<p class="m-0 text-white-50">
-					Copyright &copy; <a href="#">Domain</a>. All Rights Reserved.</a>
+					Copyright &copy; <a href="#">HKQTravelling</a>. All Rights Reserved.</a>
 				</p>
 			</div>
 			<div class="col-lg-6 text-center text-md-right">
 				<p class="m-0 text-white-50">
-					Designed by <a href="https://htmlcodex.com">HTML Codex</a>
+					Designed by <a href="https://htmlcodex.com">HKQTravelling</a>
 				</p>
 			</div>
 		</div>
@@ -187,22 +208,6 @@
 	<!-- Back to Top -->
 	<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
-
-	<!-- JavaScript Libraries -->
-	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-	<script src="~/User/lib/easing/easing.min.js"></script>
-	<script src="~/User/lib/owlcarousel/owl.carousel.min.js"></script>
-	<script src="~/User/lib/tempusdominus/js/moment.min.js"></script>
-	<script src="~/User/lib/tempusdominus/js/moment-timezone.min.js"></script>
-	<script src="~/User/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
-
-	<!-- Contact Javascript File -->
-	<script src="~/User/mail/jqBootstrapValidation.min.js"></script>
-	<script src="~/User/mail/contact.js"></script>
-
-	<!-- Template Javascript -->
-	<script src="~/User/js/main.js"></script>
 
 	<!-- Your SDK code -->
 	<script>
@@ -221,12 +226,7 @@
 			fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));
 	</script>
-
-	<!--My custom-->
-	<script src="~/lib/jquery/dist/jquery.min.js"></script>
-	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="~/js/site.js"></script>
-
+	
 	@await RenderSectionAsync("Scripts", required: false)
 </body>
 

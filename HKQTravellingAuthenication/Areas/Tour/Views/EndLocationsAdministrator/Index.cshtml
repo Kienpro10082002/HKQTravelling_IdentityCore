@@ -11,16 +11,19 @@
     }
 } *@
 
-<h2>Index</h2>
+<h2>Quản lý điểm đến</h2>
 
 <p>
     <a href="@Url.Action("Create", "EndLocationsAdministrator", new { area = "Tour" })">Create New</a>
 </p>
-<table class="table">
+<table class="table" id="endLocationsTable">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.EndLocationName)
+                <a asp-action="Index">@Html.DisplayNameFor(model => model.EndLocationId)</a>
+            </th>
+            <th>
+                <a asp-action="Index">@Html.DisplayNameFor(model => model.EndLocationName)</a>
             </th>
             <th></th>
         </tr>
@@ -29,6 +32,9 @@
         @foreach (var item in Model)
         {
             <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndLocationId)
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.EndLocationName)
                 </td>
@@ -40,3 +46,13 @@
         }
     </tbody>
 </table>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#endLocationsTable').DataTable({
+                // Tùy chọn DataTables có thể thêm ở đây
+            });
+        });
+    </script>
+}

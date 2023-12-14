@@ -9,7 +9,7 @@
     },
     {
       "library": "summernote@0.8.20",
-      "destination": "wwwroot\\lib\\summernote"
+      "destination": "wwwroot/lib/summernote"
     },
     {
       "library": "jquery@3.5.1",

@@ -27,7 +27,10 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
         [Route("index")]
         public async Task<IActionResult> Index()
         {
-            var dbTours = await _context.tours.Include(t => t.discounts).Include(t => t.endLocations).Include(t => t.startLocations).Include(t => t.tourTypes).ToListAsync();
+            var dbTours = await _context.tours.Include(t => t.discounts)
+                .Include(t => t.endLocations)
+                .Include(t => t.startLocations)
+                .Include(t => t.tourTypes).ToListAsync();
             return View(dbTours);
         }
 
@@ -90,6 +93,7 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
             string surcharge = collection["Surcharge"].ToString();
             string cancelChange = collection["CancelChange"].ToString();
             string note = collection["Note"].ToString();
+            string description = collection["Description"].ToString();
             var tours = new Tours();
             if (tourName == null)
             {
@@ -127,7 +131,8 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
                     PriceNotInclude = priceNotInclude,
                     Surcharge = surcharge,
                     CancelChange = cancelChange,
-                    Note = note
+                    Note = note,
+                    Description = description,
                 };
                 _context.Add(tours);
                 await _context.SaveChangesAsync();

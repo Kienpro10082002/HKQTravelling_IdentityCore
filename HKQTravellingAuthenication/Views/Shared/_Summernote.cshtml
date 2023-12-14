@@ -10,26 +10,26 @@
     <link rel="stylesheet" href="~/lib/jqueryui/themes/base/jquery-ui.css" />
     <link rel="stylesheet" href="~/lib/elfinder/css/elfinder.full.css" />
     <link rel="stylesheet" href="~/lib/elfinder/css/theme.min.css" />
-    
+
     <script src="~/lib/jqueryui/jquery-ui.min.js"></script>
-    <script src="~/lib/elfinder/js/elfinder.min.js"></script>       
+    <script src="~/lib/elfinder/js/elfinder.min.js"></script>
 }
 
 
 <script>
 
-   (function (factory) {
+    (function (factory) {
         if (typeof define === 'function' && define.amd) {
             define(['jquery'], factory);
-        } 
+        }
         else if (typeof module === 'object' && module.exports) {
             module.exports = factory(require('jquery'));
         } else {
             factory(window.jQuery);
         }
     }(function ($) {
-      $.extend($.summernote.plugins, {
-            // Tạo plugin tên elfinder  
+        $.extend($.summernote.plugins, {
+            // Tạo plugin tên elfinder
             'elfinder': function (context) {
                 var self = this;
                 // ui has renders to build ui elements.
@@ -40,8 +40,8 @@
                         contents: '<i class="note-icon-picture"/> elFinder',
                         tooltip: 'Quản lý file',
                         click: function () {
-                            // Bấm vào nút bấm gọi hàm elfinderDialog   
-                            elfinderDialog(context); 
+                            // Bấm vào nút bấm gọi hàm elfinderDialog
+                            elfinderDialog(context);
                         }
                     });
                     // create jQuery object from button instance.
@@ -55,29 +55,29 @@
                     this.$panel = null;
                 };
             }
-      
+
         });
     }));
 
 
     function elfinderDialog(editor) {
-            var fm = $('<div/>').dialogelfinder({
+        var fm = $('<div/>').dialogelfinder({
 
             baseUrl: "@Url.Content("~/lib/elfinder/")",
-            url: "@Url.Action("Connector", "FileManager", new {area = "Files"})",               
+            url: "@Url.Action("Connector", "FileManager", new { area = "Files" })",
 
-            lang : 'vi',
-            width : 840,
+            lang: 'vi',
+            width: 840,
             height: 450,
-            destroyOnClose : true,
-            getFileCallback : function(files, fm) {
+            destroyOnClose: true,
+            getFileCallback: function (files, fm) {
                 console.log(files);
-                            editor.invoke('editor.insertImage', files.url);
+                editor.invoke('editor.insertImage', files.url);
             },
-            commandsOptions : {
-                getfile : {
-                    oncomplete : 'close',
-                    folders : false
+            commandsOptions: {
+                getfile: {
+                    oncomplete: 'close',
+                    folders: false
                 }
             }
         }).dialogelfinder('instance');
@@ -85,10 +85,10 @@
 
 
 
-    $(document).ready(function(){
+    $(document).ready(function () {
         $('@Model.IDEditor').summernote({
             height: @Model.height,
-            toolbar: @Html.Raw(Model.toolbar) //tránh code bị encode
-        });
-    });  
+            toolbar: @Html.Raw(Model.toolbar)
+            });
+    });
 </script>

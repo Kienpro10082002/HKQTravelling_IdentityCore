@@ -7,11 +7,13 @@ namespace HKQTravellingAuthenication.Models.Tour
     {
         [Key]
         [Column("TOUR_TYPE_ID")]
+        [Display(Name = "Mã loại du lịch")]
         public long TourTypeId { get; set; }
 
         [Required]
         [Column("TOUR_TYPE_NAME")]
         [MaxLength(100)]
+        [Display(Name = "Tên loại du lịch")]
         public string TourTypeName { get; set; }
     }
 }
