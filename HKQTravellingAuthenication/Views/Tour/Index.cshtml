@@ -103,7 +103,7 @@
                     </div>
                     <div class="filter-group pb-2">
                         <label for="types">Loại tour</label>
-                        <select id="types" class="select-type">
+                        <select name="types" class="select-type">
                             <option value="">Chọn loại tour</option>
                             @foreach (var type in ViewBag.TypeName)
                             {
@@ -266,7 +266,7 @@
 <script>
     // Search by typeID
     $(document).ready(function () {
-        $('.types').change(function () {
+        $('.select-type').change(function () {
             $('.tour-item').hide();
             $('.MenuTrang').hide();
             var typeID = $(this).val();

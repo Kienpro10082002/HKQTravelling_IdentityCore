@@ -87,21 +87,17 @@
                             <p>@tourDay.TimeSchedule</p>
                         }
                     }
-
-
-                    @*                     <form method="post">
-                    <button type="submit" class="btn btn-primary">Book Now</button>
-                    </form> *@
                 </div>
             </div>
-            <div class="booking">
-                <h1>Lịch khởi hành & giá</h1>
+            <div class="booking" >
+                <h1>Đặt chuyến du lịch</h1>
                 <div class="form-group">
-                    <label for="ngaykhoihanh">Ngày khởi hành:</label>
-                    @if (@ViewBag.Detail != null)
-                    {
-                        <p>@ViewBag.Detail.StartDate</p>
-                    }
+                    <label for="ngaykhoihanh">
+                        @if (@ViewBag.Detail != null)
+                        {
+                            <p>Ngày khởi hành dự kiến: @ViewBag.Detail.StartDate</p>
+                        }
+                    </label>
                 </div>
                 <div class="form-group">
                     <label for="nguoilon">Người lớn:</label>
