@@ -23,17 +23,20 @@ namespace HKQTravellingAuthenication.Areas.Identity.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IEmailSender _emailSender;
+        private readonly ISmsSender _smsSender;
         private readonly ILogger<ManageController> _logger;
 
         public ManageController(
         UserManager<AppUser> userManager,
         SignInManager<AppUser> signInManager,
         IEmailSender emailSender,
+        ISmsSender smsSender,
         ILogger<ManageController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
+            _smsSender = smsSender;
             _logger = logger;
         }
 
@@ -257,7 +260,7 @@ namespace HKQTravellingAuthenication.Areas.Identity.Controllers
             // Generate the token and send it
             var user = await GetCurrentUserAsync();
             var code = await _userManager.GenerateChangePhoneNumberTokenAsync(user, model.PhoneNumber);
-            await _emailSender.SendSmsAsync(model.PhoneNumber, "Mã xác thực là: " + code);
+            await _smsSender.SendSmsAsync(model.PhoneNumber, "Mã xác thực là: " + code);
             return RedirectToAction(nameof(VerifyPhoneNumber), new { PhoneNumber = model.PhoneNumber });
         }
         //
