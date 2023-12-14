@@ -1,4 +1,5 @@
-﻿using HKQTravellingAuthenication.Areas.Tour.Extension;
+﻿using elFinder.NetCore.Helpers;
+using HKQTravellingAuthenication.Areas.Tour.Extension;
 using HKQTravellingAuthenication.Areas.Tour.Models;
 using HKQTravellingAuthenication.Data;
 using HKQTravellingAuthenication.Models.Tour;
@@ -6,6 +7,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Org.BouncyCastle.Utilities;
+using System.Data;
 namespace HKQTravellingAuthenication.Areas.Tour.Controllers
 {
     [Area("Tour")]
@@ -23,7 +27,10 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
         [Route("index")]
         public async Task<IActionResult> Index()
         {
-            var dbTours = await _context.tours.Include(t => t.discounts).Include(t => t.endLocations).Include(t => t.startLocations).Include(t => t.tourTypes).ToListAsync();
+            var dbTours = await _context.tours.Include(t => t.discounts)
+                .Include(t => t.endLocations)
+                .Include(t => t.startLocations)
+                .Include(t => t.tourTypes).ToListAsync();
             return View(dbTours);
         }
 
@@ -81,13 +88,32 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
             string endLocationId = collection["EndLocationId"].ToString();
             string tourTypeId = collection["TourTypeId"].ToString();
             string remaining = collection["Remaining"].ToString();
-            string priceInclude = collection["PriceInlude"].ToString();
+            string priceInclude = collection["PriceInclude"].ToString();
             string priceNotInclude = collection["PriceNotInclude"].ToString();
             string surcharge = collection["Surcharge"].ToString();
             string cancelChange = collection["CancelChange"].ToString();
             string note = collection["Note"].ToString();
+            string description = collection["Description"].ToString();
             var tours = new Tours();
-            if (ModelState.IsValid)
+            if (tourName == null)
+            {
+                ViewData["validation_message_tourName"] = "Tên tour không được để trống";
+                ViewData["DiscountId"] = new SelectList(_context.discounts, "DiscountId", "DiscountId", tours.DiscountId);
+                ViewData["EndLocationId"] = new SelectList(_context.endLocations, "EndLocationId", "EndLocationName", tours.EndLocationId);
+                ViewData["StartLocationId"] = new SelectList(_context.startLocations, "StartLocationId", "StartLocationName", tours.StartLocationId);
+                ViewData["TourTypeId"] = new SelectList(_context.tourTypes, "TourTypeId", "TourTypeName", tours.TourTypeId);
+                return View(tours);
+            }
+            else if (CheckingTours.checkTourName(_context, tourName))
+            {
+                ViewData["validation_message_tourName"] = "Tên tour đã tồn tại";
+                ViewData["DiscountId"] = new SelectList(_context.discounts, "DiscountId", "DiscountId", tours.DiscountId);
+                ViewData["EndLocationId"] = new SelectList(_context.endLocations, "EndLocationId", "EndLocationName", tours.EndLocationId);
+                ViewData["StartLocationId"] = new SelectList(_context.startLocations, "StartLocationId", "StartLocationName", tours.StartLocationId);
+                ViewData["TourTypeId"] = new SelectList(_context.tourTypes, "TourTypeId", "TourTypeName", tours.TourTypeId);
+                return View(tours);
+            }
+            else
             {
                 tours = new Tours()
                 {
@@ -105,17 +131,13 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
                     PriceNotInclude = priceNotInclude,
                     Surcharge = surcharge,
                     CancelChange = cancelChange,
-                    Note = note
+                    Note = note,
+                    Description = description,
                 };
                 _context.Add(tours);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DiscountId"] = new SelectList(_context.discounts, "DiscountId", "DiscountId", tours.DiscountId);
-            ViewData["EndLocationId"] = new SelectList(_context.endLocations, "EndLocationId", "EndLocationName", tours.EndLocationId);
-            ViewData["StartLocationId"] = new SelectList(_context.startLocations, "StartLocationId", "StartLocationName", tours.StartLocationId);
-            ViewData["TourTypeId"] = new SelectList(_context.tourTypes, "TourTypeId", "TourTypeName");
-            return View(tours);
         }
 
         // GET: Tour/ToursAdministrator/edit/5
@@ -140,16 +162,84 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
             }
             else
             {
-                var tourExtraViewModel = new TourExtraViewModel()
+                //var tourExtraViewModel = new TourExtraViewModel()
+                //{
+                //    Tours = tours,
+                //    TourImagesList = tourImages
+                //};
+                ViewData["DiscountId"] = new SelectList(_context.discounts, "DiscountId", "DiscountName", tours.DiscountId);
+                ViewData["EndLocationId"] = new SelectList(_context.endLocations, "EndLocationId", "EndLocationName", tours.EndLocationId);
+                ViewData["StartLocationId"] = new SelectList(_context.startLocations, "StartLocationId", "StartLocationName", tours.StartLocationId);
+                ViewData["TourTypeId"] = new SelectList(_context.tourTypes, "TourTypeId", "TourTypeName", tours.TourTypeId);
+                return View(tours);
+            }
+        }
+
+        // POST: Tour/ToursAdministrator/edit/5
+        [HttpPost]
+        [Route("edit/{id}")]
+        public async Task<IActionResult> Edit(long? id, IFormCollection collection)
+        {
+            string tourName = collection["TourName"].ToString();
+            string price = collection["Price"].ToString();
+            string startDate = collection["StartDate"].ToString();
+            string endDate = collection["EndDate"].ToString();
+            string discountId = collection["DiscountId"].ToString();
+            string startLocationId = collection["StartLocationId"].ToString();
+            string endLocationId = collection["EndLocationId"].ToString();
+            string tourTypeId = collection["TourTypeId"].ToString();
+            string remaining = collection["Remaining"].ToString();
+            string priceInclude = collection["PriceInclude"].ToString();
+            string priceNotInclude = collection["PriceNotInclude"].ToString();
+            string surcharge = collection["Surcharge"].ToString();
+            string cancelChange = collection["CancelChange"].ToString();
+            string note = collection["Note"].ToString();
+            var dbTours = await _context.tours.FindAsync(id);
+            try
+            {
+                if (tourName.IsNullOrEmpty())
                 {
-                    Tours = tours,
-                    TourImagesList = tourImages
-                };
-                ViewData["DiscountId"] = new SelectList(_context.discounts, "DiscountId", "DiscountName", tourExtraViewModel.Tours.DiscountId);
-                ViewData["EndLocationId"] = new SelectList(_context.endLocations, "EndLocationId", "EndLocationName", tourExtraViewModel.Tours.EndLocationId);
-                ViewData["StartLocationId"] = new SelectList(_context.startLocations, "StartLocationId", "StartLocationName", tourExtraViewModel.Tours.StartLocationId);
-                ViewData["TourTypeId"] = new SelectList(_context.tourTypes, "TourTypeId", "TourTypeName", tourExtraViewModel.Tours.TourTypeId);
-                return View(tourExtraViewModel);
+                    ViewData["validation_message_tourName"] = "Tên tour không được để trống";
+                    ViewData["DiscountId"] = new SelectList(_context.discounts, "DiscountId", "DiscountId", dbTours.DiscountId);
+                    ViewData["EndLocationId"] = new SelectList(_context.endLocations, "EndLocationId", "EndLocationName", dbTours.EndLocationId);
+                    ViewData["StartLocationId"] = new SelectList(_context.startLocations, "StartLocationId", "StartLocationName", dbTours.StartLocationId);
+                    ViewData["TourTypeId"] = new SelectList(_context.tourTypes, "TourTypeId", "TourTypeName", dbTours.TourTypeId);
+                    return View(dbTours);
+                }
+                else if (CheckingTours.checkTourNameWhenUpdate(_context, tourName))
+                {
+                    ViewData["validation_message_tourName"] = "Tên tour đã tồn tại";
+                    ViewData["DiscountId"] = new SelectList(_context.discounts, "DiscountId", "DiscountId", dbTours.DiscountId);
+                    ViewData["EndLocationId"] = new SelectList(_context.endLocations, "EndLocationId", "EndLocationName", dbTours.EndLocationId);
+                    ViewData["StartLocationId"] = new SelectList(_context.startLocations, "StartLocationId", "StartLocationName", dbTours.StartLocationId);
+                    ViewData["TourTypeId"] = new SelectList(_context.tourTypes, "TourTypeId", "TourTypeName", dbTours.TourTypeId);
+                    return View(dbTours);
+                }
+                else
+                {
+                    dbTours.TourName = tourName;
+                    dbTours.Price = int.Parse(price);
+                    dbTours.Status = 1;
+                    dbTours.StartDate = Convert.ToDateTime(startDate);
+                    dbTours.EndDate = Convert.ToDateTime(endDate);
+                    dbTours.StartLocationId = int.Parse(startLocationId);
+                    dbTours.EndLocationId = int.Parse(endLocationId);
+                    dbTours.DiscountId = int.Parse(discountId);
+                    dbTours.TourTypeId = int.Parse(tourTypeId);
+                    dbTours.Remaining = int.Parse(remaining);
+                    dbTours.PriceInclude = priceInclude;
+                    dbTours.PriceNotInclude = priceNotInclude;
+                    dbTours.Surcharge = surcharge;
+                    dbTours.CancelChange = cancelChange;
+                    dbTours.Note = note;
+                    dbTours.UpdateDate = DateTime.Now;
+                    _context.Update(dbTours);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+            } catch (DBConcurrencyException)
+            {
+                return View();
             }
         }
 

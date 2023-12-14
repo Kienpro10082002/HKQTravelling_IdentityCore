@@ -11,12 +11,12 @@
     }
 } *@
 
-<h2>Index</h2>
+<h2>Quản lý chương trình giảm giá</h2>
 
 <p>
     <a href="@Url.Action("Create", "DiscountsAdministrator", new { area = "Tour" })">Create New</a>
 </p>
-<table class="table">
+<table class="table" id="discountsTable">
     <thead>
         <tr>
             <th>
@@ -30,9 +30,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DiscountDateEnd)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
             </th>
             <th></th>
         </tr>
@@ -54,9 +51,6 @@
                     @Html.DisplayFor(modelItem => item.DiscountDateEnd)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Status)
-                </td>
-                <td>
                     <a href="@Url.Action("Edit", "DiscountsAdministrator", new { area = "Tour", id = item.DiscountId })">Edit</a> |
                     <a href="@Url.Action("Delete", "DiscountsAdministrator", new { area = "Tour", id = item.DiscountId })">Delete</a>
                 </td>
@@ -64,3 +58,12 @@
         }
     </tbody>
 </table>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#discountsTable').DataTable({
+                // Tùy chọn DataTables có thể thêm ở đây
+            });
+        });
+    </script>
+}
