@@ -39,8 +39,8 @@
      <div>
      <i class="date_tintuc">Cập nhật: @Model.DateUpdated</i> 
      </div>
-       <span> 
-          <img class="tacgia" src="~/User/img/design/writing.png">
+       <span class="tacgia"> 
+          <img class="anhtacgia" src="~/User/img/design/writing.png">
           Tác giả: <strong>@Model.Author.UserName</strong>
     </span> 
     <hr>
@@ -58,14 +58,18 @@
            categoryslug = ViewBag.categoryslug,
         })
 
+    <div>
+   
     <ul class="list-group">
     @foreach (var post in otherPosts)
     {
+        
         <li class="list-group-item">
             <a asp-controller="ViewPost" asp-action="Detail" asp-route-postslug="@post.Slug">
                 @post.Title
             </a>
         </li>
     }
-</ul>    
+    </ul>
+    </div>    
 }

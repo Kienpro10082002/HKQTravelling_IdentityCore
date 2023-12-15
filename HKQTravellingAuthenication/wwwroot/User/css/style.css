@@ -208,6 +208,8 @@ figure {
 }
 
 img {
+  max-width: 100%;
+  height: auto;
   vertical-align: middle;
   border-style: none;
 }
@@ -10315,13 +10317,57 @@ input {
   margin-bottom: 0;
 }
 .detailpost {
+  margin-top: 0;
+  margin-bottom: 3px;
+  font-family: Arial, Helvetica, sans-serif;
   border-radius: 12px;
   background: #fff;
   padding: 20px 40px;
 }
 .tacgia {
+  font-size: 12px;
+}
+.tacgia img {
   height: 20px;
 }
+.cm {
+  border-radius: 15px;
+  background: #fff;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+.cm h3 {
+  text-align: center;
+  border-radius: 5px;
+  border: 1.6px solid #000;
+  padding: 10px 15px 5px;
+  font-family: "UTMNeutra";
+  font-size: 22px;
+  color: #ba1f23;
+  display: block;
+  text-transform: uppercase;
+}
+.dscm {
+  border-radius: 15px;
+  background: #fff;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+/* CSS for the arrow */
+.arrow {
+  float: right;
+}
+
+/* Hide subcategories by default */
+.subcategories {
+  display: none;
+}
+
+/* Show subcategories when parent category is active */
+.category-toggle.active + .subcategories {
+  display: block;
+}
+
 /*
 .box {
     margin-top: 3rem;
