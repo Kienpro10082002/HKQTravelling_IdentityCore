@@ -1,9 +1,11 @@
-﻿using elFinder.NetCore.Helpers;
+﻿using Bogus.DataSets;
+using elFinder.NetCore.Helpers;
 using HKQTravellingAuthenication.Areas.Tour.Extension;
 using HKQTravellingAuthenication.Areas.Tour.Models;
 using HKQTravellingAuthenication.Data;
 using HKQTravellingAuthenication.Models.Tour;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -17,10 +19,12 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
     public class ToursAdministratorController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public ToursAdministratorController(ApplicationDbContext context)
+        public ToursAdministratorController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         [HttpGet]
@@ -68,10 +72,10 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
         [Route("create")]
         public IActionResult Create()
         {
-            ViewData["DiscountId"] = new SelectList(_context.discounts, "DiscountId", "DiscountName");
-            ViewData["EndLocationId"] = new SelectList(_context.endLocations, "EndLocationId", "EndLocationName");
-            ViewData["StartLocationId"] = new SelectList(_context.startLocations, "StartLocationId", "StartLocationName");
-            ViewData["TourTypeId"] = new SelectList(_context.tourTypes, "TourTypeId", "TourTypeName");
+            ViewData["DiscountId"] = new SelectList(_context.discounts.OrderBy(c => c.DiscountName), "DiscountId", "DiscountName");
+            ViewData["EndLocationId"] = new SelectList(_context.endLocations.OrderBy(c => c.EndLocationName), "EndLocationId", "EndLocationName");
+            ViewData["StartLocationId"] = new SelectList(_context.startLocations.OrderBy(c => c.StartLocationName), "StartLocationId", "StartLocationName");
+            ViewData["TourTypeId"] = new SelectList(_context.tourTypes.OrderBy(c => c.TourTypeName), "TourTypeId", "TourTypeName");
             return View();
         }
 
@@ -80,39 +84,102 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
         public async Task<IActionResult> Create(IFormCollection collection)
         {
             string tourName = collection["TourName"].ToString();
-            string price = collection["Price"].ToString();
-            string startDate = collection["StartDate"].ToString();
-            string endDate = collection["EndDate"].ToString();
+            string price = collection["Price"].ToString().Trim();
+            string userInputStartDate = collection["StartDate"].ToString();
+            string userInputEndDate = collection["EndDate"].ToString();
             string discountId = collection["DiscountId"].ToString();
             string startLocationId = collection["StartLocationId"].ToString();
             string endLocationId = collection["EndLocationId"].ToString();
             string tourTypeId = collection["TourTypeId"].ToString();
-            string remaining = collection["Remaining"].ToString();
+            string remaining = collection["Remaining"].ToString().Trim();
             string priceInclude = collection["PriceInclude"].ToString();
             string priceNotInclude = collection["PriceNotInclude"].ToString();
             string surcharge = collection["Surcharge"].ToString();
             string cancelChange = collection["CancelChange"].ToString();
             string note = collection["Note"].ToString();
             string description = collection["Description"].ToString();
+
+            //Chuyển đổi thành DateTime hoàn toàn
+            DateTime? startDate = !string.IsNullOrWhiteSpace(userInputStartDate) ?
+                      Convert.ToDateTime(userInputStartDate) : (DateTime?)null;
+            DateTime? endDate = !string.IsNullOrWhiteSpace(userInputEndDate) ?
+                    Convert.ToDateTime(userInputEndDate) : (DateTime?)null;
+
             var tours = new Tours();
-            if (tourName == null)
+            #region kiểm tra đầu vào
+            if (tourName.IsNullOrEmpty())
             {
                 ViewData["validation_message_tourName"] = "Tên tour không được để trống";
-                ViewData["DiscountId"] = new SelectList(_context.discounts, "DiscountId", "DiscountId", tours.DiscountId);
-                ViewData["EndLocationId"] = new SelectList(_context.endLocations, "EndLocationId", "EndLocationName", tours.EndLocationId);
-                ViewData["StartLocationId"] = new SelectList(_context.startLocations, "StartLocationId", "StartLocationName", tours.StartLocationId);
-                ViewData["TourTypeId"] = new SelectList(_context.tourTypes, "TourTypeId", "TourTypeName", tours.TourTypeId);
-                return View(tours);
+                ViewData["DiscountId"] = new SelectList(_context.discounts.OrderBy(c => c.DiscountName), "DiscountId", "DiscountName");
+                ViewData["EndLocationId"] = new SelectList(_context.endLocations.OrderBy(c => c.EndLocationName), "EndLocationId", "EndLocationName", tours.EndLocationId);
+                ViewData["StartLocationId"] = new SelectList(_context.startLocations.OrderBy(c => c.StartLocationName), "StartLocationId", "StartLocationName", tours.StartLocationId);
+                ViewData["TourTypeId"] = new SelectList(_context.tourTypes.OrderBy(c => c.TourTypeName), "TourTypeId", "TourTypeName", tours.TourTypeId);
+                return View();
             }
             else if (CheckingTours.checkTourName(_context, tourName))
             {
                 ViewData["validation_message_tourName"] = "Tên tour đã tồn tại";
-                ViewData["DiscountId"] = new SelectList(_context.discounts, "DiscountId", "DiscountId", tours.DiscountId);
+                ViewData["DiscountId"] = new SelectList(_context.discounts.OrderBy(c => c.DiscountName), "DiscountId", "DiscountName");
                 ViewData["EndLocationId"] = new SelectList(_context.endLocations, "EndLocationId", "EndLocationName", tours.EndLocationId);
                 ViewData["StartLocationId"] = new SelectList(_context.startLocations, "StartLocationId", "StartLocationName", tours.StartLocationId);
                 ViewData["TourTypeId"] = new SelectList(_context.tourTypes, "TourTypeId", "TourTypeName", tours.TourTypeId);
+                return View();
+            }
+            else if (price.IsNullOrEmpty())
+            {
+                ViewData["DiscountId"] = new SelectList(_context.discounts.OrderBy(c => c.DiscountName), "DiscountId", "DiscountName");
+                ViewData["EndLocationId"] = new SelectList(_context.endLocations, "EndLocationId", "EndLocationName", tours.EndLocationId);
+                ViewData["StartLocationId"] = new SelectList(_context.startLocations, "StartLocationId", "StartLocationName", tours.StartLocationId);
+                ViewData["TourTypeId"] = new SelectList(_context.tourTypes, "TourTypeId", "TourTypeName", tours.TourTypeId);
+                ModelState.AddModelError("Price", "Giá không được để trống");
+                return View();
+            }
+            else if (int.Parse(price) < 0)
+            {
+                ViewData["DiscountId"] = new SelectList(_context.discounts.OrderBy(c => c.DiscountName), "DiscountId", "DiscountName");
+                ViewData["EndLocationId"] = new SelectList(_context.endLocations, "EndLocationId", "EndLocationName", tours.EndLocationId);
+                ViewData["StartLocationId"] = new SelectList(_context.startLocations, "StartLocationId", "StartLocationName", tours.StartLocationId);
+                ViewData["TourTypeId"] = new SelectList(_context.tourTypes, "TourTypeId", "TourTypeName", tours.TourTypeId);
+                ModelState.AddModelError("Price", "Giá phải là số không âm");
+                return View();
+            }
+            else if (remaining.IsNullOrEmpty())
+            {
+                ViewData["DiscountId"] = new SelectList(_context.discounts.OrderBy(c => c.DiscountName), "DiscountId", "DiscountName");
+                ViewData["EndLocationId"] = new SelectList(_context.endLocations, "EndLocationId", "EndLocationName", tours.EndLocationId);
+                ViewData["StartLocationId"] = new SelectList(_context.startLocations, "StartLocationId", "StartLocationName", tours.StartLocationId);
+                ViewData["TourTypeId"] = new SelectList(_context.tourTypes, "TourTypeId", "TourTypeName", tours.TourTypeId);
+                ModelState.AddModelError("Remaining", "Số lượng tồn không được để trống");
+                return View();
+            }
+            else if(int.Parse(remaining) < 0)
+            {
+                ViewData["DiscountId"] = new SelectList(_context.discounts.OrderBy(c => c.DiscountName), "DiscountId", "DiscountName");
+                ViewData["EndLocationId"] = new SelectList(_context.endLocations, "EndLocationId", "EndLocationName", tours.EndLocationId);
+                ViewData["StartLocationId"] = new SelectList(_context.startLocations, "StartLocationId", "StartLocationName", tours.StartLocationId);
+                ViewData["TourTypeId"] = new SelectList(_context.tourTypes, "TourTypeId", "TourTypeName", tours.TourTypeId);
+                ModelState.AddModelError("Remaining", "Số lượng tồn phải là số không âm");
                 return View(tours);
             }
+            else if (startDate == null || startDate == default(DateTime))
+            {
+                ViewData["DiscountId"] = new SelectList(_context.discounts.OrderBy(c => c.DiscountName), "DiscountId", "DiscountName");
+                ViewData["EndLocationId"] = new SelectList(_context.endLocations, "EndLocationId", "EndLocationName", tours.EndLocationId);
+                ViewData["StartLocationId"] = new SelectList(_context.startLocations, "StartLocationId", "StartLocationName", tours.StartLocationId);
+                ViewData["TourTypeId"] = new SelectList(_context.tourTypes, "TourTypeId", "TourTypeName", tours.TourTypeId);
+                ModelState.AddModelError("EndDate", "Ngày kết thúc không được bỏ trống");
+                return View();
+            }
+            else if(endDate == null || startDate == default(DateTime))
+            {
+                ViewData["DiscountId"] = new SelectList(_context.discounts.OrderBy(c => c.DiscountName), "DiscountId", "DiscountName");
+                ViewData["EndLocationId"] = new SelectList(_context.endLocations, "EndLocationId", "EndLocationName", tours.EndLocationId);
+                ViewData["StartLocationId"] = new SelectList(_context.startLocations, "StartLocationId", "StartLocationName", tours.StartLocationId);
+                ViewData["TourTypeId"] = new SelectList(_context.tourTypes, "TourTypeId", "TourTypeName", tours.TourTypeId);
+                ModelState.AddModelError("EndDate", "Ngày kết thúc không được bỏ trống");
+                return View();
+            }
+            #endregion
             else
             {
                 tours = new Tours()
@@ -120,8 +187,8 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
                     TourName = tourName,
                     Price = int.Parse(price),
                     Status = 1,
-                    StartDate = Convert.ToDateTime(startDate),
-                    EndDate = Convert.ToDateTime(endDate),
+                    StartDate = startDate,
+                    EndDate = endDate,
                     StartLocationId = int.Parse(startLocationId),
                     EndLocationId = int.Parse(endLocationId),
                     DiscountId = int.Parse(discountId),
@@ -136,6 +203,10 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
                 };
                 _context.Add(tours);
                 await _context.SaveChangesAsync();
+                var newTourId = tours.TourId;
+                string destinationFolder = Path.Combine(_webHostEnvironment.WebRootPath, "User", "img", "Tour");
+                await ImageHandler.DownloadAndSaveImage(description, destinationFolder, newTourId, _context);
+                
                 return RedirectToAction(nameof(Index));
             }
         }
@@ -167,7 +238,7 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
                 //    Tours = tours,
                 //    TourImagesList = tourImages
                 //};
-                ViewData["DiscountId"] = new SelectList(_context.discounts, "DiscountId", "DiscountName", tours.DiscountId);
+                ViewData["DiscountId"] = new SelectList(_context.discounts.OrderBy(c => c.DiscountName), "DiscountId", "DiscountName");
                 ViewData["EndLocationId"] = new SelectList(_context.endLocations, "EndLocationId", "EndLocationName", tours.EndLocationId);
                 ViewData["StartLocationId"] = new SelectList(_context.startLocations, "StartLocationId", "StartLocationName", tours.StartLocationId);
                 ViewData["TourTypeId"] = new SelectList(_context.tourTypes, "TourTypeId", "TourTypeName", tours.TourTypeId);
@@ -181,40 +252,108 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
         public async Task<IActionResult> Edit(long? id, IFormCollection collection)
         {
             string tourName = collection["TourName"].ToString();
-            string price = collection["Price"].ToString();
-            string startDate = collection["StartDate"].ToString();
-            string endDate = collection["EndDate"].ToString();
+            string price = collection["Price"].ToString().Trim();
+            string userInputStartDate = collection["StartDate"].ToString();
+            string userInputEndDate = collection["EndDate"].ToString();
             string discountId = collection["DiscountId"].ToString();
             string startLocationId = collection["StartLocationId"].ToString();
             string endLocationId = collection["EndLocationId"].ToString();
             string tourTypeId = collection["TourTypeId"].ToString();
-            string remaining = collection["Remaining"].ToString();
+            string remaining = collection["Remaining"].ToString().Trim();
             string priceInclude = collection["PriceInclude"].ToString();
             string priceNotInclude = collection["PriceNotInclude"].ToString();
             string surcharge = collection["Surcharge"].ToString();
             string cancelChange = collection["CancelChange"].ToString();
             string note = collection["Note"].ToString();
+            string description = collection["Description"].ToString();
+
+            //Chuyển đổi thành DateTime hoàn toàn
+            DateTime? startDate = !string.IsNullOrWhiteSpace(userInputStartDate) ?
+                      Convert.ToDateTime(userInputStartDate) : (DateTime?)null;
+            DateTime? endDate = !string.IsNullOrWhiteSpace(userInputEndDate) ?
+                    Convert.ToDateTime(userInputEndDate) : (DateTime?)null;
+
             var dbTours = await _context.tours.FindAsync(id);
+            if(dbTours == null)
+            {
+                return NotFound();
+            }
             try
             {
+                #region kiểm tra đầu vào
                 if (tourName.IsNullOrEmpty())
                 {
                     ViewData["validation_message_tourName"] = "Tên tour không được để trống";
-                    ViewData["DiscountId"] = new SelectList(_context.discounts, "DiscountId", "DiscountId", dbTours.DiscountId);
-                    ViewData["EndLocationId"] = new SelectList(_context.endLocations, "EndLocationId", "EndLocationName", dbTours.EndLocationId);
-                    ViewData["StartLocationId"] = new SelectList(_context.startLocations, "StartLocationId", "StartLocationName", dbTours.StartLocationId);
-                    ViewData["TourTypeId"] = new SelectList(_context.tourTypes, "TourTypeId", "TourTypeName", dbTours.TourTypeId);
-                    return View(dbTours);
+                    ViewData["DiscountId"] = new SelectList(_context.discounts.OrderBy(c => c.DiscountName), "DiscountId", "DiscountId", dbTours.DiscountId);
+                    ViewData["EndLocationId"] = new SelectList(_context.endLocations.OrderBy(c => c.EndLocationName), "EndLocationId", "EndLocationName", dbTours.EndLocationId);
+                    ViewData["StartLocationId"] = new SelectList(_context.startLocations.OrderBy(c => c.StartLocationName), "StartLocationId", "StartLocationName", dbTours.StartLocationId);
+                    ViewData["TourTypeId"] = new SelectList(_context.tourTypes.OrderBy(c => c.TourTypeName), "TourTypeId", "TourTypeName", dbTours.TourTypeId);
+                    return View();
                 }
                 else if (CheckingTours.checkTourNameWhenUpdate(_context, tourName))
                 {
                     ViewData["validation_message_tourName"] = "Tên tour đã tồn tại";
-                    ViewData["DiscountId"] = new SelectList(_context.discounts, "DiscountId", "DiscountId", dbTours.DiscountId);
-                    ViewData["EndLocationId"] = new SelectList(_context.endLocations, "EndLocationId", "EndLocationName", dbTours.EndLocationId);
-                    ViewData["StartLocationId"] = new SelectList(_context.startLocations, "StartLocationId", "StartLocationName", dbTours.StartLocationId);
-                    ViewData["TourTypeId"] = new SelectList(_context.tourTypes, "TourTypeId", "TourTypeName", dbTours.TourTypeId);
-                    return View(dbTours);
+                    ViewData["DiscountId"] = new SelectList(_context.discounts.OrderBy(c => c.DiscountName), "DiscountId", "DiscountId", dbTours.DiscountId);
+                    ViewData["EndLocationId"] = new SelectList(_context.endLocations.OrderBy(c => c.EndLocationName), "EndLocationId", "EndLocationName", dbTours.EndLocationId);
+                    ViewData["StartLocationId"] = new SelectList(_context.startLocations.OrderBy(c => c.StartLocationName), "StartLocationId", "StartLocationName", dbTours.StartLocationId);
+                    ViewData["TourTypeId"] = new SelectList(_context.tourTypes.OrderBy(c => c.TourTypeName), "TourTypeId", "TourTypeName", dbTours.TourTypeId);
+                    return View();
                 }
+                else if (price.IsNullOrEmpty())
+                {
+                    ViewData["DiscountId"] = new SelectList(_context.discounts.OrderBy(c => c.DiscountName), "DiscountId", "DiscountId", dbTours.DiscountId);
+                    ViewData["EndLocationId"] = new SelectList(_context.endLocations.OrderBy(c => c.EndLocationName), "EndLocationId", "EndLocationName", dbTours.EndLocationId);
+                    ViewData["StartLocationId"] = new SelectList(_context.startLocations.OrderBy(c => c.StartLocationName), "StartLocationId", "StartLocationName", dbTours.StartLocationId);
+                    ViewData["TourTypeId"] = new SelectList(_context.tourTypes.OrderBy(c => c.TourTypeName), "TourTypeId", "TourTypeName", dbTours.TourTypeId);
+                    ModelState.AddModelError("Price", "Giá không được để trống");
+                    return View();
+                }
+                else if (int.Parse(price) < 0)
+                {
+                    ViewData["DiscountId"] = new SelectList(_context.discounts.OrderBy(c => c.DiscountName), "DiscountId", "DiscountId", dbTours.DiscountId);
+                    ViewData["EndLocationId"] = new SelectList(_context.endLocations.OrderBy(c => c.EndLocationName), "EndLocationId", "EndLocationName", dbTours.EndLocationId);
+                    ViewData["StartLocationId"] = new SelectList(_context.startLocations.OrderBy(c => c.StartLocationName), "StartLocationId", "StartLocationName", dbTours.StartLocationId);
+                    ViewData["TourTypeId"] = new SelectList(_context.tourTypes.OrderBy(c => c.TourTypeName), "TourTypeId", "TourTypeName", dbTours.TourTypeId);
+                    ModelState.AddModelError("Price", "Giá phải là số không âm");
+                    return View();
+                }
+                else if (remaining.IsNullOrEmpty())
+                {
+                    ViewData["DiscountId"] = new SelectList(_context.discounts.OrderBy(c => c.DiscountName), "DiscountId", "DiscountId", dbTours.DiscountId);
+                    ViewData["EndLocationId"] = new SelectList(_context.endLocations.OrderBy(c => c.EndLocationName), "EndLocationId", "EndLocationName", dbTours.EndLocationId);
+                    ViewData["StartLocationId"] = new SelectList(_context.startLocations.OrderBy(c => c.StartLocationName), "StartLocationId", "StartLocationName", dbTours.StartLocationId);
+                    ViewData["TourTypeId"] = new SelectList(_context.tourTypes.OrderBy(c => c.TourTypeName), "TourTypeId", "TourTypeName", dbTours.TourTypeId);
+                    ModelState.AddModelError("Remaining", "Số lượng tồn không được để trống");
+                    return View();
+                }
+                else if (int.Parse(remaining) < 0)
+                {
+                    ViewData["DiscountId"] = new SelectList(_context.discounts.OrderBy(c => c.DiscountName), "DiscountId", "DiscountId", dbTours.DiscountId);
+                    ViewData["EndLocationId"] = new SelectList(_context.endLocations.OrderBy(c => c.EndLocationName), "EndLocationId", "EndLocationName", dbTours.EndLocationId);
+                    ViewData["StartLocationId"] = new SelectList(_context.startLocations.OrderBy(c => c.StartLocationName), "StartLocationId", "StartLocationName", dbTours.StartLocationId);
+                    ViewData["TourTypeId"] = new SelectList(_context.tourTypes.OrderBy(c => c.TourTypeName), "TourTypeId", "TourTypeName", dbTours.TourTypeId);
+                    ModelState.AddModelError("Remaining", "Số lượng tồn phải là số không âm");
+                    return View();
+                }
+                else if (startDate == null || startDate == default(DateTime))
+                {
+                    ViewData["DiscountId"] = new SelectList(_context.discounts.OrderBy(c => c.DiscountName), "DiscountId", "DiscountId", dbTours.DiscountId);
+                    ViewData["EndLocationId"] = new SelectList(_context.endLocations.OrderBy(c => c.EndLocationName), "EndLocationId", "EndLocationName", dbTours.EndLocationId);
+                    ViewData["StartLocationId"] = new SelectList(_context.startLocations.OrderBy(c => c.StartLocationName), "StartLocationId", "StartLocationName", dbTours.StartLocationId);
+                    ViewData["TourTypeId"] = new SelectList(_context.tourTypes.OrderBy(c => c.TourTypeName), "TourTypeId", "TourTypeName", dbTours.TourTypeId);
+                    ModelState.AddModelError("EndDate", "Ngày kết thúc không được bỏ trống");
+                    return View();
+                }
+                else if (endDate == null || startDate == default(DateTime))
+                {
+                    ViewData["DiscountId"] = new SelectList(_context.discounts.OrderBy(c => c.DiscountName), "DiscountId", "DiscountId", dbTours.DiscountId);
+                    ViewData["EndLocationId"] = new SelectList(_context.endLocations.OrderBy(c => c.EndLocationName), "EndLocationId", "EndLocationName", dbTours.EndLocationId);
+                    ViewData["StartLocationId"] = new SelectList(_context.startLocations.OrderBy(c => c.StartLocationName), "StartLocationId", "StartLocationName", dbTours.StartLocationId);
+                    ViewData["TourTypeId"] = new SelectList(_context.tourTypes.OrderBy(c => c.TourTypeName), "TourTypeId", "TourTypeName", dbTours.TourTypeId);
+                    ModelState.AddModelError("EndDate", "Ngày kết thúc không được bỏ trống");
+                    return View();
+                }
+                #endregion
                 else
                 {
                     dbTours.TourName = tourName;
@@ -227,6 +366,7 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
                     dbTours.DiscountId = int.Parse(discountId);
                     dbTours.TourTypeId = int.Parse(tourTypeId);
                     dbTours.Remaining = int.Parse(remaining);
+                    dbTours.Description = description;
                     dbTours.PriceInclude = priceInclude;
                     dbTours.PriceNotInclude = priceNotInclude;
                     dbTours.Surcharge = surcharge;
@@ -279,6 +419,13 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
             var tours = await _context.tours.FindAsync(id);
             if (tours != null)
             {
+                // Tìm tất cả các dòng trong tourImages có TOUR_ID trùng với id của tour đang xóa
+                var tourImagesRelated = await _context.tourImages.Where(ti => ti.TourId == id).ToListAsync();
+                if (tourImagesRelated.Any())
+                {
+                    // Xóa tất cả các dòng trong tourImages có TOUR_ID trùng với id của tour đang xóa
+                    _context.tourImages.RemoveRange(tourImagesRelated);
+                }
                 _context.tours.Remove(tours);
             }
 

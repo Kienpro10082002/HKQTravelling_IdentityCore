@@ -12,7 +12,9 @@ namespace HKQTravellingAuthenication.Models.Tour
 
         [Column("TOUR_NAME")]
         [MaxLength(200)]
-        [Display(Name = "Tên tour")]
+        [Required(ErrorMessage = "Vui lòng nhập tên lịch trình.")]
+        [Display(Name = "Tên lịch trình")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "Tên lịch trình phải có độ dài từ 3 đến 50 ký tự.")]
         public string TourName { get; set; }
 
         [Column("DESCRIPTION")]
@@ -20,14 +22,18 @@ namespace HKQTravellingAuthenication.Models.Tour
         public string? Description {  get; set; }
 
         [Column("PRICE")]
+        [Required(ErrorMessage = "Vui lòng nhập giá.")]
         [Display(Name = "Giá")]
+        [Range(0, int.MaxValue, ErrorMessage = "Giá phải là số không âm.")]
         public int? Price { get; set; }
 
         [Column("START_DATE")]
-        [Display(Name = "Ngày khởi hành")]
+        [Required(ErrorMessage = "Vui lòng nhập ngày bắt đầu.")]
+        [Display(Name = "Ngày bắt đầu")]
         public DateTime? StartDate { get; set; }
 
         [Column("END_DATE")]
+        [Required(ErrorMessage = "Vui lòng nhập ngày kết thúc.")]
         [Display(Name = "Ngày kết thúc")]
         public DateTime? EndDate { get; set; }
 
@@ -104,5 +110,7 @@ namespace HKQTravellingAuthenication.Models.Tour
         [ForeignKey("TourTypeId")]
         public TourTypes tourTypes{ get; set; }
 
+        // Danh sách hình ảnh cho từng tour
+        public List<TourImages> TourImages { get; set; }
     }
 }

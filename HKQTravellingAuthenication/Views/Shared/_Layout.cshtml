@@ -237,6 +237,20 @@
 		chatbox.setAttribute("attribution", "biz_inbox");
 	</script>
 
+	<!-- Messenger Plugin chat Code -->
+	<div id="fb-root"></div>
+
+	<!-- Your Plugin chat code -->
+	<div id="fb-customer-chat" class="fb-customerchat">
+	</div>
+
+	<!-- Your SDK code -->
+	<script>
+		var chatbox = document.getElementById('fb-customer-chat');
+		chatbox.setAttribute("page_id", "160600553809729");
+		chatbox.setAttribute("attribution", "biz_inbox");
+	</script>
+
 	<!-- Your SDK code -->
 	<script>
 		window.fbAsyncInit = function () {
