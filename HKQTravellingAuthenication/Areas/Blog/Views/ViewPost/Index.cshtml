@@ -4,11 +4,11 @@
     List<Category> categories = ViewBag.categories as List<Category>;
     Category category = ViewBag.category as Category;
     ViewData["Title"] = (category != null) ? category.Title :
-    "Bài viết trong tất cả danh mục";
+    "TẤT CẢ BÀI VIẾT";
 }
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="~/">Home</a></li>
+        <li class="breadcrumb-item"><a href="~/">Trang chủ</a></li>
         @if(category != null)
         {
             var li = category.ListParents();
@@ -30,7 +30,7 @@
 }
 else
 {
-    <p>Bài viết trong tất cả danh mục...</p>
+    <p>TẤT CẢ BÀI VIẾT</p>
 }
 <hr>
 @foreach (var post in Model)
