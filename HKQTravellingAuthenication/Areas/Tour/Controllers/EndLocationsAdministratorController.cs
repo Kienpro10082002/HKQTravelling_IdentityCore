@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using HKQTravellingAuthenication.Areas.Tour.Extension;
 using HKQTravellingAuthenication.Data;
 using HKQTravellingAuthenication.Models.Tour;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
 {
 	[Area("Tour")]
 	[Route("end-location-manager")]
+	[Authorize(Roles = RoleName.Administrator + "," + RoleName.Editor)]
 	public class EndLocationsAdministratorController : Controller
 	{
 		private readonly ApplicationDbContext _context;

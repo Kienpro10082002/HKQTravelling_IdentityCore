@@ -96,7 +96,6 @@
 		</div>
 	</div>
 	<!-- Topbar End -->
-	
 	<!-- Navbar Start -->
 	<div class="container-fluid position-relative nav-bar p-0">
 		<div class="container-lg position-relative p-0 px-lg-3" style="z-index: 9;">
@@ -126,12 +125,19 @@
 	<!-- Navbar End -->
 	<div class="container-fluid p-0">
 		<main role="main" class="pb-3">
+			@if (
+			ViewContext.RouteData.Values["Controller"].ToString() == "DashBoard" ||
+			(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "Index")
+			)
+			{
+				@await Html.PartialAsync("_DashBoardPartial")
+			}
 			<div class="p-3">
-						@RenderBody()
+				@RenderBody()
 			</div>
 		</main>
 	</div>
-	</div>
+
 
 
 	<!-- Footer Start -->
@@ -211,14 +217,14 @@
 
 	<!--Script giữ thanh nav khi kéo xuống -->
 	<script>
-  window.addEventListener('scroll', function() {
-	var navbar = document.querySelector('.navbar');
-	if (window.scrollY > 50) {
-	  navbar.classList.add('fixed-top');
-	} else {
-	  navbar.classList.remove('fixed-top');
-	}
-  });
+		window.addEventListener('scroll', function () {
+			var navbar = document.querySelector('.navbar');
+			if (window.scrollY > 50) {
+				navbar.classList.add('fixed-top');
+			} else {
+				navbar.classList.remove('fixed-top');
+			}
+		});
 	</script>
 
 	<!-- Your SDK code -->
@@ -279,7 +285,7 @@
 			fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));
 	</script>
-	
+
 	@await RenderSectionAsync("Scripts", required: false)
 </body>
 

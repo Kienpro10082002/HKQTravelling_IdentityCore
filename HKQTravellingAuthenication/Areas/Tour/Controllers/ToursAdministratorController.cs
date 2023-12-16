@@ -16,6 +16,7 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
 {
 	[Area("Tour")]
 	[Route("tour-manager")]
+	[Authorize(Roles = RoleName.Administrator + "," + RoleName.Editor)]
 	public class ToursAdministratorController : Controller
 	{
 		private readonly ApplicationDbContext _context;

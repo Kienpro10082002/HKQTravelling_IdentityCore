@@ -1,0 +1,63 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using HKQTravellingAuthenication.Models
+@using Microsoft.AspNetCore.Mvc.ViewEngines
+@model HKQTravellingAuthenication.Areas.DashBoard.Models.DashboardInfo
+
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+@inject ICompositeViewEngine Engine
+
+@if (User.Identity.IsAuthenticated)
+{
+    var user = await UserManager.GetUserAsync(User);
+    if (await UserManager.IsInRoleAsync(user, "Administrator")
+        || await UserManager.IsInRoleAsync(user, "Editor"))
+    {
+        <div class="p-3">
+            <!-- Trong _DashBoardPartial.cshtml -->
+            <div id="dashboardInfo">
+                @* <h4>Thông tin thống kê</h4>
+                <p>
+                    Số lượng người đặt tour: @if (Model != null)
+                    {
+                    <p>Số lượng người đặt tour: @Model.NumberOfBookings</p>
+                    }
+                    else
+                    {
+                    <p>Dữ liệu không có sẵn hoặc bị null.</p>
+                    }
+                </p> *@
+                <!-- Hiển thị các thông tin khác tương tự -->
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="p-3" style="display: none;"></div>
+    }
+}
+else
+{
+    <div class="p-3" style="display: none;"></div>
+}
+
+<div id="dashboardInfo">
+    <!-- Hiển thị thông tin từ action ở đây -->
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: '@Url.Action("NumberOfBookings", "DashBoardController", new { area = "DashBoard" })',
+                type: 'GET',
+                success: function (result) {
+                    $('#dashboardInfo').html(result); // Hiển thị kết quả từ action trong phần tử có id="dashboardInfo"
+                },
+                error: function () {
+                    $('#dashboardInfo').html('<p>Đã xảy ra lỗi khi gọi action</p>'); // Hiển thị thông báo lỗi nếu có lỗi xảy ra
+                }
+            });
+        });
+    </script>
+}
