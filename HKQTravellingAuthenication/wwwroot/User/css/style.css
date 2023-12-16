@@ -1987,17 +1987,15 @@ pre code {
 .form-control {
   display: block;
   width: 100%;
-  height: calc(1.5em + 0.75rem + 2px);
   padding: 0.375rem 0.75rem;
-  font-size: 1rem;
-  font-weight: 400;
+  font-size: 15px;
   line-height: 1.5;
-  color: #495057;
-  background-color: #fff;
+  color: black;
+  background-color: #f1f1f1;
   background-clip: padding-box;
-  border: 1px solid #ced4da;
-  border-radius: 0;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  height: 45px;
+  border: 1px solid #dadada;
+  border-radius: 0.357rem;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2488,16 +2486,19 @@ textarea.form-control.is-invalid {
 .btn {
   display: inline-block;
   font-weight: 400;
+  text-align: center;
   color: #656565;
   text-align: center;
+  white-space: nowrap;
   vertical-align: middle;
   user-select: none;
+  border: 2px solid transparent;
   background-color: transparent;
   border: 1px solid transparent;
   padding: 0.375rem 0.75rem;
-  font-size: 1rem;
+  font-size: 0.875rem;
   line-height: 1.5;
-  border-radius: 0;
+  border-radius: 0.357rem;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
     border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
@@ -10206,16 +10207,8 @@ h1 {
   text-align: center;
 }
 
-.form-group {
-  margin-bottom: 10px;
-}
-
 select {
   width: 100%;
-}
-
-input[type="number"] {
-  width: 100px;
 }
 
 .btn {
@@ -10392,6 +10385,50 @@ input {
     height: 196px;
     width: 347px;
   }
+}
+.tile {
+  position: relative;
+  background: #ffffff;
+  border-radius: 0.375rem;
+  padding: 20px;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12),
+    0 3px 1px -2px rgba(0, 0, 0, 0.2);
+  margin-bottom: 30px;
+  transition: all 0.3s ease-in-out;
+}
+.tile .tile-title {
+  margin-top: 0;
+  margin-bottom: 30px;
+  font-size: 20px;
+  /* text-align: center; */
+  border-bottom: 2px solid #ffd43b;
+  padding-bottom: 10px;
+  /* border-left: 3px solid black; */
+  padding-left: 5px;
+  color: black;
+}
+.btn-save {
+  background-color: rgb(166 236 171);
+  color: rgb(1 123 10);
+  /* width: 100px; */
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+.btn-cancel {
+  background-color: rgb(255 197 197);
+  color: rgb(190, 40, 40);
+  /* width: 100px; */
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+.control-label {
+  font-weight: 600;
+  color: black;
+}
+input[type="number" i] {
+  writing-mode: horizontal-tb !important;
+  padding-block: 1px;
+  padding-inline: 2px;
 }
 /*
 .box {
