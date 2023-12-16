@@ -1,16 +1,17 @@
 ﻿@model IEnumerable<HKQTravellingAuthenication.Models.Tour.Tours>
 
 @{
-    ViewData["Title"] = "Quản lý tour";
+    ViewData["Title"] = "Quản lý chuyến đi";
     Layout = "_Layout";
 }
 
-<h2>Index</h2>
+
+<h2>Quản lý du lịch</h2>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table class="table" id="toursTable">
     <thead>
         <tr>
             <th>
@@ -66,7 +67,18 @@
                     @Html.DisplayFor(modelItem => item.EndDate)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Status)
+                    @if (item.Status == 1)
+                    {
+                        <text>Đang Hoạt động</text>
+                    }
+                    else if (item.Status == 0)
+                    {
+                        <text>Không hoạt động</text>
+                    }
+                    else
+                    {
+                        <text>Trạng thái không xác định</text>
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.CreationDate)
@@ -78,7 +90,7 @@
                     @Html.DisplayFor(modelItem => item.Remaining)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.discounts.DiscountId)
+                    @Html.DisplayFor(modelItem => item.discounts.DiscountName)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.startLocations.StartLocationName)
@@ -95,3 +107,12 @@
         }
     </tbody>
 </table>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#toursTable').DataTable({
+                // Tùy chọn DataTables có thể thêm ở đây
+            });
+        });
+    </script>
+}

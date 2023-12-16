@@ -7,10 +7,12 @@ namespace HKQTravellingAuthenication.Models.Tour
     {
         [Key]
         [Column("START_LOCATION_ID")]
+        [Display(Name = "Mã điểm đi")]
         public long StartLocationId { get; set; }
 
         [Required]
         [Column("START_LOCATION_NAME")]
+        [Display(Name = "Tên điểm đi")]
         [MaxLength(100)]
         public string StartLocationName { get; set; }
     }

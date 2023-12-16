@@ -102,7 +102,7 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
                     ViewData["validation_message"] = "Điểm khởi hành không được để trống!";
                     return View();
                 }
-                else if (checkingTourTypes.checkTourTypeName(_context, tourTypeName))
+                else if (checkingTourTypes.checkTourTypeNameWhenUpdate(_context, tourTypeName))
                 {
                     ViewData["validation_message"] = "Điểm khởi hành đã tồn tại!";
                     return View();

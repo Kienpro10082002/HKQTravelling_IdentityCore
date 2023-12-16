@@ -161,7 +161,6 @@ namespace HKQTravelling.Controllers
 
             #endregion
 
-
         #region Add TourImages
         [HttpGet]
         public IActionResult addTourImages()
@@ -324,7 +323,14 @@ namespace HKQTravelling.Controllers
             var bookingId = HttpContext.Session.GetInt32("bookingId");
             var name = getUserInfo.NormalizedUserName;
             var email = getUserInfo.Email;
-            
+            var discounts = _db.discounts.ToList();
+            var discountItems = discounts.Select(discount => new SelectListItem
+            {
+                Value = $"{discount.DiscountId}-{discount.DiscountPercentage}",
+                Text = discount.DiscountName
+            }).ToList();
+            ViewBag.Discount = new SelectList(discountItems, "Value", "Text");
+
 
             // Chuyển đổi dữ liệu từ phiên
             long? dbTourId = 0;
@@ -340,9 +346,8 @@ namespace HKQTravelling.Controllers
             }
 
             var booking = _db.bookings.FirstOrDefault(t => t.BookingId == dbBookingId && t.TourId == tourId);
-            var discount = _db.discounts.ToList();
-            ViewBag.Discount = new SelectList(discount, "DiscountId", "DiscountName");
-            ViewBag.DiscountPercentage = new SelectList(discount, "DiscountId", "DiscountPercentage");
+            //ViewBag.Discount = new SelectList(discounts, "DiscountId", "DiscountName");
+            ViewBag.DiscountPercentage = new SelectList(discounts, "DiscountId", "DiscountPercentage");
             ViewBag.Booking = booking;
             ViewBag.Name = name;
             ViewBag.Email = email;
@@ -369,6 +374,7 @@ namespace HKQTravelling.Controllers
             await _db.SaveChangesAsync();
             return RedirectToAction("Index", "Tour");
         }
+
 
         #endregion
 
@@ -545,7 +551,6 @@ namespace HKQTravelling.Controllers
             int pageNumber = (page ?? 1);
             IPagedList<Tours> TourList = _db.tours.ToPagedList(pageNumber, pageSize);
             var tourImages = _db.tourImages.ToList();
-
             var tourImageUrls = new List<string>();
             string types = "";
             string startLocationName = "";
