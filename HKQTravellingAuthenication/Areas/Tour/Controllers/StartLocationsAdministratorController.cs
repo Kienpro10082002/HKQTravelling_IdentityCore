@@ -4,6 +4,7 @@ using HKQTravellingAuthenication.Models.Tour;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Data.Entity;
 
 namespace HKQTravellingAuthenication.Areas.Tour.Controllers
 {
@@ -155,6 +156,11 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
             var startLocations = await _context.startLocations.FindAsync(id);
             if (startLocations != null)
             {
+                var toursToUpdate = await _context.tours.Where(t => t.TourId == id).ToListAsync();
+                foreach(var tour in toursToUpdate)
+                {
+                    tour.StartLocationId = null;
+                }
                 _context.startLocations.Remove(startLocations);
             }
 
