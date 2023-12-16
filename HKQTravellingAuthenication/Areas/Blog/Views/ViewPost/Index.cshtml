@@ -33,30 +33,38 @@ else
     <p>TẤT CẢ BÀI VIẾT</p>
 }
 <hr>
+<div class="box-item">
+    <div class="row">
 @foreach (var post in Model)
 {
-    <div class="media border-bottom mb-3 pb-3">
-        <img class="mr-3 w-25" src="~/sbadmin/img/no-image-icon-6.png">
-        <div class="media-body">
-            <h5 class="mt-0">
-                <a asp-controller="ViewPost" asp-action="Detail" asp-route-postslug="@post.Slug">
-                    @post.Title
-                </a>
-            </h5>
-            @post.Description
-            <div>
-                Chủ đề:
-                <strong class="text-danger">
-                    @post.PostCategories.FirstOrDefault()?.Category.Title
-                </strong>
-            </div>
-            <div class="author-row">
-                Tác giả : <strong>@post.Author.UserName</strong> |
-                Ngày cập nhật: <i>@post.DateUpdated</i>
-            </div>
+    
+        <div class="col-sm-6 pr-10">
+            <div class="big_item" title="@post.Title">
+              <a class="big_item_category" asp-controller="ViewPost" asp-action="Detail" asp-route-postslug="@post.Slug">
+                    <img class="img-responsive" src="~/sbadmin/img/no-image-icon-6.png" alt="@post.Title" >
+                        <div class="media-body">
+                            <h5 class="mt-0">
+                            
+                            </h5>
+                            @post.Description
+                            <div>
+                                Chủ đề:
+                                <strong class="text-danger">
+                                    @post.PostCategories.FirstOrDefault()?.Category.Title
+                                </strong>
+                            </div>
+                            <div class="author-row">
+                                Tác giả : <strong>@post.Author.UserName</strong> |
+                                Ngày cập nhật: <i>@post.DateUpdated</i>
+                            </div>
+                    </div>
+                 </a>
+            </div>    
         </div>
-    </div>
+    
 }
+    </div>
+</div>
 @section Sidebar {
     @await Component.InvokeAsync("HKQTravellingAuthenication.Components.CategorySidebar",
         new CategorySidebar.CategorySidebarData()
