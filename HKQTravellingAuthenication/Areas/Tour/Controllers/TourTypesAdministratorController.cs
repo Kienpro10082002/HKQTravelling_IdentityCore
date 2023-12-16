@@ -95,6 +95,10 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
         {
             string tourTypeName = formCollection["TourTypeName"].ToString();
             var dbTourTypes = await _context.tourTypes.FindAsync(id);
+            if(dbTourTypes == null)
+            {
+                return NotFound();
+            }
             try
             {
                 if (tourTypeName == null)
@@ -154,6 +158,11 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
             var TourTypes = await _context.tourTypes.FindAsync(id);
             if (TourTypes != null)
             {
+                var toursToUpdate = await _context.tours.Where(t => t.TourId == id).ToListAsync();
+                foreach (var tour in toursToUpdate)
+                {
+                    tour.TourTypeId = null;
+                }
                 _context.tourTypes.Remove(TourTypes);
             }
 

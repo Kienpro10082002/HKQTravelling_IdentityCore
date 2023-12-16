@@ -11,30 +11,32 @@
 }
 
 <style>
-    .content__tour{ 
+    .content__tour {
         flex: 0 0 75% !important;
         max-width: 60% !important;
     }
-    .card{
+
+    .card {
         border-radius: 36px !important;
     }
 
-    img{
+    img {
         border-radius: 20px !important;
     }
-    .ml300{
+
+    .ml300 {
         margin-left: 300px;
     }
 
-    .ml120{
+    .ml120 {
         margin-left: 120px
     }
 
-    .filter-container{
+    .filter-container {
         border-radius: 20px !important;
     }
 
-    .filter-end{
+    .filter-end {
         justify-content: center;
         align-items: center;
         display: flex;
@@ -115,7 +117,7 @@
                         <a class="delete__filter btn btn--placeholder" style="background-color: #5FB947; color: #fff;border-radius: 20px; width: 119px; font-size: 14px;" href="@Url.Action("Index", "Tour")"> Xóa bộ lọc</a>
                     </div>
                 </div>
-                
+
             </div>
             <div class="tab-pane active ml300" id="hottour1">
                 <div class="hot-tour__list list-tour">
@@ -127,10 +129,16 @@
                                 <div class="col-md-3 col-12">
                                     <div class="image">
                                         @* <a asp-area="" asp-controller="Tour" asp-action="DetailTour" asp-route-id="@tour.TourId"><img src="~/User/img/Tour/@ViewBag.TourImages[i]" alt="" style="width: 164%; height: 286px;"></a>
-                                        @{
+                                    @{
+                                    i++;
+                                    } *@
+                                        @if (ViewBag.TourImages != null && ViewBag.TourImages.Count > i)
+                                        {
+                                            <a asp-area="" asp-controller="Tour" asp-action="DetailTour" asp-route-id="@tour.TourId">
+                                                <img src="~/User/img/Tour/@ViewBag.TourImages[i]" alt="" style="width: 164%; height: 286px;">
+                                            </a>
                                             i++;
-                                        } *@
-                                        
+                                        }
                                     </div>
                                 </div>
                                 <div class="col-md-9 col-12 p-3 content__tour">

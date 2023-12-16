@@ -37,6 +37,13 @@
                             @{
                                 i++;
                             } *@
+                            @if (ViewBag.TourImages != null && ViewBag.TourImages.Count > i)
+                            {
+                                <a asp-area="" asp-controller="Tour" asp-action="DetailTour" asp-route-id="@tour.TourId">
+                                    <img src="~/User/img/Tour/@ViewBag.TourImages[i]" alt="" style="width: 164%; height: 286px;">
+                                </a>
+                                i++;
+                            }
                         </div>
                     </div>
                     <div class="col-md-9 col-12 p-3 content__tour">
