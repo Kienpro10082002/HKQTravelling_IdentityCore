@@ -211,7 +211,7 @@ img {
   max-width: 100%;
   height: auto;
   vertical-align: middle;
-  border-style: none;
+  border: 0;
 }
 
 svg {
@@ -10367,7 +10367,32 @@ input {
 .category-toggle.active + .subcategories {
   display: block;
 }
-
+.box-item {
+  margin-top: 5px;
+}
+.big_item {
+  padding: 15px;
+  border-radius: 12px;
+  background: #fff;
+  margin-top: 20px;
+}
+.row {
+  margin-right: -15px;
+  margin-left: -15px;
+}
+.pr-10 {
+  padding-right: 10px !important;
+}
+.big_item > a {
+  position: relative;
+  display: block;
+}
+@media (min-width: 767px) {
+  .big_item_category img {
+    height: 196px;
+    width: 347px;
+  }
+}
 /*
 .box {
     margin-top: 3rem;
