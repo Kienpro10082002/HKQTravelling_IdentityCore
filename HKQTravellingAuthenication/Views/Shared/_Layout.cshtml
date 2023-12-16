@@ -126,13 +126,6 @@
 	<!-- Navbar End -->
 	<div class="container-fluid p-0">
 		<main role="main" class="pb-3">
-			@if (
-			ViewContext.RouteData.Values["Controller"].ToString() == "DashBoard" ||
-			(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "Index")
-			)
-			{
-				@await Html.PartialAsync("_DashBoardPartial")
-			}
 			<div class="p-3">
 				@RenderBody()
 			</div>

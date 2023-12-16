@@ -5,10 +5,8 @@
     Layout = "_Layout";
 }
 
-<h2>Details a tour</h2>
-
-<div>
-    <h4>Tours</h4>
+<div class="tile">
+    <h3 class="tile-tile">Chi tiết về lịch trình</h3>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -63,7 +61,15 @@
             <p>Miêu tả</p>
         </dt>
         <dd>
-            @Html.Raw(Model.Tours.Description)
+            @if (Model.Tours.Description != null)
+            {
+                @Html.Raw(Model.Tours.Description)
+            }
+            else
+            {
+                <p>Description is not available.</p>
+            }
+
         </dd>
         <dt>
             <p>Tên giảm giá</p>
@@ -85,7 +91,7 @@
         </dd>
     </dl>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Tours.TourId">Edit</a> |
-    <a asp-action="Index">Trở lại trang</a>
+<div class="tile">
+    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Tours.TourId">Edit</a>
+    <a class="btn btn-cancel" href="@Url.Action("Index", "ToursAdministrator", new { area = "Tour" })">Hủy bỏ</a>
 </div>
