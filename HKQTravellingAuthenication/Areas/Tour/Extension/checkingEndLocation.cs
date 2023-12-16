@@ -8,5 +8,10 @@ namespace HKQTravellingAuthenication.Areas.Tour.Extension
         {
             return data.endLocations.Count(u => u.EndLocationName == name) > 0;
         }
+
+        public static bool checkEndLocationNameWhenUpdate(ApplicationDbContext data, string name)
+        {
+            return data.endLocations.Count(u => u.EndLocationName == name) > 1;
+        }
     }
 }

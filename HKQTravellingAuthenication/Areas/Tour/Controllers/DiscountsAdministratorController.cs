@@ -169,7 +169,7 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
                     ViewData["validation_message_discountDateEnd"] = "Ngày kết thúc giảm không được để trống!";
                     return View();
                 }
-                else if (checkingDiscounts.checkDiscountsName(_context, discountName))
+                else if (checkingDiscounts.checkDiscountsNameWhenUpdate(_context, discountName))
                 {
                     ViewData["validation_message_discountName"] = "Tên giảm giá này đã tồn tại!";
                     return View();

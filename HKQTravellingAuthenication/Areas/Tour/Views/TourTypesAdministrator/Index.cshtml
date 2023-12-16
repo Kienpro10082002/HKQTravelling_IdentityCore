@@ -11,12 +11,12 @@
     }
 } *@
 
-<h2>Index</h2>
+<h2>Quản lý loại du lịch</h2>
 
 <p>
     <a href="@Url.Action("Create", "TourTypesAdministrator", new { area = "Tour" })">Create New</a>
 </p>
-<table class="table">
+<table class="table" id="tourTypesTable">
     <thead>
         <tr>
             <th>
@@ -40,3 +40,12 @@
         }
     </tbody>
 </table>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#tourTypesTable').DataTable({
+                // Tùy chọn DataTables có thể thêm ở đây
+            });
+        });
+    </script>
+}

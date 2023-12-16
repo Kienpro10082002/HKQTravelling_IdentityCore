@@ -104,7 +104,7 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
                     ViewData["validation_message"] = "Điểm đến không được để trống!";
                     return View();
                 }
-                else if (checkingEndLocation.checkEndLocationName(_context, endLocation))
+                else if (checkingEndLocation.checkEndLocationNameWhenUpdate(_context, endLocation))
                 {
                     ViewData["validation_message"] = "Điểm đến đã tồn tại!";
                     return View();

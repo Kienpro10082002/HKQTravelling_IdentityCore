@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using HKQTravellingAuthenication.Areas.Identity.Models.AccountViewModels;
 using HKQTravellingAuthenication.ExtendMethods;
 using HKQTravellingAuthenication.Models;
+using HKQTravellingAuthenication.Services;
 using HKQTravellingAuthenication.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -28,17 +29,20 @@ namespace HKQTravellingAuthenication.Areas.Identity.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IEmailSender _emailSender;
+        private readonly ISmsSender _smsSender;
         private readonly ILogger<AccountController> _logger;
 
         public AccountController(
             UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
             IEmailSender emailSender,
+            ISmsSender smsSender,
             ILogger<AccountController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
+            _smsSender = smsSender;
             _logger = logger;
         }
 
@@ -150,7 +154,7 @@ namespace HKQTravellingAuthenication.Areas.Identity.Controllers
 
                     await _emailSender.SendEmailAsync(model.Email, 
                         "Xác nhận địa chỉ email",
-                        @$"Bạn đã đăng ký tài khoản trên RazorWeb, 
+                        @$"Bạn đã đăng ký tài khoản trên HKQTravelling, 
                            hãy <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>bấm vào đây</a> 
                            để kích hoạt tài khoản.");
 
@@ -525,7 +529,7 @@ namespace HKQTravellingAuthenication.Areas.Identity.Controllers
             }
             else if (model.SelectedProvider == "Phone")
             {
-                await _emailSender.SendSmsAsync(await _userManager.GetPhoneNumberAsync(user), message);
+                await _smsSender.SendSmsAsync(await _userManager.GetPhoneNumberAsync(user), message);
             }
 
             return RedirectToAction(nameof(VerifyCode), new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
