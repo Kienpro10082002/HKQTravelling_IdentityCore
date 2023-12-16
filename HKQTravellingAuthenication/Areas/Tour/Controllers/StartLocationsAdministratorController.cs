@@ -4,7 +4,6 @@ using HKQTravellingAuthenication.Models.Tour;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Data.Entity;
 
 namespace HKQTravellingAuthenication.Areas.Tour.Controllers
 {

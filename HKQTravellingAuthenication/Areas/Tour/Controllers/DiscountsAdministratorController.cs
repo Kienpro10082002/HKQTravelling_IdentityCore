@@ -10,6 +10,7 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
 {
 	[Area("Tour")]
 	[Route("discount-tour-manager")]
+	[Authorize(Roles = RoleName.Administrator + "," + RoleName.Editor)]
 	public class DiscountsAdministratorController : Controller
 	{
 		private readonly ApplicationDbContext _context;
@@ -26,24 +27,6 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
 			return _context.discounts != null ?
 						View(await _context.discounts.ToListAsync()) :
 						Problem("Entity set 'ApplicationDBContext.discounts'  is null.");
-		}
-
-		// GET: Tour/discount-tour-manager/details/5
-		public async Task<IActionResult> Details(long? id)
-		{
-			if (id == null || _context.discounts == null)
-			{
-				return NotFound();
-			}
-
-			var discounts = await _context.discounts
-				.FirstOrDefaultAsync(m => m.DiscountId == id);
-			if (discounts == null)
-			{
-				return NotFound();
-			}
-
-			return View(discounts);
 		}
 
 		// GET: Tour/discount-tour-manager/create
@@ -120,16 +103,6 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
 				return NotFound();
 			}
 
-			//var model = new DiscountAdministratorModelView()
-			//{
-			//    DiscountId = discounts.DiscountId,
-			//    DiscountName = discounts.DiscountName,
-			//    DiscountPercentage = discounts.DiscountPercentage,
-			//    DiscountDateStart = discounts.DiscountDateStart,
-			//    DiscountDateEnd = discounts.DiscountDateEnd,
-			//    Status = discounts.Status
-			//};
-
 			// Chuyển đổi kiểu DateTime? sang chuỗi theo định dạng mong muốn
 			ViewBag.DiscountDateStart = discounts.DiscountDateStart?.ToString("yyyy-MM-ddTHH:mm:ss");
 			ViewBag.DiscountDateEnd = discounts.DiscountDateEnd?.ToString("yyyy-MM-ddTHH:mm:ss");
@@ -180,7 +153,7 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
 					dbDiscounts.DiscountPercentage = Double.Parse(discountPercentage);
 					dbDiscounts.DiscountDateStart = Convert.ToDateTime(discountDateStart);
 					dbDiscounts.DiscountDateEnd = Convert.ToDateTime(discountDateEnd);
-					dbDiscounts.Status = int.Parse(status);
+					dbDiscounts.Status = 1;
 					_context.Update(dbDiscounts);
 					await _context.SaveChangesAsync();
 					return RedirectToAction("Index");
