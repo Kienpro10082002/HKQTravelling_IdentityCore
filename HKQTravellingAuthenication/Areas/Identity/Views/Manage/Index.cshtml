@@ -99,7 +99,7 @@
 						else
 						{
 							<form asp-controller="Manage" asp-action="EnableTwoFactorAuthentication" method="post" class="form-horizontal" role="form">
-								<button type="submit" class="btn btn-primary btn-sm">Kích hoạt</button>
+								<button type="submit" class="btn btn-primary btn-sm w-100">Kích hoạt</button>
 							</form>
 						}
 					</dd>
@@ -109,7 +109,7 @@
 						@if (Model.AuthenticatorKey == null)
 						{
 							<form asp-controller="Manage" asp-action="ResetAuthenticatorKey" method="post" class="form-horizontal" role="form">
-								<button type="submit" class="btn btn-sm btn-primary">Phát sinh mã</button>
+								<button type="submit" class="btn btn-sm btn-primary w-100">Phát sinh mã</button>
 							</form>
 						}
 						else
