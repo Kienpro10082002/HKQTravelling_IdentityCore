@@ -95,6 +95,10 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
         {
             string tourTypeName = formCollection["TourTypeName"].ToString();
             var dbTourTypes = await _context.tourTypes.FindAsync(id);
+            if(dbTourTypes == null)
+            {
+                return NotFound();
+            }
             try
             {
                 if (tourTypeName == null)
@@ -102,7 +106,7 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
                     ViewData["validation_message"] = "Điểm khởi hành không được để trống!";
                     return View();
                 }
-                else if (checkingTourTypes.checkTourTypeName(_context, tourTypeName))
+                else if (checkingTourTypes.checkTourTypeNameWhenUpdate(_context, tourTypeName))
                 {
                     ViewData["validation_message"] = "Điểm khởi hành đã tồn tại!";
                     return View();
@@ -154,6 +158,11 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
             var TourTypes = await _context.tourTypes.FindAsync(id);
             if (TourTypes != null)
             {
+                var toursToUpdate = await _context.tours.Where(t => t.TourId == id).ToListAsync();
+                foreach (var tour in toursToUpdate)
+                {
+                    tour.TourTypeId = null;
+                }
                 _context.tourTypes.Remove(TourTypes);
             }
 

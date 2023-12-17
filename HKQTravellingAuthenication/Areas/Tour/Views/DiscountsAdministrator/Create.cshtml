@@ -1,49 +1,43 @@
 ﻿@model HKQTravellingAuthenication.Models.Tour.Discounts
 
 @{
-    ViewData["Title"] = "Tạo mới thẻ giảm giá";
+    ViewData["Title"] = "Tạo mới chương trình giảm giá";
     Layout = "_Layout";
 }
-
-<h2>Create</h2>
-
-<h4>DiscountsAdministrator</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create" asp-controller="DiscountsAdministrator" asp-area="Tour" method="post">
-            <div class="form-group">
-                <label class="control-label" for="DiscountName">Tên thẻ giảm giá</label>
-                <input class="form-control" type="text" id="DiscountName" name="DiscountName" />
-                <p class="text-danger">@ViewData["validation_message_discountName"]</p>
+<div class="tile">
+    <h3 class="tile-tile">Tạo mới chương trình giảm giá</h3>
+    <form asp-action="Create" asp-controller="DiscountsAdministrator" asp-area="Tour" method="post">
+        <div class="tile-body">
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label class="control-label" for="DiscountName">Tên thẻ giảm giá</label>
+                    <input class="form-control" type="text" id="DiscountName" name="DiscountName" />
+                    <p class="text-danger">@ViewData["validation_message_discountName"]</p>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="control-label" for="DiscountPercentage">Phần trăm giảm</label><br />
+                    <span class="text-danger">Lưu ý; phép cộng là "+", phép trừ là "-", phép nhân là "*"<br />và phép chia là "/".</span>
+                    <br />
+                    <input class="form-control" type="text" id="DiscountPercentage" name="DiscountPercentage" placeholder="Nhập phép tính và sau đó nhấn tính toán" />
+                    <br />
+                    <input class="btn btn-primary" type="button" value="Tính Toán" onclick="calculateDiscount()" />
+                    <p class="text-danger">@ViewData["validation_message_discountPercentage"]</p>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="control-label" for="DiscountDateStart">Ngày bắt đầu</label>
+                    <input class="form-control" type="datetime-local" id="DiscountDateStart" name="DiscountDateStart" />
+                    <p class="text-danger">@ViewData["validation_message_discountDateStart"]</p>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="control-label" for="DiscountDateEnd">Ngày kết thúc</label>
+                    <input class="form-control" type="datetime-local" id="DiscountDateEnd" name="DiscountDateEnd" />
+                    <p class="text-danger">@ViewData["validation_message_discountDateEnd"]</p>
+                </div>
             </div>
-            <div class="form-group">
-                <label class="control-label" for="DiscountPercentage">Phần trăm giảm</label><br />
-                <span class="text-info">Lưu ý; phép cộng là "+", phép trừ là "-", phép nhân là "*" và phép chia là "/".</span>
-                <input class="form-control" type="text" id="DiscountPercentage" name="DiscountPercentage" placeholder="Nhập phép tính và sau đó nhấn tính toán"/>
-                <input class="btn btn-primary" type="button" value="Tính Toán" onclick="calculateDiscount()" />
-                <p class="text-danger">@ViewData["validation_message_discountPercentage"]</p>
-            </div>
-            <div class="form-group">
-                <label class="control-label" for="DiscountDateStart">Ngày bắt đầu</label>
-                <input class="form-control" type="datetime-local" id="DiscountDateStart" name="DiscountDateStart" />
-                <p class="text-danger">@ViewData["validation_message_discountDateStart"]</p>
-            </div>
-            <div class="form-group">
-                <label class="control-label" for="DiscountDateEnd">Ngày kết thúc</label>
-                <input class="form-control" type="datetime-local" id="DiscountDateEnd" name="DiscountDateEnd" />
-                <p class="text-danger">@ViewData["validation_message_discountDateEnd"]</p>
-            </div>
-
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </form>
-    </div>
-</div>
-
-<div>
-    <a href="@Url.Action("Index", "DiscountsAdministrator", new { area = "Tour" })">Back to List</a>
+        </div>
+        <button class="btn btn-save" value="Create" type="submit">Lưu lại</button>
+        <a class="btn btn-cancel" href="@Url.Action("Index", "DiscountsAdministrator", new { area = "Tour" })">Hủy bỏ</a>
+    </form>
 </div>
 
 <script>

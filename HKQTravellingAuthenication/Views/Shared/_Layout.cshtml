@@ -5,14 +5,34 @@
 
 	<meta charset="utf-8">
 	<meta content="width=device-width, initial-scale=1.0" name="viewport">
-	<title>TRAVELER - Free Travel Website Template</title>
+	<title>HKQTRAVELLING</title>
 	@* javascrip *@
 	<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>
 	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="~/js/site.js" asp-append-version="true"></script>
 	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<!-- JavaScript Libraries -->
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+	<script src="~/User/lib/easing/easing.min.js"></script>
+	<script src="~/User/lib/owlcarousel/owl.carousel.min.js"></script>
+	<script src="~/User/lib/tempusdominus/js/moment.min.js"></script>
+	<script src="~/User/lib/tempusdominus/js/moment-timezone.min.js"></script>
+	<script src="~/User/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+	<!--bootstrap-->
+	<script src="~/lib/bootstrap/dist/css/bootstrap.css"></script>
 
+	<!--My custom-->
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/js/site.js"></script>
+	<!-- Contact Javascript File -->
+	<script src="~/User/mail/jqBootstrapValidation.min.js"></script>
+	<script src="~/User/mail/contact.js"></script>
+
+	<!-- Template Javascript -->
+	<script src="~/User/js/main.js"></script>
 	<!-- Favicon -->
 	<link href="~/User/img/favicon.ico" rel="icon">
 
@@ -34,7 +54,10 @@
 	<!-- Libraries Stylesheet -->
 	<link href="~/User/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 	<link href="~/User/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
-
+	<!--dataTables-->
+	<link rel="stylesheet" href="//cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" />
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="//cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js" asp-append-version="true"></script>
 	<!-- Customized Bootstrap Stylesheet -->
 	<link href="~/User/css/style.css" rel="stylesheet">
 </head>
@@ -77,7 +100,7 @@
 	<!-- Navbar Start -->
 	<div class="container-fluid position-relative nav-bar p-0">
 		<div class="container-lg position-relative p-0 px-lg-3" style="z-index: 9;">
-			<nav class="navbar navbar-expand-lg bg-light navbar-light shadow-lg py-3 py-lg-0 pl-3 pl-lg-5">
+			<nav class="navbar navbar-expand-lg bg-light navbar-light shadow-lg py-3 py-lg-0 pl-3 pl-lg-5 fixed-top">
 				<a href="" class="navbar-brand">
 					<h1 class="m-0 text-primary"><span class="text-dark">HKQTravel</span>ling</h1>
 				</a>
@@ -86,13 +109,13 @@
 				</button>
 				<div class="collapse navbar-collapse justify-content-between px-3" id="navbarCollapse">
 					<div class="navbar-nav ml-auto py-0">
-						<a href="@Url.Action("Index", "Home")" class="nav-item nav-link active">Home</a>
-						<a href="@Url.Action("About", "Home")" class="nav-item nav-link">About</a>
-						<a href="@Url.Action("Index", "Tour")" " class="nav-item nav-link">Tour Packages</a>
+						<a href="@Url.Action("Index", "Home")" class="nav-item nav-link active">Trang chủ</a>
+						<a href="@Url.Action("About", "Home")" class="nav-item nav-link">Giới thiệu</a>
+						<a href="@Url.Action("Index", "Tour")" class="nav-item nav-link">Du lịch</a>
 						<a href="@Url.Action("Index", "Post")" class="nav-item nav-link">Tin tức</a>
 
 						@await Html.PartialAsync("_AdminManagerPartial")
-						<a href="@Url.Action("SendContact", "Contact", new { Area = "Contact" })" class="nav-item nav-link">Contact</a>
+						<a href="@Url.Action("SendContact", "Contact", new { Area = "Contact" })" class="nav-item nav-link">Liên hệ</a>
 						@await Html.PartialAsync("_LoginPartial")
 					</div>
 
@@ -104,12 +127,11 @@
 	<div class="container-fluid p-0">
 		<main role="main" class="pb-3">
 			<div class="p-3">
-						@RenderBody()
+				@RenderBody()
 			</div>
-
 		</main>
 	</div>
-	</div>
+
 
 
 	<!-- Footer Start -->
@@ -173,12 +195,12 @@
 		<div class="row">
 			<div class="col-lg-6 text-center text-md-left mb-3 mb-md-0">
 				<p class="m-0 text-white-50">
-					Copyright &copy; <a href="#">Domain</a>. All Rights Reserved.</a>
+					Copyright &copy; <a href="#">HKQTravelling</a>. All Rights Reserved.</a>
 				</p>
 			</div>
 			<div class="col-lg-6 text-center text-md-right">
 				<p class="m-0 text-white-50">
-					Designed by <a href="https://htmlcodex.com">HTML Codex</a>
+					Designed by <a href="https://htmlcodex.com">HKQTravelling</a>
 				</p>
 			</div>
 		</div>
@@ -187,25 +209,18 @@
 	<!-- Back to Top -->
 	<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
+	<!--Script giữ thanh nav khi kéo xuống -->
+	<script>
+		window.addEventListener('scroll', function () {
+			var navbar = document.querySelector('.navbar');
+			if (window.scrollY > 50) {
+				navbar.classList.add('fixed-top');
+			} else {
+				navbar.classList.remove('fixed-top');
+			}
+		});
+	</script>
 
-	<!-- JavaScript Libraries -->
-	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-	<script src="~/User/lib/easing/easing.min.js"></script>
-	<script src="~/User/lib/owlcarousel/owl.carousel.min.js"></script>
-	<script src="~/User/lib/tempusdominus/js/moment.min.js"></script>
-	<script src="~/User/lib/tempusdominus/js/moment-timezone.min.js"></script>
-	<script src="~/User/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
-
-	<!-- Contact Javascript File -->
-	<script src="~/User/mail/jqBootstrapValidation.min.js"></script>
-	<script src="~/User/mail/contact.js"></script>
-
-	<!-- Template Javascript -->
-	<script src="~/User/js/main.js"></script>
-
-	<!--My custom-->
-	<script src="~/lib/jquery/dist/jquery.min.js"></script>
 	<!-- Your SDK code -->
 	<!-- Messenger Plugin chat Code -->
 	<div id="fb-root"></div>
@@ -234,6 +249,20 @@
 		chatbox.setAttribute("attribution", "biz_inbox");
 	</script>
 
+	<!-- Messenger Plugin chat Code -->
+	<div id="fb-root"></div>
+
+	<!-- Your Plugin chat code -->
+	<div id="fb-customer-chat" class="fb-customerchat">
+	</div>
+
+	<!-- Your SDK code -->
+	<script>
+		var chatbox = document.getElementById('fb-customer-chat');
+		chatbox.setAttribute("page_id", "160600553809729");
+		chatbox.setAttribute("attribution", "biz_inbox");
+	</script>
+
 	<!-- Your SDK code -->
 	<script>
 		window.fbAsyncInit = function () {
@@ -242,7 +271,6 @@
 				version: 'v18.0'
 			});
 		};
-
 		(function (d, s, id) {
 			var js, fjs = d.getElementsByTagName(s)[0];
 			if (d.getElementById(id)) return;
@@ -252,8 +280,7 @@
 		}(document, 'script', 'facebook-jssdk'));
 	</script>
 
-
-		@await RenderSectionAsync("Scripts", required: false)
+	@await RenderSectionAsync("Scripts", required: false)
 </body>
 
 </html>

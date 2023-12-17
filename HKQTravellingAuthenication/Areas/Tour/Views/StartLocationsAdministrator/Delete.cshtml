@@ -4,19 +4,26 @@
     ViewData["Title"] = "Loại bỏ điểm đi";
     Layout = "_Layout";
 }
-
-@* @section Breadcrumb {
-    @{
-        ViewData["BreadcrumbTitle"] = "Delete for start location";
+<style>
+    .dl-horizontal {
+        display: flex;
+        flex-wrap: wrap;
     }
-} *@
 
-<h2>Delete</h2>
+        .dl-horizontal dt {
+            flex-basis: 30%; /* Điều chỉnh độ rộng của các phần tử dt */
+            flex-shrink: 0;
+            margin-right: 15px; /* Khoảng cách giữa các phần tử dt và dd */
+        }
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>StartLocations</h4>
-    <hr />
+        .dl-horizontal dd {
+            flex-basis: 70%; /* Điều chỉnh độ rộng của các phần tử dd */
+            flex-shrink: 0;
+        }
+</style>
+
+<div class="tile">
+    <h3 class="tile-tile">Bạn có chắc chắn là xóa điểm khởi hành này?</h3>
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.StartLocationName)
@@ -28,7 +35,7 @@
     
     <form asp-action="Delete" asp-controller="StartLocationsAdministrator" asp-area="Tour" method="post">
         <input type="hidden" asp-for="StartLocationId" />
-        <input type="submit" value="Delete" class="btn btn-default" /> |
-        <a href="@Url.Action("Index", "StartLocationsAdministrator", new { area = "Tour" })">Back to List</a>
+        <button class="btn btn-save" value="Delete" type="submit">Xóa</button>
+        <a class="btn btn-cancel" href="@Url.Action("Index", "StartLocationsAdministrator", new { area = "Tour" })">Hủy bỏ</a>
     </form>
 </div>

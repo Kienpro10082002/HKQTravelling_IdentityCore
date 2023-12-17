@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using HKQTravellingAuthenication.Models;
 using HKQTravellingAuthenication.Menu;
 using Microsoft.Extensions.FileProviders;
+using HKQTravellingAuthenication.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -73,6 +74,13 @@ var mailsettings = builder.Configuration.GetSection ("MailSettings");  // đọc
 builder.Services.Configure<MailSettings> (mailsettings);               // đăng ký để Inject
 
 builder.Services.AddTransient<IEmailSender, SendMailService>();        // Đăng ký dịch vụ Mail
+
+var smsSettings = builder.Configuration.GetSection("SpeedSMSSettings");  // đọc config
+builder.Services.Configure<SpeedSMSSettings>(smsSettings);               // đăng ký để Inject
+builder.Services.AddTransient<ISmsSender, SendSmsService>();           // Đăng ký dịch vụ SMS
+builder.Services.AddHttpClient();
+
+
 // builder.Services.AddTransient<AdminSidebarService>();
 var app = builder.Build();
 

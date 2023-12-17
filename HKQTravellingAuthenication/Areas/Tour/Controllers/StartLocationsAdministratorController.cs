@@ -19,10 +19,11 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
             _context = context;
         }
 
+        #region CRUD Start Location Administrator
         // GET: Admin/StartLocationsAdministrator
         [HttpGet]
         [Route("index")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortedOrder)
         {
             return _context.startLocations != null ?
                         View(await _context.startLocations.ToListAsync()) :
@@ -102,7 +103,7 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
                     ViewData["validation_message"] = "Điểm khởi hành không được để trống!";
                     return View();
                 }
-                else if (checkingStartLocation.checkStartLocationName(_context, startLocation))
+                else if (checkingStartLocation.checkStartLocationNameWhenUpdate(_context, startLocation))
                 {
                     ViewData["validation_message"] = "Điểm khởi hành đã tồn tại!";
                     return View();
@@ -154,6 +155,11 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
             var startLocations = await _context.startLocations.FindAsync(id);
             if (startLocations != null)
             {
+                var toursToUpdate = await _context.tours.Where(t => t.TourId == id).ToListAsync();
+                foreach(var tour in toursToUpdate)
+                {
+                    tour.StartLocationId = null;
+                }
                 _context.startLocations.Remove(startLocations);
             }
 
@@ -165,5 +171,6 @@ namespace HKQTravellingAuthenication.Areas.Tour.Controllers
         {
             return (_context.startLocations?.Any(e => e.StartLocationId == id)).GetValueOrDefault();
         }
+        #endregion
     }
 }
