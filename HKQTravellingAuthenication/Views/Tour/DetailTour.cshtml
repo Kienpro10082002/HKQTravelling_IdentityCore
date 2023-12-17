@@ -70,26 +70,23 @@
                 <div class="col-lg-7 col-md-7 col-sm-6">
                     @if (ViewBag.Detail != null)
                     {
-                        <p>@ViewBag.Detail.TourName</p>
                         <h2 class="mt-5">
-                            <small class="text-success">@String.Format("{0:0,0}", ViewBag.Detail.Price) VND</small>
+                            @ViewBag.Detail.TourName
+                        </h2>
+                        <h2 class="mt-5">
+                            Giá chỉ từ: <small class="text-success">@String.Format("{0:0,0}", ViewBag.Detail.Price) VND</small>
                         </h2>
                         <input type="hidden" id="price-adult" value="@ViewBag.Detail.Price" />
                         <input type="hidden" id="tourId" name="tourId" value="@ViewBag.Detail.TourId" />
                     }
-                    @if (ViewBag.TourDays != null)
-                    {
-                        foreach (var tourDay in ViewBag.TourDays)
-                        {
-                            <p>@tourDay.DayNumber</p>
-                            @Html.Raw(tourDay.Description)
-                            <p>@tourDay.Destination</p>
-                            <p>@tourDay.TimeSchedule</p>
-                        }
-                    }
+
+                    <div class="content_detail" style="margin-top: 30px;">
+                        @Html.Raw(@ViewBag.Detail.Description);
+                    </div>
+                    
                 </div>
             </div>
-            <div class="booking" >
+            <div class="booking" style="margin-top: 10px;">
                 <h1>Đặt chuyến du lịch</h1>
                 <div class="form-group">
                     <label for="ngaykhoihanh">
