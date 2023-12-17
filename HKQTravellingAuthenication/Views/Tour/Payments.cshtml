@@ -57,7 +57,6 @@
     $(document).ready(function () {
         // Lưu tổng số tiền ban đầu
         var originalTotalMoney = $('#TotalMoney').val().replace(/,/g, '').replace(' VND', '');
-
         $('.select-discount').change(function () {
             // Tách giá trị và tỷ lệ phần trăm giảm giá từ option được chọn
             var selectedValue = $(this).val();
@@ -68,7 +67,7 @@
             // Kiểm tra xem giá trị được chọn có phải là "Defalt" không
             if (discountValue === "Chọn mã giảm giá") {
                 // Nếu có, đặt lại giá trị của TotalMoney thành ViewBag.Booking.PriceAdults
-                $('#TotalMoney').val(originalTotalMoney.toLocaleString('en-US') + ' VND');
+                $('#TotalMoney').val(@String.Format("{0:0,0}", ViewBag.Booking.PriceAdults) + ' VND');
             } else {
                 // Nếu không, tính toán lại tổng số tiền sau khi áp dụng mã giảm giá
                 var discountedMoney = (originalTotalMoney * (1 - discountPercentage));
