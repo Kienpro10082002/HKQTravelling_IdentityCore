@@ -64,6 +64,7 @@ else
         List<MenuItem> adminMenu = new List<MenuItem>
         {
             new MenuItem { Label = "Database", Url = Url.Action("Index", "DbManage", new { Area = "Database" }) },
+            new MenuItem { Label = "Xem doanh thu", Url = Url.Action("DashBoardInfo", "DashBoard", new { Area = "DashBoard" }) },
             new MenuItem { Label = "Quản lý Liên hệ", Url = Url.Action("Index", "Contact", new { Area = "Contact" }) },
             new MenuItem { Label = "Quản lý tài khoản", Url = "#", SubMenuItems = new List<MenuItem>
             {
