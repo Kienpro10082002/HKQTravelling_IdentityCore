@@ -4897,9 +4897,20 @@ input[type="button"].btn-block {
 }
 
 .pagination {
-  display: flex;
-  padding-left: 0;
   list-style: none;
+  text-align: center;
+  margin-top: 15px;
+  margin-bottom: 30px;
+}
+
+.pagination li {
+  display: inline-block;
+}
+
+.pagination li a {
+  font-family: "UTMNeutra";
+  font-size: 20px;
+  padding: 0px 7px;
 }
 
 .page-link {
@@ -10429,6 +10440,39 @@ input[type="number" i] {
   writing-mode: horizontal-tb !important;
   padding-block: 1px;
   padding-inline: 2px;
+}
+.box-item .big_item h3 a {
+  font-weight: bold;
+  font-size: 18px;
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.big-item h3 {
+  margin-top: 10px;
+  margin-bottom: 0px;
+}
+.big-item p {
+  margin-bottom: 0;
+  font-family: Tahoma;
+  font-size: 13px;
+  line-height: 16px;
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-clamp: 3;
+  -webkit-line-clamp: 3;
+}
+.big-item p small {
+  opacity: 0.5;
+  font-family: Roboto;
+}
+.box-item .big_item p.desc {
+  font-size: 14px;
+  line-height: 22px;
+  height: 66px;
+  overflow: hidden;
 }
 /*
 .box {

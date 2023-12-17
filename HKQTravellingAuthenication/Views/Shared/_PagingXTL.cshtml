@@ -74,53 +74,54 @@
 }
 
 @* PHÁT SINH HTML*@
-
-<ul class="pagination">
-    <!-- Previous page link -->
-    @if (preview != null)
-    {
-        <li class="page-item">
-            <a class="page-link" href="@generateUrl(preview)">Trang trước</a>
-        </li>
-    }
-    else
-    {
-        <li class="page-item disabled">
-            <a class="page-link"  tabindex="-1" aria-disabled="true">Trang trước</a>
-        </li>
-    }
-
-      
-    <!-- Numbered page links -->
-    @foreach (var pageitem in pagesRanges)
-    {
-        if (pageitem != currentPage) {
-            <li class="page-item">
-                <a class="page-link" href="@generateUrl(pageitem)">
-                    @pageitem
-                </a>
-            </li>
-        }   
-        else 
+<nav aria-label="Page navigation example"> 
+    <ul class="pagination">
+        <!-- Previous page link -->
+        @if (preview != null)
         {
-            <li class="page-item active" aria-current="page">
-                <a class="page-link" >@pageitem <span class="sr-only">(current)</span></a>
+            <li class="page-item">
+                <a class="page-link" href="@generateUrl(preview)"><i class="fa fa-caret-left"></i></a>
             </li>
         }
-    }
+        else
+        {
+            <li class="page-item disabled">
+                <a class="page-link"  tabindex="-1" aria-disabled="true">Trang đầu rồi</a>
+            </li>
+        }
+
+        
+        <!-- Numbered page links -->
+        @foreach (var pageitem in pagesRanges)
+        {
+            if (pageitem != currentPage) {
+                <li class="page-item">
+                    <a class="page-link" href="@generateUrl(pageitem)">
+                        @pageitem
+                    </a>
+                </li>
+            }   
+            else 
+            {
+                <li class="page-item active" aria-current="page">
+                    <a class="page-link" >@pageitem <span class="sr-only">(current)</span></a>
+                </li>
+            }
+        }
 
 
-    <!-- Next page link -->
-    @if (next != null)
-    {
-        <li class="page-item">
-            <a class="page-link" href="@generateUrl(next)">Trang sau</a>
-        </li>
-    }
-    else 
-    {
-        <li class="page-item disabled">
-            <a class="page-link"  tabindex="-1" aria-disabled="true">Hết rồi</a>
-        </li>
-    }
-</ul>
+        <!-- Next page link -->
+        @if (next != null)
+        {
+            <li class="page-item">
+                <a class="page-link" href="@generateUrl(next)"><i class="fa fa-caret-right"></i></a>
+            </li>
+        }
+        else 
+        {
+            <li class="page-item disabled">
+                <a class="page-link"  tabindex="-1" aria-disabled="true">Hết rồi</a>
+            </li>
+        }
+    </ul>
+</nav>
