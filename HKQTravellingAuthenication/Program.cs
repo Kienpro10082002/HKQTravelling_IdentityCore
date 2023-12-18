@@ -75,10 +75,10 @@ builder.Services.Configure<MailSettings> (mailsettings);               // đăng
 
 builder.Services.AddTransient<IEmailSender, SendMailService>();        // Đăng ký dịch vụ Mail
 
-var smsSettings = builder.Configuration.GetSection("SpeedSMSSettings");  // đọc config
-builder.Services.Configure<SpeedSMSSettings>(smsSettings);               // đăng ký để Inject
-builder.Services.AddTransient<ISmsSender, SendSmsService>();           // Đăng ký dịch vụ SMS
-builder.Services.AddHttpClient();
+var smsSettings = builder.Configuration.GetSection("Twilio");  // đọc config
+builder.Services.Configure<TwilioSettings>(smsSettings);               // đăng ký để Inject
+builder.Services.AddTransient<ISmsSender, TwilioSmsSender>();           // Đăng ký dịch vụ SMS
+builder.Services.AddHttpClient<TwilioSmsSender>();
 
 
 // builder.Services.AddTransient<AdminSidebarService>();
