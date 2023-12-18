@@ -50,7 +50,7 @@ namespace HKQTravellingAuthenication.Areas.Blog.Controllers
                             .ThenInclude(p => p.Category)
                             .AsQueryable();
             posts.OrderByDescending(p => p.DateUpdated);
-
+            
             //nếu như category = null nó sẽ lấy ra tất cả các chuyên mục còn nếu có thì nó sẽ lấy ra bài viết thuộc chuyên mục đó 
             if (category != null)
             {
@@ -61,7 +61,7 @@ namespace HKQTravellingAuthenication.Areas.Blog.Controllers
             }
             //đoạn code phân trang 
             int totalPosts = posts.Count();
-            if (pagesize <= 0) pagesize = 5; //số lượng trong 1 trang
+            if (pagesize <= 0) pagesize = 6; //số lượng trong 1 trang
             int countPages = (int)Math.Ceiling((double)totalPosts / pagesize);
 
             if (currentPage > countPages) currentPage = countPages;
@@ -82,7 +82,7 @@ namespace HKQTravellingAuthenication.Areas.Blog.Controllers
             var postsInPage = posts.Skip((currentPage - 1) * pagesize)
                              .Take(pagesize);
             //
-
+            
             ViewBag.pagingModel = pagingModel;
             ViewBag.totalPosts = totalPosts;
             ViewBag.category = category;
