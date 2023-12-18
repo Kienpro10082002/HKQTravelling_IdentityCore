@@ -18,7 +18,7 @@
 						<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 						<div class="form-group">
 							<div class="col-md-10">
-								<input asp-for="PhoneNumber" class="form-control" />
+								<input asp-for="PhoneNumber" id="phoneNumberInput" class="form-control" placeholder="Ví dụ:+84344156156" />
 								<span asp-validation-for="PhoneNumber" class="text-danger"></span>
 							</div>
 						</div>
@@ -37,4 +37,27 @@
 	@{
 		await Html.RenderPartialAsync("_ValidationScriptsPartial");
 	}
+	<script>
+		document.getElementById('phoneNumberInput').addEventListener('input', function (e) {
+			const phoneNumber = e.target.value;
+			const formattedPhoneNumber = formatPhoneNumber(phoneNumber);
+			e.target.value = formattedPhoneNumber;
+		});
+
+		// Hàm để format số điện thoại theo định dạng +84xxxxxxxxx
+		function formatPhoneNumber(phoneNumber) {
+			// Xóa tất cả ký tự không phải số từ chuỗi số điện thoại
+			const cleaned = phoneNumber.replace(/\D/g, '');
+
+			// Kiểm tra nếu số điện thoại không bắt đầu bằng +84
+			if (cleaned.substring(0, 3) !== '84' && cleaned.length >= 9) {
+				return '+84' + cleaned.substring(cleaned.length - 9);
+			} else {
+				return '+' + cleaned;
+			}
+		}
+	</script>
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
 }

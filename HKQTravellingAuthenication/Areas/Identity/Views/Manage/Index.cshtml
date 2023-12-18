@@ -79,7 +79,7 @@
 							<text>:</text>
 							<text>&nbsp;&nbsp;<a asp-controller="Manage" asp-action="AddPhoneNumber">Thay đổi</a>&nbsp;&nbsp;</text>
 							<form asp-controller="Manage" asp-action="RemovePhoneNumber" method="post" role="form">
-								<button type="submit" class="btn btn-danger btn-sm">Loại bỏ số điện thoại</button>
+								<button type="submit" class="btn btn-danger btn-sm w-100">Loại bỏ số điện thoại</button>
 							</form>
 						}
 						else
@@ -93,7 +93,7 @@
 						@if (Model.TwoFactor)
 						{
 							<form asp-controller="Manage" asp-action="DisableTwoFactorAuthentication" method="post" class="form-horizontal" role="form">
-								(Đang kích hoạt) <button type="submit" class="btn btn-danger btn-sm">Hủy</button>
+								(Đang kích hoạt) <button type="submit" class="btn btn-danger btn-sm w-100">Hủy</button>
 							</form>
 						}
 						else
