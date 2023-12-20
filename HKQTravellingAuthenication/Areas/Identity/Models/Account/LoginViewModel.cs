@@ -12,13 +12,13 @@ namespace HKQTravellingAuthenication.Areas.Identity.Models.AccountViewModels
     public class LoginViewModel
     {
         [Required(ErrorMessage = "Phải nhập {0}")]
-        [Display(Name = "Username")]
+        [Display(Name = "tài khoản")]
         public string UserNameOrEmail { get; set; }
 
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "mật khẩu")]
         public string Password { get; set; }
 
         [Display(Name = "Remember me?")]

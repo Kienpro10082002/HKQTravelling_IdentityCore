@@ -204,16 +204,24 @@ namespace HKQTravellingAuthenication.Areas.Identity.Controllers
             return View(result.Succeeded ? "ConfirmEmail" : "ErrorConfirmEmail");
         }
 
-        //
+  //
+  //
         // POST: /Account/ExternalLogin
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        // Thay đổi hàm ExternalLogin để yêu cầu xác thực từ Google
         public IActionResult ExternalLogin(string provider, string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
             var redirectUrl = Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl });
+
+            // Yêu cầu xác thực từ Google
             var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+
+            // Truyền vào "prompt=select_account" để yêu cầu người dùng chọn tài khoản
+            properties.Parameters["prompt"] = "select_account";
+
             return Challenge(properties, provider);
         }
         //
@@ -302,6 +310,7 @@ namespace HKQTravellingAuthenication.Areas.Identity.Controllers
                     {
                         // Lien ket tai khoan, dang nhap
                         var resultLink = await _userManager.AddLoginAsync(registeredUser, info);
+                        
                         if (resultLink.Succeeded)
                         {
                             await _signInManager.SignInAsync(registeredUser, isPersistent: false);
@@ -323,7 +332,7 @@ namespace HKQTravellingAuthenication.Areas.Identity.Controllers
 
                 if ((externalEmailUser != null) && (registeredUser == null))
                 {
-                    ModelState.AddModelError(string.Empty, "Không hỗ trợ tạo tài khoản mới - có email khác email từ dịch vụ ngoài");
+                    ModelState.AddModelError(string.Empty, "Email nhập không đúng với Email đã liên kết, vui lòng không chỉnh sửa ");
                     return View();                    
                 }
 
@@ -377,7 +386,6 @@ namespace HKQTravellingAuthenication.Areas.Identity.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             return View(model);
         }
-
         //
         // GET: /Account/ForgotPassword
         [HttpGet]
